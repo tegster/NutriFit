@@ -3,7 +3,7 @@ package fitness.cs115.a115fitnessapp;
 /**
  * Created by Matthew on 10/7/16.
  */
-//this was used as a starting point but heavily modified https://www.tutorialspoint.com/android/android_sqlite_database.htm
+//this was used as a starting point but modified a bunch https://www.tutorialspoint.com/android/android_sqlite_database.htm
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,21 +29,18 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String FOOD_NAME = "name";
     private static final String CALORIES = "calories";
 
-/*
-    public static final String CONTACTS_COLUMN_EMAIL = "email";
-    public static final String CONTACTS_COLUMN_STREET = "street";
-    public static final String CONTACTS_COLUMN_CITY = "place";
-    public static final String CONTACTS_COLUMN_PHONE = "phone";
-    */
-    //  private HashMap hp;
-
+    /*
+        public static final String CONTACTS_COLUMN_EMAIL = "email";
+        public static final String CONTACTS_COLUMN_STREET = "street";
+        public static final String CONTACTS_COLUMN_CITY = "place";
+        public static final String CONTACTS_COLUMN_PHONE = "phone";
+        */
     public DBHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        // TODO Auto-generated method stub
         if (DEBUG) {
             System.out.println("1337 onCreate");
         }
@@ -55,7 +52,6 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // TODO Auto-generated method stub
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
         onCreate(db);
     }
@@ -83,8 +79,8 @@ public class DBHelper extends SQLiteOpenHelper {
         return res;
     }
 
-    //gets number of rows in database
-    public int numberOfRows() {
+    //gets number of items (rows) in database
+    public int getNumberOfRows() {
         SQLiteDatabase db = this.getReadableDatabase();
         int numRows = (int) DatabaseUtils.queryNumEntries(db, TABLE_NAME);
         return numRows;
@@ -111,8 +107,6 @@ public class DBHelper extends SQLiteOpenHelper {
     //returns a List of all food names in Database
     public ArrayList<String> getAllFoods() {
         ArrayList<String> array_list = new ArrayList<String>();
-
-        //hp = new HashMap();
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.rawQuery("select * from " + TABLE_NAME, null);
         res.moveToFirst();
@@ -128,16 +122,15 @@ public class DBHelper extends SQLiteOpenHelper {
     //gets food and calories information
     public ArrayList<String> getAllFoodInfo() {
         ArrayList<String> array_list = new ArrayList<String>();
-
-        //hp = new HashMap();
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.rawQuery("select * from " + TABLE_NAME, null);
         res.moveToFirst();
         long count = 0;
         while (res.isAfterLast() == false) {
             array_list.add("Item: " + count);
-            array_list.add(res.getString(res.getColumnIndex(FOOD_NAME)));
-            array_list.add(res.getString(res.getColumnIndex(CALORIES)));
+            array_list.add("name " + res.getString(res.getColumnIndex(FOOD_NAME)));
+            array_list.add("calories " + res.getString(res.getColumnIndex(CALORIES)));
+            array_list.add("index " + res.getString(res.getColumnIndex("id")));
             res.moveToNext();
             count++;
         }
