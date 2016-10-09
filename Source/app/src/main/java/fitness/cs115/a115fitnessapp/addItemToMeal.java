@@ -3,7 +3,6 @@ package fitness.cs115.a115fitnessapp;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -21,7 +20,7 @@ public class addItemToMeal extends AppCompatActivity {
     private EditText foodName;
     private EditText calories;
 
-    private DBHelper mydb;
+    private foodDBHelper mydb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,12 +34,13 @@ public class addItemToMeal extends AppCompatActivity {
         //item = intent.getStringExtra("stuffz");
 
 
-        //not all DBHelper functions tested yet
+        //not all foodDBHelper functions tested yet
         //hardcoded stuff to test database
-        mydb = new DBHelper(this);
+        mydb = new foodDBHelper(this);
         if (DEBUG) {
             mydb.insertFood("hotdog", 200.2);
             mydb.insertFood("hotdog", 400.87);//shouldn't be added since hotdog already in database
+            mydb.insertFood("hotdog", 200.2);//shouldn't be added since hotdog already in database
             mydb.insertFood("cat", 300.0);
             mydb.insertFood("orange", 120.5);
             System.out.println(mydb.getAllFoods());
@@ -99,13 +99,15 @@ public class addItemToMeal extends AppCompatActivity {
                     System.out.println(mydb.getAllFoodInfo());
                     System.out.println("number of rows/items is: " + mydb.getNumberOfRows());
 
-
+/*
                     Intent intent = new Intent(addItemToMeal.this, MainActivity.class);
                     startActivity(intent);
-
+*/
                 }
 
                 //launch intent here
+                Intent intent = new Intent(addItemToMeal.this, createMeal.class);
+                startActivity(intent);
 
 
             }

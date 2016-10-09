@@ -39,7 +39,7 @@
         android:layout_centerHorizontal="true" />
 
     <Button
-        android:text="View Existing Meal"
+        android:text="View Existing Meals"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/newMeal"
