@@ -106,7 +106,7 @@ public class addItemToMeal extends AppCompatActivity {
                 }
 
                 //launch intent here
-                Intent intent = new Intent(addItemToMeal.this, createMeal.class);
+                Intent intent = new Intent(addItemToMeal.this, nutritionOverview.class);
                 startActivity(intent);
 
 

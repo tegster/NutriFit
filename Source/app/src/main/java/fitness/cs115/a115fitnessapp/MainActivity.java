@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         create_meal.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, createMeal.class);
+                Intent intent = new Intent(MainActivity.this, nutritionOverview.class);
                 startActivity(intent);
             }
         });

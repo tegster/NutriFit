@@ -10,18 +10,26 @@ import android.widget.Button;
  * Created by Matthew on 10/9/16.
  */
 
-public class createMeal extends AppCompatActivity {
+public class nutritionOverview extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.create_meal);
+        setContentView(R.layout.nutrition_overview);
 
+        Button meal = (Button) findViewById(R.id.newMeal);
+        meal.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(nutritionOverview.this, CreateMeal.class);
+                startActivity(intent);
+            }
+        });
 
         Button addFood = (Button) findViewById(R.id.addFood);
         addFood.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(createMeal.this, addItemToMeal.class);
+                Intent intent = new Intent(nutritionOverview.this, addItemToMeal.class);
                 startActivity(intent);
             }
         });
