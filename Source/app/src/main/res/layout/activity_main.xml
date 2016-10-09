@@ -41,4 +41,13 @@
         app:layout_anchorGravity="center_vertical|center_horizontal"
         android:layout_gravity="top|center_horizontal" />
 
+    <Button
+        android:text="Create Meal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/create_meal"
+        app:layout_anchor="@+id/include"
+        app:layout_anchorGravity="center_vertical|center_horizontal"
+        android:layout_gravity="bottom|center_horizontal" />
+
 </android.support.design.widget.CoordinatorLayout>

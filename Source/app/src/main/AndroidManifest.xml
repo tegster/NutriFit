@@ -22,6 +22,10 @@
             android:name=".addItemToMeal"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".createMeal"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar" />
 
     </application>
 
