@@ -96,13 +96,30 @@ public class DBHelper extends SQLiteOpenHelper {
         return true;
     }
 
+
     //deletes the food with the given id
-    public Integer deleteFood(Integer id) {
+    public Boolean deleteFood(Integer id) {
         SQLiteDatabase db = this.getWritableDatabase();
-        return db.delete(TABLE_NAME,
+        if (DEBUG) {
+            System.out.println("deleting food with id " + id);
+        }
+        int delete = db.delete(TABLE_NAME,
                 "id = ? ",
                 new String[]{Integer.toString(id)});
+        return (delete != 0);
     }
+
+    //true means delete successful
+    //false means not successful, probably because the food doesn't exist in the database
+    public boolean deleteFood(String name) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        int delete = db.delete(TABLE_NAME, FOOD_NAME + " = ?", new String[]{name});
+        if (DEBUG) {
+            System.out.println("deleted x value is " + delete);
+        }
+        return (delete != 0);
+    }
+
 
     //returns a List of all food names in Database
     public ArrayList<String> getAllFoods() {
@@ -138,6 +155,21 @@ public class DBHelper extends SQLiteOpenHelper {
         return array_list;
     }
 
+
+    /*
+    //print out a specific item
+    public void printCursorItem(int id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+    }
+
+    //return itemID given food name
+    public int getItemId(String name) {
+        int id = 0;
+        return id;
+    }
+*/
+
     //true means the data is in the databse
     //true means food name is already in database
     //false means food is not in database
@@ -154,4 +186,12 @@ public class DBHelper extends SQLiteOpenHelper {
         res.close();
         return false;
     }
+
+    //deletes all data stored in table
+    public boolean deleteEntireTable() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_NAME, null, null);
+        return true;
+    }
+
 }

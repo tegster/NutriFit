@@ -43,10 +43,31 @@ public class addItemToMeal extends AppCompatActivity {
             mydb.insertFood("hotdog", 400.87);//shouldn't be added since hotdog already in database
             mydb.insertFood("cat", 300.0);
             mydb.insertFood("orange", 120.5);
+            System.out.println(mydb.getAllFoods());
+            System.out.println(mydb.getAllFoodInfo());
+            System.out.println("number of rows/items is: " + mydb.getNumberOfRows());
+            Cursor res = mydb.getData(2);
+            System.out.println(res);
+
+            Boolean x = mydb.deleteFood(1);
+            System.out.println("x is " + x);
+            Boolean y = mydb.deleteFood(0);
+            System.out.println("y is " + y);
+            Boolean z = mydb.deleteFood(1);
+            System.out.println("z is " + z);
+
+            System.out.println(mydb.getAllFoodInfo());
+            mydb.insertFood("hotdog", 120.357897456);
+            System.out.println(mydb.getAllFoodInfo());
+            System.out.println(mydb.deleteFood("orange"));
+            System.out.println(mydb.deleteFood("orange"));
+            System.out.println(mydb.deleteFood("kiwi"));
+            System.out.println(mydb.getAllFoodInfo());
+
+
+            mydb.deleteEntireTable();
+            System.out.println("After deleting entire table " + mydb.getAllFoodInfo());
         }
-        System.out.println(mydb.getAllFoods());
-        System.out.println(mydb.getAllFoodInfo());
-        System.out.println("number of rows/items is: " + mydb.getNumberOfRows());
 
         Button confirm = (Button) findViewById(R.id.confirm);
         confirm.setOnClickListener(new Button.OnClickListener() {
@@ -74,7 +95,7 @@ public class addItemToMeal extends AppCompatActivity {
                 double numberOfCalories = Double.parseDouble(caloriesString);
                 mydb.insertFood(name, numberOfCalories);//insert food to database
                 if (DEBUG) {
-                    System.out.println(mydb.getAllFoods());
+                    // System.out.println(mydb.getAllFoods());
                     System.out.println(mydb.getAllFoodInfo());
                     System.out.println("number of rows/items is: " + mydb.getNumberOfRows());
 
