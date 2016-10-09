@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
     <Button
-        android:text="Search local Database"
+        android:text="Search Database"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/scan"
@@ -46,4 +46,12 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="13dp"
         android:id="@+id/existing" />
+
+    <Button
+        android:text="Eat Meal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/existing"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/eat" />
 </RelativeLayout>

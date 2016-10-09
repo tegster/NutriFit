@@ -12,7 +12,7 @@ public class CreateMeal extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_meal);
-
-
+//have some sort of list of food items and another list of calories?
+//then add these to database
     }
 }
