@@ -33,5 +33,15 @@ public class nutritionOverview extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
+        Button program_list = (Button) findViewById(R.id.proglist);
+        program_list.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(nutritionOverview.this, programList.class);
+                startActivity(intent);
+            }
+        });
     }
 }

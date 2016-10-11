@@ -18,17 +18,8 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
-        Button button = (Button) findViewById(R.id.meal);
-        button.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, addItemToMeal.class);
-                startActivity(intent);
-            }
-        });
-        Button create_meal = (Button) findViewById(R.id.create_meal);
-        create_meal.setOnClickListener(new Button.OnClickListener() {
+        Button nutr_overview_btn = (Button) findViewById(R.id.nutr_overview);
+        nutr_overview_btn.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, nutritionOverview.class);
@@ -36,11 +27,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button program_list = (Button) findViewById(R.id.proglist);
-        program_list.setOnClickListener(new Button.OnClickListener() {
+        Button work_overview_btn = (Button) findViewById(R.id.work_overview);
+       work_overview_btn.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, programList.class);
+                Intent intent = new Intent(MainActivity.this, workoutOverview.class);
                 startActivity(intent);
             }
         });
