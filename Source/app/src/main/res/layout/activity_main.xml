@@ -26,17 +26,25 @@
 
     </android.support.design.widget.AppBarLayout>
 
-
+    <Button
+        android:text="Nutrition Overview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/nutr_overview"
+        app:layout_anchor="@id/include"
+        app:layout_anchorGravity="center"
+        android:layout_gravity="top|center_horizontal"
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:text="Workout Overview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/workout_overview"
-        app:layout_anchor="@+id/include"
-        app:layout_anchorGravity="center_vertical|right"
-        android:layout_gravity="center_vertical|left"
-        android:layout_below="@+id/proglist"
+        android:id="@+id/work_overview"
+        app:layout_anchor="@id/include"
+        app:layout_anchorGravity="center"
+        android:layout_gravity="bottom|center_vertical"
+        android:layout_below="@id/nutr_overview"
         android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

@@ -18,9 +18,16 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        Button nutr_overview_btn = (Button) findViewById(R.id.nutr_overview);
+        nutr_overview_btn.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, nutritionOverview.class);
+                startActivity(intent);
+            }
+        });
 
-
-        Button work_overview_btn = (Button) findViewById(R.id.workout_overview);
+        Button work_overview_btn = (Button) findViewById(R.id.work_overview);
        work_overview_btn.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View view) {
