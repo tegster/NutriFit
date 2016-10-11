@@ -40,6 +40,13 @@
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
 
+        <activity
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
+            android:name=".programList"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar" />
+
     </application>
 
 </manifest>
