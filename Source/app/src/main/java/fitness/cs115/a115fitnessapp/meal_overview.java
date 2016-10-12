@@ -10,7 +10,7 @@ import android.widget.Button;
  * Created by Matthew on 10/9/16.
  */
 
-public class nutritionOverview extends AppCompatActivity {
+public class meal_overview extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,7 +20,7 @@ public class nutritionOverview extends AppCompatActivity {
         meal.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(nutritionOverview.this, CreateMeal.class);
+                Intent intent = new Intent(meal_overview.this, meal_createMeal.class);
                 startActivity(intent);
             }
         });
@@ -29,7 +29,7 @@ public class nutritionOverview extends AppCompatActivity {
         addFood.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(nutritionOverview.this, addItemToMeal.class);
+                Intent intent = new Intent(meal_overview.this, meal_addFood.class);
                 startActivity(intent);
             }
         });
@@ -39,7 +39,7 @@ public class nutritionOverview extends AppCompatActivity {
         program_list.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(nutritionOverview.this, programList.class);
+                Intent intent = new Intent(meal_overview.this, work_programList.class);
                 startActivity(intent);
             }
         });

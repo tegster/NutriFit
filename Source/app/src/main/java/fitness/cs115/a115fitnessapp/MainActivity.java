@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
         nutr_overview_btn.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, nutritionOverview.class);
+                Intent intent = new Intent(MainActivity.this, meal_overview.class);
                 startActivity(intent);
             }
         });
@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
        work_overview_btn.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, workoutOverview.class);
+                Intent intent = new Intent(MainActivity.this, work_overview.class);
                 startActivity(intent);
             }
         });

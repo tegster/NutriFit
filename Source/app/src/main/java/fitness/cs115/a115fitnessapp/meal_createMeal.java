@@ -4,15 +4,15 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 /**
- * Created by Henry on 10/10/2016.
+ * Created by Matthew on 10/9/16.
  */
 
-public class programList extends AppCompatActivity{
-
+public class meal_createMeal extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_program_list);
-
+        setContentView(R.layout.activity_create_meal);
+//have some sort of list of food items and another list of calories?
+//then add these to database
     }
 }

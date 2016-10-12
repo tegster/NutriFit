@@ -15,12 +15,12 @@ import android.widget.EditText;
  * Created by Matthew on 10/6/16.
  */
 
-public class addItemToMeal extends AppCompatActivity {
+public class meal_addFood extends AppCompatActivity {
     private static final boolean DEBUG = true;
     private EditText foodName;
     private EditText calories;
 
-    private foodDBHelper mydb;
+    private meal_DBHelper mydb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,9 +34,9 @@ public class addItemToMeal extends AppCompatActivity {
         //item = intent.getStringExtra("stuffz");
 
 
-        //not all foodDBHelper functions tested yet
+        //not all meal_DBHelper functions tested yet
         //hardcoded stuff to test database
-        mydb = new foodDBHelper(this);
+        mydb = new meal_DBHelper(this);
         if (DEBUG) {
             mydb.insertFood("hotdog", 200.2);
             mydb.insertFood("hotdog", 400.87);//shouldn't be added since hotdog already in database
@@ -100,13 +100,13 @@ public class addItemToMeal extends AppCompatActivity {
                     System.out.println("number of rows/items is: " + mydb.getNumberOfRows());
 
 /*
-                    Intent intent = new Intent(addItemToMeal.this, MainActivity.class);
+                    Intent intent = new Intent(meal_addFood.this, MainActivity.class);
                     startActivity(intent);
 */
                 }
 
                 //launch intent here
-                Intent intent = new Intent(addItemToMeal.this, nutritionOverview.class);
+                Intent intent = new Intent(meal_addFood.this, meal_overview.class);
                 startActivity(intent);
 
 

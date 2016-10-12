@@ -16,7 +16,7 @@ import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteDatabase;
 
-public class foodDBHelper extends SQLiteOpenHelper {
+public class meal_DBHelper extends SQLiteOpenHelper {
     private static final Boolean DEBUG = true;
 
 
@@ -35,7 +35,7 @@ public class foodDBHelper extends SQLiteOpenHelper {
         public static final String CONTACTS_COLUMN_CITY = "place";
         public static final String CONTACTS_COLUMN_PHONE = "phone";
         */
-    public foodDBHelper(Context context) {
+    public meal_DBHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
     }
 

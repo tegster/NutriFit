@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 /**
  * Created by James Kennedy on 10/9/2016.
  */
-public class createWorkout extends AppCompatActivity {
+public class work_createWorkout extends AppCompatActivity {
     @Override
     protected void  onCreate (Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
