@@ -11,7 +11,7 @@ public class CreateMeal extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.create_meal);
+        setContentView(R.layout.activity_create_meal);
 //have some sort of list of food items and another list of calories?
 //then add these to database
     }

@@ -14,7 +14,7 @@ public class workoutOverview extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.workout_overview);
+        setContentView(R.layout.activity_workout_overview);
 
         //@TODO: display list of user's existing workouts
 

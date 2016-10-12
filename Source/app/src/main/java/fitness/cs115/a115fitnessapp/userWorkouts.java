@@ -10,7 +10,7 @@ public class userWorkouts extends AppCompatActivity {
     @Override
     protected void  onCreate (Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.user_workouts);
+        setContentView(R.layout.activity_user_programs);
 
         //add exercises to a workout from exercise database
         //user can create new exercise here

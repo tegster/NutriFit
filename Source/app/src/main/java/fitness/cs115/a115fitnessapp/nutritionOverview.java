@@ -14,7 +14,7 @@ public class nutritionOverview extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.nutrition_overview);
+        setContentView(R.layout.activity_nutrition_overview);
 
         Button meal = (Button) findViewById(R.id.newMeal);
         meal.setOnClickListener(new Button.OnClickListener() {
