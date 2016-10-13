@@ -14,5 +14,12 @@ public class meal_createMeal extends AppCompatActivity {
         setContentView(R.layout.activity_create_meal);
 //have some sort of list of food items and another list of calories?
 //then add these to database
+
+        //items needed in database
+        //suggested meal time
+        //actual meal time
+        //food items
+            //includes name+ calories
+        
     }
 }
