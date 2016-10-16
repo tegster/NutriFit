@@ -63,9 +63,17 @@ public class meal_createMeal extends AppCompatActivity {
                     meal_text_view.setError("There is already a meal with this name");
                     return;
                 }
-                //now need to make the table so that it actually exists
+                input = "[" + input + "]";
+                SQLiteDatabase mDatabase = openOrCreateDatabase("meal.db", SQLiteDatabase.CREATE_IF_NECESSARY, null);
+                mDatabase.execSQL(
+                        "CREATE TABLE IF NOT EXISTS " + input + " " +
+                                "(id integer primary key, name text,calories REAL)"
+                );
 
+                //now need to make the table so that it actually exists
+                //i also need to update this code so that it uses the proper database and not "foods.db"
                 Intent intent = new Intent(meal_createMeal.this, meal_editMeal.class);
+                intent.putExtra("TABLE", input); //send the meal name to edit_Meal
                 startActivity(intent);
 
             }
@@ -78,7 +86,7 @@ public class meal_createMeal extends AppCompatActivity {
     //returns true if table already exists
     Boolean checkIfTableExists(String table_name) {
         /* open database, if doesn't exist, create it */
-        SQLiteDatabase mDatabase = openOrCreateDatabase("foods.db", SQLiteDatabase.CREATE_IF_NECESSARY, null);
+        SQLiteDatabase mDatabase = openOrCreateDatabase("meal.db", SQLiteDatabase.CREATE_IF_NECESSARY, null);
 
         Cursor c = null;
         boolean tableExists = false;

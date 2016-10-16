@@ -20,7 +20,7 @@ public class meal_addFood extends AppCompatActivity {
     private EditText foodName;
     private EditText calories;
 
-    private meal_DBHelper mydb;
+    private meal_foodDBHelper mydb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,9 +34,9 @@ public class meal_addFood extends AppCompatActivity {
         //item = intent.getStringExtra("stuffz");
 
 
-        //not all meal_DBHelper functions tested yet
+        //not all meal_foodDBHelper functions tested yet
         //hardcoded stuff to test database
-        mydb = new meal_DBHelper(this);
+        mydb = new meal_foodDBHelper(this);
         if (DEBUG) {
             mydb.insertFood("hotdog", 200.2);
             mydb.insertFood("hotdog", 400.87);//shouldn't be added since hotdog already in database
