@@ -39,15 +39,6 @@
         android:layout_centerHorizontal="true" />
 
     <Button
-        android:text="View Existing Meals"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/newMeal"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="13dp"
-        android:id="@+id/existing" />
-
-    <Button
         android:text="Eat Meal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -62,5 +53,21 @@
         android:id="@+id/proglist"
         android:layout_below="@+id/meal"
         android:layout_centerHorizontal="true" />
+
+    <Button
+        android:text="Edit Meal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/edit_meal"
+        android:layout_below="@+id/newMeal"
+        android:layout_alignEnd="@+id/eat" />
+
+    <Button
+        android:text="View Existing Meals"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/existing"
+        android:layout_below="@+id/edit_meal"
+        android:layout_alignStart="@+id/addFood" />
 
 </RelativeLayout>
