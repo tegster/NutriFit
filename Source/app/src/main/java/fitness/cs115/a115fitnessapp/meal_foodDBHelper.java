@@ -129,6 +129,33 @@ public class meal_foodDBHelper extends SQLiteOpenHelper {
         return array_list;
     }
 
+    public ArrayList<String> getAllCalories() {
+        ArrayList<String> array_list = new ArrayList<String>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("select * from " + TABLE_NAME, null);
+        res.moveToFirst();
+
+        while (res.isAfterLast() == false) {
+            array_list.add(res.getString(res.getColumnIndex(CALORIES)));
+            res.moveToNext();
+        }
+        res.close();
+        return array_list;
+    }
+
+    public ArrayList<String> getAllFoodsAndCalories() {
+        ArrayList<String> array_list = new ArrayList<String>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("select * from " + TABLE_NAME, null);
+        res.moveToFirst();
+
+        while (res.isAfterLast() == false) {
+            array_list.add(res.getString(res.getColumnIndex(FOOD_NAME)) + ", cal: " + res.getString(res.getColumnIndex(CALORIES)));
+            res.moveToNext();
+        }
+        res.close();
+        return array_list;
+    }
     //gets food and calories information
     public ArrayList<String> getAllFoodInfo() {
         ArrayList<String> array_list = new ArrayList<String>();
