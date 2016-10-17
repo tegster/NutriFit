@@ -143,6 +143,7 @@ public class meal_foodDBHelper extends SQLiteOpenHelper {
         return array_list;
     }
 
+    //returns all foods and their respective calories at the same time
     public ArrayList<String> getAllFoodsAndCalories() {
         ArrayList<String> array_list = new ArrayList<String>();
         SQLiteDatabase db = this.getReadableDatabase();
