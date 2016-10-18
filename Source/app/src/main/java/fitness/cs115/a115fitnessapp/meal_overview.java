@@ -35,13 +35,5 @@ public class meal_overview extends AppCompatActivity {
         });
 
 
-        Button program_list = (Button) findViewById(R.id.proglist);
-        program_list.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(meal_overview.this, work_programList.class);
-                startActivity(intent);
-            }
-        });
     }
 }

@@ -12,24 +12,30 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
+
+import java.util.ArrayList;
 
 /**
  * Created by Henry on 10/10/2016.
  */
 
 public class work_programList extends AppCompatActivity{
-    String programNameEntry = "";
+    String programName = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_program_list);
+        setContentView(R.layout.activity_work_program_list);
+        //programs.add("test");
 
         //check for user programs. If there aren't any, bring up a popup menu prompting users
-        //to choose "Create New" or a pre-included beginner program.
-        CharSequence listprograms[] = new CharSequence[] {"Create New Program", "Starting Strength",
+        //to choose "Create New" or a pre-included beginner program. Replace with database programs.
+        final CharSequence listprograms[] = new CharSequence[] {"Create New Program", "Starting Strength",
                 "StrongLifts", "Greyskull LP", "PPL for Beginners", "Ice Cream Fitness"};
+
+        //temporary list. replace with user selected programs.
+        String[] programs = {"Brosplits", "Stronglifts", "Starting Strength", "Greyskull LP", "PPL for Beginners",
+                "Ice Cream Fitness", "Arnold's Golden Six", "5/3/1", "PHUL", "Madcows", "Texas Method", "PHAT", "Bodyweight"};
 
 
         //Create dialog box for custom program name entry.
@@ -41,7 +47,8 @@ public class work_programList extends AppCompatActivity{
         newProgramNameEntry.setPositiveButton("Create", new DialogInterface.OnClickListener(){
             @Override
             public void onClick(DialogInterface dialogInterface, int selection_id) {
-                programNameEntry = editNameEntry.getText().toString();
+                programName = editNameEntry.getText().toString();
+                OpenProgram(programName);
             }
         });
         newProgramNameEntry.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
@@ -62,37 +69,48 @@ public class work_programList extends AppCompatActivity{
                         //check which program was selected.
                         if (selection_id == 0){
                             newProgramNameEntry.show();
-                            Toast.makeText(work_programList.this, "TEST: Creating a New program!" + programNameEntry, Toast.LENGTH_SHORT).show();
                         } else {
-                            //add selected program to the program list.
+                            //TODO: add selected program to the program list.
+                            //Currently will open the program.
+                            programName = listprograms[selection_id].toString();
+                            OpenProgram(programName);
+
                         }
                     }
-                });
+        });
 
 
 
+        //TODO: add support for database.
+        //Show dialog for selecting a new program.
+        if (programs.length == 0){
+            newProgramSelection.show();
+        }
+        //Uncomment to see the dialog box.
+        //newProgramSelection.show();
 
 
-        newProgramSelection.show();
-
-
-        //temporary list. replace with user selected programs.
-        String[] programs = {"Brosplits", "Stronglifts", "Starting Strength", "Greyskull LP", "PPL for Beginners",
-                "Ice Cream Fitness", "Arnold's Golden Six", "5/3/1", "PHUL", "Madcows", "Texas Method", "PHAT", "Bodyweight"};
+        //Create the list.
         //ListAdapter programListAdapter = new work_programList_adapter(this, programs);
-        ListAdapter programListAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, programs);
+        ListAdapter programListAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, programs);
         ListView programListView = (ListView) findViewById(R.id.lv_programList);
         programListView.setAdapter(programListAdapter);
-
         programListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id){
-                Intent openProgram = new Intent(work_programList.this, work_workoutList.class);
-                startActivity(openProgram);
-            }
-        }
+                programName = String.valueOf(parent.getItemAtPosition(position));
+                OpenProgram(programName);
 
-        );
+            }
+        });
 
     }
+
+
+    public void OpenProgram(String progName){
+        Intent openProgram = new Intent(work_programList.this, work_workoutList.class);
+        openProgram.putExtra("pName", progName);
+        startActivity(openProgram);
+    }
+
 }
