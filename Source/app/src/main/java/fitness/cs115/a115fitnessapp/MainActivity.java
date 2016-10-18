@@ -3,7 +3,6 @@ package fitness.cs115.a115fitnessapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
         //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
 
-        Button nutr_overview_btn = (Button) findViewById(R.id.nutr_overview);
+        Button nutr_overview_btn = (Button) findViewById(R.id.btn_mealLog);
         nutr_overview_btn.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -27,16 +26,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button work_overview_btn = (Button) findViewById(R.id.work_overview);
-       work_overview_btn.setOnClickListener(new Button.OnClickListener() {
+        Button work_overview_btn = (Button) findViewById(R.id.btn_programList);
+        work_overview_btn.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, work_overview.class);
+                Intent intent = new Intent(MainActivity.this, work_programList.class);
                 startActivity(intent);
             }
         });
     }
 
+    /*
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -57,5 +57,5 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 }

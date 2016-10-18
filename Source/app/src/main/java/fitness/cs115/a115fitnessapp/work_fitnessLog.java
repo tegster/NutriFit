@@ -6,11 +6,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
-/**
- * Created by James Kennedy on 10/9/16.
- */
 
-public class work_overview extends AppCompatActivity {
+
+public class work_fitnessLog extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,7 +20,7 @@ public class work_overview extends AppCompatActivity {
         new_work_btn.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(work_overview.this, work_createWorkout.class);
+                Intent intent = new Intent(work_fitnessLog.this, work_createWorkout.class);
                 startActivity(intent);
             }
         });
@@ -31,7 +29,7 @@ public class work_overview extends AppCompatActivity {
         existing_work_btn.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(work_overview.this, work_userWorkouts.class);
+                Intent intent = new Intent(work_fitnessLog.this, work_userWorkouts.class);
                 startActivity(intent);
             }
         });
