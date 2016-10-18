@@ -18,18 +18,19 @@
     </android.support.design.widget.AppBarLayout>
 
     <Button
-        android:text="Nutrition Overview"
+        android:text="Meal Log"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/nutr_overview"
-        android:layout_centerInParent="true"/>
+        android:id="@+id/btn_mealLog"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
 
     <Button
-        android:text="Workout Overview"
+        android:text="Program List"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/work_overview"
-        android:layout_below="@id/nutr_overview"
+        android:id="@+id/btn_programList"
+        android:layout_below="@+id/btn_mealLog"
         android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

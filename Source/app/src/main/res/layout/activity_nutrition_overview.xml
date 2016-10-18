@@ -47,14 +47,6 @@
         android:id="@+id/eat" />
 
     <Button
-        android:text="Program List"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/proglist"
-        android:layout_below="@+id/meal"
-        android:layout_centerHorizontal="true" />
-
-    <Button
         android:text="Edit Meal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
