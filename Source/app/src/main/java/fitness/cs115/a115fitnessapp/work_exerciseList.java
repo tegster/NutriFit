@@ -25,7 +25,7 @@ public class work_exerciseList extends AppCompatActivity{
         String workoutName = intent.getExtras().getString("wName");
         setTitle(workoutName);
 
-
+        //TODO: Get database entries
         //temporary list.
         String[] exercises = {"Squat", "Bench Press", "Deadlift", "Overhead Press"};
 
