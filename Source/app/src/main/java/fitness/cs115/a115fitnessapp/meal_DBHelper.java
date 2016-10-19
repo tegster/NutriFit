@@ -79,10 +79,10 @@ public class meal_DBHelper extends SQLiteOpenHelper {
         return res;
     }
 
-    //gets number of items (rows) in the table specified
-    public int getNumberOfRows(String table_name) {
+    //gets number of items (rows) in database
+    public int getNumberOfRows() {
         SQLiteDatabase db = this.getReadableDatabase();
-        int numRows = (int) DatabaseUtils.queryNumEntries(db, table_name);
+        int numRows = (int) DatabaseUtils.queryNumEntries(db, TABLE_NAME);
         return numRows;
     }
 

@@ -87,12 +87,13 @@ public class work_programList extends AppCompatActivity{
             newProgramSelection.show();
         }
         //Uncomment to see the dialog box.
-        //newProgramSelection.show();
+        newProgramSelection.show();
 
 
         //Create the list.
         //ListAdapter programListAdapter = new work_programList_adapter(this, programs);
-        ListAdapter programListAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, programs);
+        ListAdapter programListAdapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_list_item_1, programs);
         ListView programListView = (ListView) findViewById(R.id.lv_programList);
         programListView.setAdapter(programListAdapter);
         programListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
