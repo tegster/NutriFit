@@ -33,6 +33,7 @@ public class work_programList extends AppCompatActivity{
         final CharSequence listprograms[] = new CharSequence[] {"Create New Program", "Starting Strength",
                 "StrongLifts", "Greyskull LP", "PPL for Beginners", "Ice Cream Fitness"};
 
+        //TODO: some way to store database entrys in a list in order to display them.
         //temporary list. replace with user selected programs.
         String[] programs = {"Brosplits", "Stronglifts", "Starting Strength", "Greyskull LP", "PPL for Beginners",
                 "Ice Cream Fitness", "Arnold's Golden Six", "5/3/1", "PHUL", "Madcows", "Texas Method", "PHAT", "Bodyweight"};
@@ -64,19 +65,19 @@ public class work_programList extends AppCompatActivity{
         AlertDialog.Builder newProgramSelection = new AlertDialog.Builder(this);
         newProgramSelection.setTitle("Please choose a workout program.");
         newProgramSelection.setItems(listprograms, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int selection_id) {
-                        //check which program was selected.
-                        if (selection_id == 0){
-                            newProgramNameEntry.show();
-                        } else {
-                            //TODO: add selected program to the program list.
-                            //Currently will open the program.
-                            programName = listprograms[selection_id].toString();
-                            OpenProgram(programName);
+            @Override
+            public void onClick(DialogInterface dialogInterface, int selection_id) {
+                //check which program was selected.
+                if (selection_id == 0){
+                    newProgramNameEntry.show();
+                } else {
+                    //TODO: add selected program to the program list.
+                    //Currently will open the program.
+                    programName = listprograms[selection_id].toString();
+                    OpenProgram(programName);
 
-                        }
-                    }
+                }
+            }
         });
 
 
@@ -110,6 +111,7 @@ public class work_programList extends AppCompatActivity{
 
     public void OpenProgram(String progName){
         Intent openProgram = new Intent(work_programList.this, work_workoutList.class);
+        //TODO: Pass database information to the workoutList.
         openProgram.putExtra("pName", progName);
         startActivity(openProgram);
     }

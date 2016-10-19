@@ -24,13 +24,13 @@ public class work_workoutList extends AppCompatActivity{
         String programName = intent.getExtras().getString("pName");
         setTitle(programName);
 
+        //TODO: Get database entries
         //temporary list.
         String[] workouts = {"Workout A", "Workout B"};
 
 
 
         //Create the list.
-        //TODO: Use custom adapter to add checkmarks to complete workouts.
         //ListAdapter programListAdapter = new work_programList_adapter(this, programs);
         ListAdapter workoutListAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, workouts);
         ListView workoutListView = (ListView) findViewById(R.id.lv_workoutList);
