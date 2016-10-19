@@ -16,7 +16,7 @@ import android.widget.EditText;
  */
 
 public class meal_addFood extends AppCompatActivity {
-    private static final boolean DEBUG = true;
+    private static final boolean DEBUG = false;
     private EditText foodName;
     private EditText calories;
 

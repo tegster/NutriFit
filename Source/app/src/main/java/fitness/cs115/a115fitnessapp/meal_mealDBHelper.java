@@ -6,16 +6,12 @@ package fitness.cs115.a115fitnessapp;
 //took meal_foodDBHelper.java as a starting point for this
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Hashtable;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.Bundle;
 
 public class meal_mealDBHelper extends SQLiteOpenHelper {
     private static final Boolean DEBUG = true;
@@ -23,8 +19,6 @@ public class meal_mealDBHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "meal.db";
     private String TABLE_NAME = "meal";
-
-    private static final String CONTACTS_COLUMN_ID = "id";
 
     private static final String FOOD_NAME = "name";
     private static final String CALORIES = "calories";
@@ -190,6 +184,20 @@ public class meal_mealDBHelper extends SQLiteOpenHelper {
         return false;
     }
 
+    //returns all foods and their respective calories at the same time
+    public ArrayList<String> getAllFoodsAndCalories() {
+        ArrayList<String> array_list = new ArrayList<String>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("select * from " + TABLE_NAME, null);
+        res.moveToFirst();
+
+        while (res.isAfterLast() == false) {
+            array_list.add(res.getString(res.getColumnIndex(FOOD_NAME)) + ", cal: " + res.getString(res.getColumnIndex(CALORIES)));
+            res.moveToNext();
+        }
+        res.close();
+        return array_list;
+    }
     //deletes all data stored in table
     public boolean deleteEntireTable() {
         SQLiteDatabase db = this.getWritableDatabase();
