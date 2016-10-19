@@ -84,15 +84,15 @@ public class work_DBHelper extends SQLiteOpenHelper {
     PROG_INDEX: stores a list of workouts according to the program(s) they belong to.
      */
     public static final String PROG_INDEX_TABLE_NAME = "prog_index";
-    public static final String PROG_INDEX_COL_PROGRAM_ID = "prog_id";
-    public static final String PROG_INDEX_COL_PROGRAM_NAME = "prog_name";
+    public static final String PROG_INDEX_COL_PROG_ID = "prog_id";
+    public static final String PROG_INDEX_COL_PROG_NAME = "prog_name";
     public static final String PROG_INDEX_COL_CREATED_ON = "created_on";
 
     /*
     PROG_DETAIL: stores a list of workouts according to the program(s) they belong to.
      */
     public static final String PROG_DETAIL_TABLE_NAME = "prog_detail";
-    public static final String PROG_DETAIL_COL_PROGRAM_ID = "prog_id";
+    public static final String PROG_DETAIL_COL_PROG_ID = "prog_id";
     public static final String PROG_DETAIL_COL_WORK_ID = "work_id";
     public static final String PROG_DETAIL_COL_LAST_USED = "last_used";
 
@@ -212,6 +212,96 @@ public class work_DBHelper extends SQLiteOpenHelper {
     }
 
     /*
+    This function returns a String ArrayList containing the user's program names
+     */
+    public ArrayList get_program_list () {
+        ArrayList<String> p_list = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor res = db.rawQuery(
+                "select " + PROG_INDEX_COL_PROG_NAME + " from " + PROG_INDEX_TABLE_NAME, null);
+
+        res.moveToFirst();
+        while ( !res.isAfterLast() ) {
+            //add the current row in the table
+            p_list.add(res.getString(res.getColumnIndex(PROG_INDEX_COL_PROG_NAME) ) );
+            res.moveToNext();
+        }
+        res.close();
+
+        return p_list;
+    }
+
+    /*
+    creates a new workout in work_index with the name passed to the function,
+    using current time for the created_on field and "never" for last_used field.
+     */
+    public int create_workout(String workout_name) {
+        long inserted_id = 0;
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("name", workout_name);
+        contentValues.put("created_on", current_time_ISO8601() );
+        contentValues.put("last_used", "never");
+
+        //TODO: include insert invariant that db is not full
+        inserted_id = db.insert(WORK_INDEX_TABLE_NAME, null, contentValues);
+
+        return (int) inserted_id;
+    }
+
+    /*
+    This function adds an existing exercise to an existing workout and returns its work_id or -1
+    if insertion fails.
+     */
+    public int add_exer_to_work(String work_name, String exer_name, String exer_type,
+                                int num_of_sets, int reps_per_set, int weight)
+    {
+        long confirm_row_id = -1;
+        int work_id = get_work_id_from_name(work_name);
+        int exer_id = get_exer_id_from_name(exer_name);
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(WORK_DETAIL_COL_WORK_ID, work_id);
+        contentValues.put(WORK_DETAIL_COL_EXER_ID, exer_id);
+        contentValues.put(WORK_DETAIL_COL_EXER_NAME, exer_name);
+        contentValues.put(WORK_DETAIL_COL_TYPE, exer_type);
+        contentValues.put(WORK_DETAIL_COL_SETS, num_of_sets);
+        contentValues.put(WORK_DETAIL_COL_REPS, reps_per_set);
+        contentValues.put(WORK_DETAIL_COL_WEIGHT, weight);
+        //TODO: include insert invariant that workout_id exists in work_index
+        //TODO: include insert invariant that exercise is not already part of program (if needed)
+        confirm_row_id = db.insert(WORK_DETAIL_TABLE_NAME, null, contentValues);
+
+        return (int) confirm_row_id;
+    }
+    /*
+    This function returns a String ArrayList containing the workouts assigned to the given program
+    */
+    public ArrayList get_workouts_from_prog (String prog_name) {
+        ArrayList<String> w_list = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        int prog_id = get_prog_id_from_name(prog_name);
+        int work_id = 0;
+        //retrieve the id's of all workouts from the desired program
+        Cursor res = db.rawQuery(
+                "select " + PROG_DETAIL_COL_WORK_ID + " from " + PROG_DETAIL_TABLE_NAME +
+                        " where " + PROG_DETAIL_COL_PROG_ID + " = " + prog_id, null);
+
+        res.moveToFirst();
+        while ( !res.isAfterLast() ) {
+            //add the current workout name to the list of names
+            work_id = res.getColumnIndex(PROG_DETAIL_COL_WORK_ID);
+            w_list.add(get_work_name_from_id(work_id));
+            res.moveToNext();
+        }
+        res.close();
+
+        return w_list;
+    }
+
+    /*
     This function creates a new session entry in work_sessions for the workout specified
     and returns it's session_id.
      */
@@ -281,51 +371,6 @@ public class work_DBHelper extends SQLiteOpenHelper {
     }
 
     /*
-    creates a new workout in work_index with the name passed to the function,
-    using current time for the created_on field and "never" for last_used field.
-     */
-    public int create_workout(String workout_name) {
-        long inserted_id = 0;
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-        contentValues.put("name", workout_name);
-        contentValues.put("created_on", current_time_ISO8601() );
-        contentValues.put("last_used", "never");
-
-        //TODO: include insert invariant that db is not full
-        inserted_id = db.insert(WORK_INDEX_TABLE_NAME, null, contentValues);
-
-        return (int) inserted_id;
-    }
-
-    /*
-    This function adds an existing exercise to an existing workout and returns its work_id or -1
-    if insertion fails.
-     */
-    public int add_exer_to_work(String work_name, String exer_name, String exer_type,
-                                int num_of_sets, int reps_per_set, int weight)
-    {
-        long confirm_row_id = -1;
-        int work_id = get_work_id_from_name(work_name);
-        int exer_id = get_exer_id_from_name(exer_name);
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-
-        contentValues.put(WORK_DETAIL_COL_WORK_ID, work_id);
-        contentValues.put(WORK_DETAIL_COL_EXER_ID, exer_id);
-        contentValues.put(WORK_DETAIL_COL_EXER_NAME, exer_name);
-        contentValues.put(WORK_DETAIL_COL_TYPE, exer_type);
-        contentValues.put(WORK_DETAIL_COL_SETS, num_of_sets);
-        contentValues.put(WORK_DETAIL_COL_REPS, reps_per_set);
-        contentValues.put(WORK_DETAIL_COL_WEIGHT, weight);
-        //TODO: include insert invariant that workout_id exists in work_index
-        //TODO: include insert invariant that exercise is not already part of program (if needed)
-        confirm_row_id = db.insert(WORK_DETAIL_TABLE_NAME, null, contentValues);
-
-        return (int) confirm_row_id;
-    }
-
-    /*
     Returns current date and time as ISO 8601 formatted String
     Date conversion found here: http://beginnersbook.com/2013/05/current-date-time-in-java/
      */
@@ -344,11 +389,11 @@ public class work_DBHelper extends SQLiteOpenHelper {
         int prog_id = -1;
 
         Cursor res = db.rawQuery("select prog_id from " + PROG_INDEX_TABLE_NAME +
-                "where " + PROG_INDEX_COL_PROGRAM_NAME + " = " + prog_name, null);
+                "where " + PROG_INDEX_COL_PROG_NAME + " = " + prog_name, null);
 
         res.moveToFirst();
         if(!res.isAfterLast() ) {
-            prog_id = res.getColumnIndex(PROG_INDEX_COL_PROGRAM_ID);
+            prog_id = res.getColumnIndex(PROG_INDEX_COL_PROG_ID);
         }
         res.close();
 
@@ -371,6 +416,22 @@ public class work_DBHelper extends SQLiteOpenHelper {
         res.close();
 
         return work_id;
+    }
+
+    private String get_work_name_from_id(int work_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String work_name="";
+
+        Cursor res = db.rawQuery("select " + WORK_INDEX_COL_WORK_NAME + " from " +
+            WORK_INDEX_TABLE_NAME + " where " + WORK_INDEX_COL_WORK_ID + " = " + work_id, null);
+
+        res.moveToFirst();
+        if(!res.isAfterLast() ) {
+            work_name = res.getString(res.getColumnIndex(WORK_INDEX_COL_WORK_NAME));
+        }
+        res.close();
+
+        return work_name;
     }
 
     //returns work_id if found, -1 if not found
