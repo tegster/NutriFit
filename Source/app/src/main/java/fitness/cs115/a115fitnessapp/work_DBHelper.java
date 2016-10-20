@@ -21,7 +21,8 @@ import android.database.sqlite.SQLiteDatabase;
 public class work_DBHelper extends SQLiteOpenHelper {
 
     private static final Boolean DEBUG = false;
-
+    //see load_def_values() to edit defaults
+    private static final Boolean LOAD_DEFAULT_VALUES = true;
     public static final String DATABASE_NAME = "user_work.db";
 
     /*
@@ -165,6 +166,42 @@ public class work_DBHelper extends SQLiteOpenHelper {
                 + "primary key (" + PROG_DETAIL_COL_PROG_ID + ", " + PROG_DETAIL_COL_WORK_ID
                 + ") )"
         );
+        
+        if (LOAD_DEFAULT_VALUES)
+        {
+            load_default_values();
+        }
+    }
+
+    private void load_default_values() {
+        
+        this.clear_all_tables();
+        this.create_workout("Chest and Tri's");
+        this.create_workout("Back;(and Biceps!)");
+        this.create_workout("12_L3g_D4y_56");
+        this.create_workout("Easy Day");
+        this.create_workout("EXXTREEME");
+
+        this.add_work_to_prog("Default Program 1", "Chest and Tri's");
+        this.add_work_to_prog("Default Program 1", "Back;(and Biceps!)");
+        this.add_work_to_prog("Default Program 1", "12_L3g_D4y_56");
+        this.add_work_to_prog("Default Program 2", "Easy Day");
+        this.add_work_to_prog("Default Program 2", "EXXTREEME");
+        this.add_work_to_prog("Default Program 3","12_L3g_D4y_56");
+
+        this.add_exer_to_work("Chest and Tri's","Bench Press","rep",3,10,100);
+        this.add_exer_to_work("Chest and Tri's","Dumbell Press","rep",3,10,80);
+        this.add_exer_to_work("Chest and Tri's","Pushups","rep",4,20,0);
+        this.add_exer_to_work("Chest and Tri's","Dumbell Tricep Extension, Overhead",
+                "rep",4,15,50);
+        this.add_exer_to_work("Back;(and Biceps!)","Pullups","rep",4,10,0);
+        this.add_exer_to_work("Back;(and Biceps!)","Dumbell Curls","rep",4,10,30);
+        this.add_exer_to_work("Back;(and Biceps!)","Planks","timed",4,60,0);
+        this.add_exer_to_work("12_L3g_D4y_56","Squats","rep",4,10,60);
+        this.add_exer_to_work("12_L3g_D4y_56","Lunges","rep",4,10,30);
+        this.add_exer_to_work("12_L3g_D4y_56","Planks","rep",4,60,0);
+        this.add_exer_to_work("12_L3g_D4y_56","Run a mile","timed",1,10,0);
+
     }
 
     @Override
@@ -172,6 +209,29 @@ public class work_DBHelper extends SQLiteOpenHelper {
         drop_all_tables();
 
         onCreate(db);
+    }
+
+    //returns true if programName is found in the prog_index
+    public boolean is_valid_prog(String programName) {
+        int found = get_prog_id_from_name(programName);
+
+        if (found == -1) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
+    //returns true if workName is found in the work_index
+    public boolean is_valid_work(String workName) {
+        int found = get_work_id_from_name(workName);
+        if (found == -1) {
+            return false;
+        }
+        else {
+            return true;
+        }
     }
 
     /*
@@ -237,8 +297,9 @@ public class work_DBHelper extends SQLiteOpenHelper {
     /*
     This function returns a String ArrayList containing the user's program names
      */
-    public ArrayList get_program_list () {
+    public CharSequence[] get_program_list () {
         ArrayList<String> p_list = new ArrayList<>();
+        CharSequence[] cs_list;
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor res = db.rawQuery(
@@ -252,7 +313,15 @@ public class work_DBHelper extends SQLiteOpenHelper {
         }
         res.close();
 
-        return p_list;
+
+        cs_list = new CharSequence[p_list.size()];
+
+        for (int i = 0 ; i < p_list.size(); ++i)
+        {
+            cs_list[i]= p_list.get(i);
+        }
+
+        return cs_list;
     }
 
     /*
@@ -302,9 +371,10 @@ public class work_DBHelper extends SQLiteOpenHelper {
     /*
     This function returns a String ArrayList containing the workouts assigned to the given program
     */
-    public ArrayList get_workouts_from_prog (String prog_name) {
+    public CharSequence[] get_workouts_from_prog (String prog_name) {
         ArrayList<String> w_list = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
+        CharSequence [] cs_list;
         int prog_id = get_prog_id_from_name(prog_name);
         int work_id = 0;
         //retrieve the id's of all workouts from the desired program
@@ -322,7 +392,14 @@ public class work_DBHelper extends SQLiteOpenHelper {
         }
         res.close();
 
-        return w_list;
+        cs_list = new CharSequence[w_list.size()];
+
+        for (int i = 0 ; i < w_list.size(); ++i)
+        {
+            cs_list[i]= w_list.get(i);
+        }
+
+        return cs_list;
     }
 
     /*

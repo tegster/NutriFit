@@ -20,8 +20,8 @@ import static org.junit.Assert.assertEquals;
 @RunWith(AndroidJUnit4.class)
 public class user_DBHelper_tests {
     private work_DBHelper user_work_db;
-    private ArrayList<String> prog_list;
-    private ArrayList<String> work_list;
+    private CharSequence[] prog_list;
+    private CharSequence[] work_list;
     @Test
     public void useAppContext() throws Exception {
         // Context of the app under test.
@@ -30,6 +30,7 @@ public class user_DBHelper_tests {
         assertEquals("fitness.cs115.a115fitnessapp", appContext.getPackageName());
 
         user_work_db = new work_DBHelper(appContext);
+
 
         System.out.println("starting work_DBHelper tests");
         user_work_db.clear_all_tables();
@@ -48,7 +49,16 @@ public class user_DBHelper_tests {
         System.out.println("starting work_DBHelper.get_program_list test");
 
         prog_list = user_work_db.get_program_list();
-        System.out.println("Program List: " + prog_list.toString() );
+
+        System.out.print("Program List: [");
+
+        for (int i = 0; i< prog_list.length; ++i){
+            System.out.print(""+prog_list[i]);
+            if (i+1 != prog_list.length) {
+                System.out.print(", ");
+            }
+        }
+        System.out.println("]");
 
         dump_tables();
         System.out.println( "" + new Exception().getStackTrace()[0]);
@@ -78,9 +88,20 @@ public class user_DBHelper_tests {
         System.out.println("starting work_DBHelper.get_workouts_from_prog test");
 
         //print workouts in each program using get_workouts_from_prog
-        for (int i = 0; i < prog_list.size(); ++i) {
-            work_list = user_work_db.get_workouts_from_prog(prog_list.get(i));
-            System.out.println(prog_list.get(i) +": " + work_list.toString() );
+        for (int i = 0; i < prog_list.length; ++i) {
+
+            System.out.print(prog_list[i] +": [" );
+
+            work_list = user_work_db.get_workouts_from_prog(String.valueOf(prog_list[i]));
+
+            //print workouts in each program
+            for (int j = 0; j < work_list.length; ++j) {
+                System.out.print(work_list[j].toString());
+                if (j + 1 != work_list.length) {
+                    System.out.print(", ");
+                }
+                System.out.println("]");
+            }
         }
 
 
@@ -122,8 +143,6 @@ public class user_DBHelper_tests {
         dump_tables();
         System.out.println("" + new Exception().getStackTrace()[0]);
         System.out.println("finished work_DBHelper tests");
-
-
     }
 
     private void dump_tables(){

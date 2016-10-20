@@ -18,21 +18,22 @@ import java.util.ArrayList;
 
 /**
  * Created by Henry on 10/10/2016.
+ * Edited by James Kennedy on 10/20/2016.
  */
 
 public class work_programList extends AppCompatActivity{
     String programName = "";
+    work_DBHelper work_db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_work_program_list);
 
-
+        work_db= new work_DBHelper(this);
         //check for user programs. If there aren't any, bring up a popup menu prompting users
         //to choose "Create New" or a pre-included beginner program. Replace with database programs.
-        final CharSequence listprograms[] = new CharSequence[] {"Create New Program", "Starting Strength",
-                "StrongLifts", "Greyskull LP", "PPL for Beginners", "Ice Cream Fitness"};
+        final CharSequence listprograms[] = work_db.get_program_list();
 
         //TODO: some way to store database entries in a list in order to display them.
         //temporary list. replace with user selected programs.
@@ -179,6 +180,7 @@ public class work_programList extends AppCompatActivity{
     public void OpenProgram(String progName){
         Intent openProgram = new Intent(work_programList.this, work_workoutList.class);
         //TODO: Pass database information to the workoutList.
+
         openProgram.putExtra("pName", progName);
         startActivity(openProgram);
     }

@@ -19,8 +19,8 @@ public class work_createWorkout extends AppCompatActivity {
 
     private final boolean DEBUG = true;
     private work_DBHelper user_work_db;
-    private ArrayList<String> prog_list;
-    private ArrayList<String> work_list;
+    private CharSequence[] prog_list;
+    private CharSequence[] work_list;
 
     @Override
     protected void  onCreate (Bundle savedInstanceState) {
@@ -47,7 +47,16 @@ public class work_createWorkout extends AppCompatActivity {
             System.out.println("starting work_DBHelper.get_program_list test");
 
             prog_list = user_work_db.get_program_list();
-            System.out.println("Program List: " + prog_list.toString() );
+
+            System.out.print("Program List: [");
+
+            for (int i = 0; i< prog_list.length; ++i){
+                System.out.print(""+prog_list[i]);
+                if (i+1 != prog_list.length) {
+                    System.out.print(", ");
+                }
+            }
+            System.out.println("]");
 
             dump_tables();
             System.out.println( "" + new Exception().getStackTrace()[0]);
@@ -77,9 +86,20 @@ public class work_createWorkout extends AppCompatActivity {
             System.out.println("starting work_DBHelper.get_workouts_from_prog test");
 
             //print workouts in each program using get_workouts_from_prog
-            for (int i = 0; i < prog_list.size(); ++i) {
-                work_list = user_work_db.get_workouts_from_prog(prog_list.get(i));
-                System.out.println(prog_list.get(i) +": " + work_list.toString() );
+            for (int i = 0; i < prog_list.length; ++i) {
+
+                System.out.print(prog_list[i] +": [" );
+
+                work_list = user_work_db.get_workouts_from_prog(String.valueOf(prog_list[i]));
+
+                //print workouts in each program
+                for (int j = 0; j < work_list.length; ++j) {
+                    System.out.print(work_list[j].toString());
+                    if (j + 1 != work_list.length) {
+                        System.out.print(", ");
+                    }
+                    System.out.println("]");
+                }
             }
 
 
