@@ -20,7 +20,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 public class work_DBHelper extends SQLiteOpenHelper {
 
-    private static final Boolean DEBUG = true;
+    private static final Boolean DEBUG = false;
 
     public static final String DATABASE_NAME = "user_work.db";
 
@@ -87,6 +87,7 @@ public class work_DBHelper extends SQLiteOpenHelper {
     public static final String PROG_INDEX_COL_PROG_ID = "prog_id";
     public static final String PROG_INDEX_COL_PROG_NAME = "prog_name";
     public static final String PROG_INDEX_COL_CREATED_ON = "created_on";
+    public static final String PROG_INDEX_COL_LAST_USED = "last_used";
 
     /*
     PROG_DETAIL: stores a list of workouts according to the program(s) they belong to.
@@ -101,9 +102,6 @@ public class work_DBHelper extends SQLiteOpenHelper {
             PROG_DETAIL_TABLE_NAME, PROG_INDEX_TABLE_NAME};
 
 
-    private HashMap hp;
-
-
     public work_DBHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
     }
@@ -113,53 +111,66 @@ public class work_DBHelper extends SQLiteOpenHelper {
         if (DEBUG) {
             System.out.println("work_DBHelper: onCreate-ed");
         }
-
         //create tables if they don't yet exist
-        db.execSQL(
-                "CREATE TABLE IF NOT EXISTS " + WORK_INDEX_TABLE_NAME + " " +
-                        "(id integer auto_increment primary key, name text, created_on text, " +
-                        "last_used text)"
+        db.execSQL( "CREATE TABLE IF NOT EXISTS " + WORK_INDEX_TABLE_NAME + " ("
+                       + WORK_INDEX_COL_WORK_ID + " integer primary key autoincrement, "
+                       + WORK_INDEX_COL_WORK_NAME + " text, "
+                        + WORK_INDEX_COL_CREATED_ON + " text, "
+                        + WORK_INDEX_COL_LAST_USED + " text )"
         );
 
-        db.execSQL(
-                "CREATE TABLE IF NOT EXISTS " + WORK_DETAIL_TABLE_NAME + " " +
-                        "(work_id integer, exer_id integer, exer_name text, exer_type text, " +
-                        "sets integer, reps integer, weight integer, primary key (work_id, exer_id) )"
+        db.execSQL( "CREATE TABLE IF NOT EXISTS " + WORK_DETAIL_TABLE_NAME + " "
+                        + "(" + WORK_DETAIL_COL_WORK_ID + " integer, "
+                        + WORK_DETAIL_COL_EXER_ID + " integer, "
+                        + WORK_DETAIL_COL_EXER_NAME + " text, "
+                        + WORK_DETAIL_COL_TYPE + " text, "
+                        + WORK_DETAIL_COL_SETS + " text, "
+                        + WORK_DETAIL_COL_REPS + " text, "
+                        + WORK_DETAIL_COL_WEIGHT + " text,"
+                        + "primary key (" +WORK_DETAIL_COL_WORK_ID +", "+ WORK_DETAIL_COL_EXER_NAME
+                        + ") )"
+                //TODO: change primary key to EXER_ID once exercise db is implemented
         );
 
-        db.execSQL(
-                "CREATE TABLE IF NOT EXISTS " + WORK_LOG_TABLE_NAME + " " +
-                        "(session_id integer, exer_id integer, set_num integer, goal integer, " +
-                        "actual integer, weight integer, primary key(session_id, exer_id) )"
+        db.execSQL( "CREATE TABLE IF NOT EXISTS " + WORK_LOG_TABLE_NAME + " "
+                + "(" + WORK_LOG_COL_SESSION_ID + " integer, "
+                + WORK_LOG_COL_EXER_ID + " integer, "
+                + WORK_LOG_COL_SET_NUM + " integer, "
+                + WORK_LOG_COL_GOAL + " integer, "
+                + WORK_LOG_COL_ACTUAL + " integer, "
+                + WORK_LOG_COL_WEIGHT + " integer, "
+                + "primary key (" +WORK_LOG_COL_SESSION_ID +", "+ WORK_LOG_COL_EXER_ID
+                + ") )"
         );
 
-        db.execSQL(
-                "CREATE TABLE IF NOT EXISTS " + WORK_SESSIONS_TABLE_NAME + " " +
-                        "(session_id integer auto_increment primary key, work_id integer, date_time text)"
+        db.execSQL( "CREATE TABLE IF NOT EXISTS " + WORK_SESSIONS_TABLE_NAME + " "
+                + "(" + WORK_SESSIONS_COL_SESSION_ID + " integer primary key autoincrement, "
+                + WORK_SESSIONS_COL_WORK_ID + " integer, "
+                + WORK_SESSIONS_COL_DATETIME + " text "
+                + ")"
         );
 
-        db.execSQL(
-                "CREATE TABLE IF NOT EXISTS " + PROG_INDEX_TABLE_NAME + " " +
-                        "(prog_id integer primary key, prog_name text, created_on text)"
+        db.execSQL( "CREATE TABLE IF NOT EXISTS " + PROG_INDEX_TABLE_NAME + " "
+                + "(" + PROG_INDEX_COL_PROG_ID + " integer primary key, "
+                + PROG_INDEX_COL_PROG_NAME + " text, "
+                + PROG_INDEX_COL_CREATED_ON + " text, "
+                + PROG_INDEX_COL_LAST_USED + " text "
+                + ")"
         );
 
-        db.execSQL(
-                "CREATE TABLE IF NOT EXISTS " + PROG_DETAIL_TABLE_NAME + " " +
-                        "(prog_id integer, work_id integer, primary key (prog_id, work_id)"
+        db.execSQL( "CREATE TABLE IF NOT EXISTS " + PROG_DETAIL_TABLE_NAME + " "
+                + "(" + PROG_DETAIL_COL_PROG_ID + " integer, "
+                + PROG_DETAIL_COL_WORK_ID + " integer, "
+                + PROG_DETAIL_COL_LAST_USED + " text, "
+                + "primary key (" + PROG_DETAIL_COL_PROG_ID + ", " + PROG_DETAIL_COL_WORK_ID
+                + ") )"
         );
-
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        String tbl_name;
-        int num_tables = WORK_DB_TABLES.length;
+        drop_all_tables();
 
-        //delete all tables if they have been created
-        for (int ind= 0; ind < num_tables; ++ind)
-        {
-            db.execSQL("DROP TABLE IF EXISTS " + WORK_DB_TABLES[ind]);
-        }
         onCreate(db);
     }
 
@@ -172,20 +183,22 @@ public class work_DBHelper extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put("prog_name", program_name);
-        contentValues.put("created_on", current_time_ISO8601());
+        contentValues.put(PROG_INDEX_COL_PROG_NAME, program_name);
+        contentValues.put(PROG_INDEX_COL_CREATED_ON, current_time_ISO8601());
+        contentValues.put(PROG_INDEX_COL_LAST_USED, "never");
 
         //TODO: include insert invariant that db is not full
         //TODO: include insert invariant that program_name doesnt already exist in prog_index
-
         new_prog_id = db.insert(PROG_INDEX_TABLE_NAME, null, contentValues);
 
         if (DEBUG) {
             if (new_prog_id > 0) {
                 System.out.println("create_program: " + program_name + " inserted into "
-                        + PROG_INDEX_TABLE_NAME);
+                        + PROG_INDEX_TABLE_NAME + " with prog_id = "+new_prog_id);
             }
         }
+        db.close();
+
         return (int) new_prog_id;
     }
 
@@ -195,19 +208,29 @@ public class work_DBHelper extends SQLiteOpenHelper {
      */
     public int add_work_to_prog(String prog_name, String work_name)
     {
+        //TODO: add invariant that workout and program must exist
+        if (DEBUG) {
+            System.out.println("starting: " + new Exception().getStackTrace()[0]);
+        }
         long confirm_prog_id = -1;
         int prog_id = get_prog_id_from_name(prog_name);
         int work_id = get_work_id_from_name(work_name);
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put("prog_id", prog_id);
-        contentValues.put("work_id", work_id);
+
+        contentValues.put(PROG_DETAIL_COL_PROG_ID, prog_id);
+        contentValues.put(PROG_DETAIL_COL_WORK_ID, work_id);
+        contentValues.put(PROG_DETAIL_COL_LAST_USED, "never");
+
 
         //TODO: include insert invariant that db is not full
         //TODO: include insert invariant that workout_id exists in work_index
         //TODO: include insert invariant that workout is not already part of program
         confirm_prog_id = db.insert(PROG_DETAIL_TABLE_NAME, null, contentValues);
-
+        if (DEBUG) {
+            System.out.println(work_name + " inserted in  " + prog_name);
+        }
+        db.close();
         return (int) confirm_prog_id;
     }
 
@@ -240,13 +263,13 @@ public class work_DBHelper extends SQLiteOpenHelper {
         long inserted_id = 0;
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put("name", workout_name);
-        contentValues.put("created_on", current_time_ISO8601() );
-        contentValues.put("last_used", "never");
+        contentValues.put(WORK_INDEX_COL_WORK_NAME, workout_name);
+        contentValues.put(WORK_INDEX_COL_CREATED_ON, current_time_ISO8601() );
+        contentValues.put(WORK_INDEX_COL_LAST_USED, "never");
 
         //TODO: include insert invariant that db is not full
         inserted_id = db.insert(WORK_INDEX_TABLE_NAME, null, contentValues);
-
+        db.close();
         return (int) inserted_id;
     }
 
@@ -273,7 +296,7 @@ public class work_DBHelper extends SQLiteOpenHelper {
         //TODO: include insert invariant that workout_id exists in work_index
         //TODO: include insert invariant that exercise is not already part of program (if needed)
         confirm_row_id = db.insert(WORK_DETAIL_TABLE_NAME, null, contentValues);
-
+        db.close();
         return (int) confirm_row_id;
     }
     /*
@@ -287,12 +310,13 @@ public class work_DBHelper extends SQLiteOpenHelper {
         //retrieve the id's of all workouts from the desired program
         Cursor res = db.rawQuery(
                 "select " + PROG_DETAIL_COL_WORK_ID + " from " + PROG_DETAIL_TABLE_NAME +
-                        " where " + PROG_DETAIL_COL_PROG_ID + " = " + prog_id, null);
+                " where " + PROG_DETAIL_COL_PROG_ID + " = ?",
+                new String[] {String.valueOf(prog_id)});
 
         res.moveToFirst();
         while ( !res.isAfterLast() ) {
             //add the current workout name to the list of names
-            work_id = res.getColumnIndex(PROG_DETAIL_COL_WORK_ID);
+            work_id = res.getInt(res.getColumnIndex(PROG_DETAIL_COL_WORK_ID));
             w_list.add(get_work_name_from_id(work_id));
             res.moveToNext();
         }
@@ -320,17 +344,18 @@ public class work_DBHelper extends SQLiteOpenHelper {
         
         new_session_id = db.insert(WORK_SESSIONS_TABLE_NAME, null, contentValues);
 
+        db.close();
         return (int) new_session_id;
     }
 
-    public int create_work_log ( )
+    public int create_work_log (int session_id)
     {
         //TODO: fill this function
         return -1;
     }
 
     //gets contents of the table specified as a String
-    public String str_dump_table(String table_name) {
+    public String dump_table(String table_name) {
 
         ArrayList<String> array_list = new ArrayList<String>();
         SQLiteDatabase db = this.getReadableDatabase();
@@ -338,20 +363,29 @@ public class work_DBHelper extends SQLiteOpenHelper {
         Cursor res = db.rawQuery("select * from " + table_name, null);
         String[] col_names = res.getColumnNames();
         String output="";
+        String row="", col ="";
         res.moveToFirst();
-        long count = 0;
+
+        if (res.isAfterLast())
+        {
+            output = "\t<table empty>";
+        }
         while ( !res.isAfterLast() ) {
 
+            row="";
             //print the current row in the table
-            array_list.add("count: " + count);
             for (int ind = 0; ind < col_names.length; ++ind)
             {
+                if(ind == 0)
+                {
+                    row = "\t";
+                }
+                col = col_names[ind] + ": " +res.getString(res.getColumnIndex(col_names[ind]));
+                row += String.format("%-10s ", col);
                 //prints column name followed by value stored in table
-                array_list.add( "\t"+ col_names[ind] + ": " +
-                        res.getString(res.getColumnIndex(col_names[ind])) );
             }
+            array_list.add(row);
             res.moveToNext();
-            count++;
         }
         res.close();
 
@@ -370,12 +404,27 @@ public class work_DBHelper extends SQLiteOpenHelper {
         return numRows;
     }
 
+    public void clear_all_tables() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        int num_tables = WORK_DB_TABLES.length;
+
+        if (DEBUG) {
+            System.out.println("Clearing all tables.");
+        }
+
+        for (int ind= 0; ind < num_tables; ++ind)
+        {
+            db.execSQL("delete from " + WORK_DB_TABLES[ind]);
+        }
+        db.close();
+    }
+
     /*
     Returns current date and time as ISO 8601 formatted String
     Date conversion found here: http://beginnersbook.com/2013/05/current-date-time-in-java/
      */
     private String current_time_ISO8601() {
-        DateFormat df = new SimpleDateFormat("YYYY-MM-DD HH:mm");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-DD HH:mm");
         Date dateobj = new Date();
         String date_str = df.format(dateobj);
 
@@ -385,15 +434,25 @@ public class work_DBHelper extends SQLiteOpenHelper {
     //returns prog_id if found, -1 if not found
     private int get_prog_id_from_name(String prog_name) {
 
+        if (DEBUG) {
+            System.out.println("starting: " + new Exception().getStackTrace()[0]);
+        }
+
         SQLiteDatabase db = this.getReadableDatabase();
         int prog_id = -1;
 
-        Cursor res = db.rawQuery("select prog_id from " + PROG_INDEX_TABLE_NAME +
-                "where " + PROG_INDEX_COL_PROG_NAME + " = " + prog_name, null);
+        Cursor res = db.query(PROG_INDEX_TABLE_NAME, new String[] {PROG_INDEX_COL_PROG_ID},
+                PROG_INDEX_COL_PROG_NAME + " = ?", new String[] {prog_name},
+                null, null, null);
 
         res.moveToFirst();
+
         if(!res.isAfterLast() ) {
-            prog_id = res.getColumnIndex(PROG_INDEX_COL_PROG_ID);
+            prog_id = res.getInt(res.getColumnIndex(PROG_INDEX_COL_PROG_ID));
+        }
+
+        if (DEBUG) {
+            System.out.println("prog_id: " + prog_id + "  found for prog_name: " + prog_name);
         }
         res.close();
 
@@ -403,15 +462,22 @@ public class work_DBHelper extends SQLiteOpenHelper {
     //returns work_id if found, -1 if not found
     private int get_work_id_from_name(String work_name) {
 
+        if (DEBUG) {
+            System.out.println("starting: " + new Exception().getStackTrace()[0]);
+        }
+
         SQLiteDatabase db = this.getReadableDatabase();
         int work_id = -1;
 
-        Cursor res = db.rawQuery("select work_id from " + WORK_INDEX_TABLE_NAME +
-                "where " + WORK_INDEX_COL_WORK_NAME + " = " + work_name, null);
+        Cursor res = db.rawQuery("select " + WORK_INDEX_COL_WORK_ID + " from " + WORK_INDEX_TABLE_NAME
+       +" where " + WORK_INDEX_COL_WORK_NAME + " = ?", new String[] {work_name} );
 
         res.moveToFirst();
         if(!res.isAfterLast() ) {
-            work_id = res.getColumnIndex(WORK_INDEX_COL_WORK_ID);
+            work_id = res.getInt(res.getColumnIndex(WORK_INDEX_COL_WORK_ID));
+        }
+        if (DEBUG) {
+            System.out.println("work_id: " + work_id + "  found for work_name: " + work_name);
         }
         res.close();
 
@@ -422,8 +488,11 @@ public class work_DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         String work_name="";
 
-        Cursor res = db.rawQuery("select " + WORK_INDEX_COL_WORK_NAME + " from " +
-            WORK_INDEX_TABLE_NAME + " where " + WORK_INDEX_COL_WORK_ID + " = " + work_id, null);
+        //retrieve row with desired work_id
+        Cursor res = db.query(WORK_INDEX_TABLE_NAME, new String[] {WORK_INDEX_COL_WORK_NAME},
+                WORK_INDEX_COL_WORK_ID + " =? ", new String[] {String.valueOf(work_id)},
+                null, null, null);
+
 
         res.moveToFirst();
         if(!res.isAfterLast() ) {
@@ -431,6 +500,9 @@ public class work_DBHelper extends SQLiteOpenHelper {
         }
         res.close();
 
+        if (DEBUG) {
+            System.out.println("work_name: " + work_name + "  found for work_id: " + work_id);
+        }
         return work_name;
     }
 
@@ -441,59 +513,18 @@ public class work_DBHelper extends SQLiteOpenHelper {
         return -1;
     }
 
-
-
-/*
-The following is an unedited part of the tutorial Matt posted:
-
-
-    public Cursor getData(int id){
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res =  db.rawQuery( "select * from contacts where id="+id+"", null );
-        return res;
-    }
-
-    public int numberOfRows(){
-        SQLiteDatabase db = this.getReadableDatabase();
-        int numRows = (int) DatabaseUtils.queryNumEntries(db, WORKOUTS_TABLE_NAME);
-        return numRows;
-    }
-
-    public boolean updateContact (Integer id, String name, String phone, String email, String street,String place)
-    {
+    private void drop_all_tables() {
         SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-        contentValues.put("name", name);
-        contentValues.put("phone", phone);
-        contentValues.put("email", email);
-        contentValues.put("street", street);
-        contentValues.put("place", place);
-        db.update("contacts", contentValues, "id = ? ", new String[] { Integer.toString(id) } );
-        return true;
-    }
-
-    public Integer deleteContact (Integer id)
-    {
-        SQLiteDatabase db = this.getWritableDatabase();
-        return db.delete("contacts",
-                "id = ? ",
-                new String[] { Integer.toString(id) });
-    }
-
-    public ArrayList<String> getAllCotacts()
-    {
-        ArrayList<String> array_list = new ArrayList<String>();
-
-        //hp = new HashMap();
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res =  db.rawQuery( "select * from contacts", null );
-        res.moveToFirst();
-
-        while(res.isAfterLast() == false){
-            array_list.add(res.getString(res.getColumnIndex(WORKOUTS_COLUMN_NAME)));
-            res.moveToNext();
+        int num_tables = WORK_DB_TABLES.length;
+        if (DEBUG)
+        {
+            System.out.println("dropping tables like flies");
         }
-        return array_list;
+        for (int ind= 0; ind < num_tables; ++ind)
+        {
+            db.execSQL("DROP TABLE IF EXISTS " + WORK_DB_TABLES[ind]);
+        }
+        db.close();
     }
-*/
+
 }

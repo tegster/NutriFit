@@ -34,6 +34,15 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        Button work_db_test_btn = (Button) findViewById(R.id.btn_testWorkDB);
+        work_db_test_btn.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, work_createWorkout.class);
+                startActivity(intent);
+            }
+        });
     }
 
     /*

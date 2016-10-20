@@ -9,6 +9,8 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+
+import java.util.ArrayList;
 /*
 * Edited by James Kennedy on 10/18/2016
  */
@@ -17,6 +19,8 @@ public class work_createWorkout extends AppCompatActivity {
 
     private final boolean DEBUG = true;
     private work_DBHelper user_work_db;
+    private ArrayList<String> prog_list;
+    private ArrayList<String> work_list;
 
     @Override
     protected void  onCreate (Bundle savedInstanceState) {
@@ -24,84 +28,117 @@ public class work_createWorkout extends AppCompatActivity {
         setContentView(R.layout.activity_work_create_workout);
 
         user_work_db = new work_DBHelper(this);
-
         if (DEBUG) {
+
+            System.out.println("starting work_DBHelper tests");
+            user_work_db.clear_all_tables();
+
+            dump_tables();
+
+            System.out.println("" + new Exception().getStackTrace()[0]);
+            System.out.println("starting work_DBHelper.create_program tests");
+
             user_work_db.create_program("testProgram 1");
-            user_work_db.add_work_to_prog("testProgram 1", 400.87);//shouldn't be added since hotdog already in database
-            user_work_db.insertFood("hotdog", 200.2);//shouldn't be added since hotdog already in database
-            user_work_db.insertFood("cat", 300.0);
-            user_work_db.insertFood("orange", 120.5);
-            System.out.println(user_work_db.getAllFoods());
-            System.out.println(user_work_db.getAllFoodInfo());
-            System.out.println("number of rows/items is: " + user_work_db.getNumberOfRows());
-            Cursor res = user_work_db.getData(2);
-            System.out.println(res);
+            user_work_db.create_program("testProgram's 2");
+            user_work_db.create_program("_test; Program\"s 3");
 
-            Boolean x = user_work_db.deleteFood(1);
-            System.out.println("x is " + x);
-            Boolean y = user_work_db.deleteFood(0);
-            System.out.println("y is " + y);
-            Boolean z = user_work_db.deleteFood(1);
-            System.out.println("z is " + z);
+            dump_tables();
+            System.out.println( "" + new Exception().getStackTrace()[0]);
+            System.out.println("starting work_DBHelper.get_program_list test");
 
-            System.out.println(user_work_db.getAllFoodInfo());
-            user_work_db.insertFood("hotdog", 120.357897456);
-            System.out.println(user_work_db.getAllFoodInfo());
-            System.out.println(user_work_db.deleteFood("orange"));
-            System.out.println(user_work_db.deleteFood("orange"));
-            System.out.println(user_work_db.deleteFood("kiwi"));
-            System.out.println(user_work_db.getAllFoodInfo());
+            prog_list = user_work_db.get_program_list();
+            System.out.println("Program List: " + prog_list.toString() );
 
+            dump_tables();
+            System.out.println( "" + new Exception().getStackTrace()[0]);
+            System.out.println("starting work_DBHelper.create_workout tests");
 
-            user_work_db.deleteEntireTable();
-            System.out.println("After deleting entire table " + user_work_db.getAllFoodInfo());
-        }
+            user_work_db.create_workout("Chest and Tri's");
+            user_work_db.create_workout("Back;(and Biceps!)");
+            user_work_db.create_workout("12_L3g_D4y_56");
+            user_work_db.create_workout("Easy Day");
+            user_work_db.create_workout("EXXTREEME");
 
-        Button confirm = (Button) findViewById(R.id.confirm);
-        confirm.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //check that both fields are filled in and display error message if not
-                String name = foodName.getText().toString();
-                if (TextUtils.isEmpty(name)) {
-                    foodName.setError("Enter a food's name");
-                    return;
-                }
-                String caloriesString = calories.getText().toString();
-                if (TextUtils.isEmpty(caloriesString)) {
-                    calories.setError("Enter the number of calories");
-                    return;
-                }
+            dump_tables();
+            System.out.println( ""+new Exception().getStackTrace()[0]);
+            System.out.println("starting work_DBHelper.add_work_to_prog tests");
 
-                //hide keyboard
-                View view1 = getCurrentFocus();
-                if (view1 != null) {
-                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(view1.getWindowToken(), 0);
-                }
+            user_work_db.add_work_to_prog("testProgram 1", "Chest and Tri's");
+            user_work_db.add_work_to_prog("testProgram 1", "Back;(and Biceps!)");
+            user_work_db.add_work_to_prog("testProgram 1", "12_L3g_D4y_56");
 
-                double numberOfCalories = Double.parseDouble(caloriesString);
-                user_work_db.insertFood(name, numberOfCalories);//insert food to database
-                if (DEBUG) {
-                    // System.out.println(user_work_db.getAllFoods());
-                    System.out.println(user_work_db.getAllFoodInfo());
-                    System.out.println("number of rows/items is: " + user_work_db.getNumberOfRows());
+            user_work_db.add_work_to_prog("testProgram's 2", "Easy Day");
+            user_work_db.add_work_to_prog("testProgram's 2", "EXXTREEME");
 
-/*
-                    Intent intent = new Intent(meal_addFood.this, MainActivity.class);
-                    startActivity(intent);
-*/
-                }
+            user_work_db.add_work_to_prog("_test; Program\"s 3","12_L3g_D4y_56");
 
-                //launch intent here
-                Intent intent = new Intent(meal_addFood.this, meal_overview.class);
-                startActivity(intent);
+            dump_tables();
+            System.out.println( "" + new Exception().getStackTrace()[0]);
+            System.out.println("starting work_DBHelper.get_workouts_from_prog test");
 
-
+            //print workouts in each program using get_workouts_from_prog
+            for (int i = 0; i < prog_list.size(); ++i) {
+                work_list = user_work_db.get_workouts_from_prog(prog_list.get(i));
+                System.out.println(prog_list.get(i) +": " + work_list.toString() );
             }
-        });
 
+
+
+            dump_tables();
+            System.out.println("" + new Exception().getStackTrace()[0]);
+            System.out.println("starting work_DBHelper.add_exer_to_work tests");
+
+            user_work_db.add_exer_to_work("Chest and Tri's","Bench Press","rep",3,10,100);
+            user_work_db.add_exer_to_work("Chest and Tri's","Dumbell Press","rep",3,10,80);
+            user_work_db.add_exer_to_work("Chest and Tri's","Pushups","rep",4,20,0);
+            user_work_db.add_exer_to_work("Chest and Tri's","Dumbell Tricep Extension, Overhead",
+                    "rep",4,15,50);
+
+            dump_tables();
+            System.out.println("" + new Exception().getStackTrace()[0]);
+
+            user_work_db.add_exer_to_work("Back;(and Biceps!)","Pullups","rep",4,10,0);
+            user_work_db.add_exer_to_work("Back;(and Biceps!)","Dumbell Curls","rep",4,10,30);
+            user_work_db.add_exer_to_work("Back;(and Biceps!)","Planks","timed",4,60,0);
+
+            user_work_db.add_exer_to_work("12_L3g_D4y_56","Squats","rep",4,10,60);
+            user_work_db.add_exer_to_work("12_L3g_D4y_56","Lunges","rep",4,10,30);
+            user_work_db.add_exer_to_work("12_L3g_D4y_56","Planks","rep",4,60,0);
+            user_work_db.add_exer_to_work("12_L3g_D4y_56","Run a mile","timed",1,10,0);
+
+            dump_tables();
+            System.out.println("" + new Exception().getStackTrace()[0]);
+            System.out.println("starting work_DBHelper.create_session tests");
+
+            int sess_id = user_work_db.create_session("Chest and Tri's");
+
+            dump_tables();
+            System.out.println("" + new Exception().getStackTrace()[0]);
+            System.out.println("starting work_DBHelper.create_work_log tests");
+
+            //TODO: test user_work_db.create_work_log(sess_id);
+
+            dump_tables();
+            System.out.println("" + new Exception().getStackTrace()[0]);
+            System.out.println("finished work_DBHelper tests");
+        }
 
     }
 
+    private void dump_tables(){
+
+        System.out.println("prog_index: \n" +
+                user_work_db.dump_table(work_DBHelper.PROG_INDEX_TABLE_NAME));
+        System.out.println("prog_detail: \n" +
+                user_work_db.dump_table(work_DBHelper.PROG_DETAIL_TABLE_NAME));
+        System.out.println("work_index: \n" +
+                user_work_db.dump_table(work_DBHelper.WORK_INDEX_TABLE_NAME));
+        System.out.println("work_detail: \n" +
+                user_work_db.dump_table(work_DBHelper.WORK_DETAIL_TABLE_NAME));
+        System.out.println("work_sessions: \n" +
+                user_work_db.dump_table(work_DBHelper.WORK_SESSIONS_TABLE_NAME));
+        System.out.println("work_log: \n" +
+                user_work_db.dump_table(work_DBHelper.WORK_LOG_TABLE_NAME));
+
+    };
 }
