@@ -6,11 +6,9 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.text.InputType;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
@@ -31,16 +29,20 @@ public class work_programList extends AppCompatActivity{
         setContentView(R.layout.activity_work_program_list);
 
         work_db= new work_DBHelper(this);
+        work_db.reset_default_values();
         //check for user programs. If there aren't any, bring up a popup menu prompting users
         //to choose "Create New" or a pre-included beginner program. Replace with database programs.
-        final CharSequence listprograms[] = work_db.get_program_list();
+        final CharSequence defaultPrograms[] = new CharSequence[] {"Create New Program", "Starting Strength",
+                "StrongLifts", "Greyskull LP", "PPL for Beginners", "Ice Cream Fitness"};
 
         //TODO: some way to store database entries in a list in order to display them.
         //temporary list. replace with user selected programs.
-        //String[] programs = {"Brosplits", "Stronglifts", "Starting Strength", "Greyskull LP", "PPL for Beginners",
-        //        "Ice Cream Fitness", "Arnold's Golden Six", "5/3/1", "PHUL", "Madcows", "Texas Method", "PHAT", "Bodyweight"};
+        ArrayList<String> userProgAL = work_db.get_user_program_list();
+        String[] programs = userProgAL.toArray(new String[userProgAL.size()]);
+//        String[] programs = {"Brosplits", "Stronglifts", "Starting Strength", "Greyskull LP", "PPL for Beginners",
+//                "Ice Cream Fitness", "Arnold's Golden Six", "5/3/1", "PHUL", "Madcows", "Texas Method", "PHAT", "Bodyweight"};
 
-        String[] programs = {};
+        //String[] programs = {};
 
 
         /*
@@ -107,7 +109,7 @@ public class work_programList extends AppCompatActivity{
         // - Shown when the Floating Action Button is clicked.
         final AlertDialog.Builder newProgramSelection = new AlertDialog.Builder(this);
         newProgramSelection.setTitle("Please choose a workout program.");
-        newProgramSelection.setItems(listprograms, new DialogInterface.OnClickListener() {
+        newProgramSelection.setItems(defaultPrograms, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int selection_id) {
                 //check which program was selected.
@@ -116,7 +118,7 @@ public class work_programList extends AppCompatActivity{
                 } else {
                     //TODO: add selected program to the user's program list.
                     //Currently will only open the program.
-                    programName = listprograms[selection_id].toString();
+                    programName = defaultPrograms[selection_id].toString();
                     OpenProgram(programName);
 
                 }

@@ -1,14 +1,7 @@
 package fitness.cs115.a115fitnessapp;
 
-import android.content.Context;
-import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
-import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 
 import java.util.ArrayList;
 /*
@@ -19,8 +12,8 @@ public class work_createWorkout extends AppCompatActivity {
 
     private final boolean DEBUG = true;
     private work_DBHelper user_work_db;
-    private CharSequence[] prog_list;
-    private CharSequence[] work_list;
+    private ArrayList<String> prog_list;
+    private ArrayList<String> work_list;
 
     @Override
     protected void  onCreate (Bundle savedInstanceState) {
@@ -43,19 +36,10 @@ public class work_createWorkout extends AppCompatActivity {
 
             user_work_db.dump_tables();
             System.out.println("" + new Exception().getStackTrace()[0]);
-            System.out.println("starting work_DBHelper.get_program_list test");
+            System.out.println("starting work_DBHelper.get_user_program_list test");
 
-            prog_list = user_work_db.get_program_list();
-
-            System.out.print("Program List: [");
-
-            for (int i = 0; i< prog_list.length; ++i){
-                System.out.print(""+prog_list[i]);
-                if (i+1 != prog_list.length) {
-                    System.out.print(", ");
-                }
-            }
-            System.out.println("]");
+            prog_list = user_work_db.get_user_program_list();
+            System.out.println("Program List: " + prog_list.toString() );
 
             user_work_db.dump_tables();
             System.out.println( "" + new Exception().getStackTrace()[0]);
@@ -85,21 +69,12 @@ public class work_createWorkout extends AppCompatActivity {
             System.out.println("starting work_DBHelper.get_workouts_from_prog test");
 
             //print workouts in each program using get_workouts_from_prog
-            for (int i = 0; i < prog_list.length; ++i) {
-
-                System.out.print(prog_list[i] +": [" );
-
-                work_list = user_work_db.get_workouts_from_prog(String.valueOf(prog_list[i]));
-
-                //print workouts in each program
-                for (int j = 0; j < work_list.length; ++j) {
-                    System.out.print(work_list[j].toString());
-                    if (j + 1 != work_list.length) {
-                        System.out.print(", ");
-                    }
-                    System.out.println("]");
-                }
+            for (int i = 0; i < prog_list.size(); ++i) {
+                work_list = user_work_db.get_workouts_from_prog(prog_list.get(i));
+                System.out.println(prog_list.get(i) +": " + work_list.toString() );
             }
+
+
 
             user_work_db.dump_tables();
             System.out.println("" + new Exception().getStackTrace()[0]);

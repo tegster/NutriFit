@@ -20,9 +20,8 @@ import android.database.sqlite.SQLiteDatabase;
 
 public class work_DBHelper extends SQLiteOpenHelper {
 
-    private static final Boolean DEBUG = true;
-    //see load_def_values() to edit defaults
-    private static final Boolean LOAD_DEFAULTS = true;
+    private static final Boolean DEBUG = false;
+
     public static final String DATABASE_NAME = "user_work.db";
 
     /*
@@ -322,9 +321,8 @@ public class work_DBHelper extends SQLiteOpenHelper {
     /*
     This function returns a String ArrayList containing the user's program names
      */
-    public CharSequence[] get_program_list () {
+    public ArrayList get_user_program_list() {
         ArrayList<String> p_list = new ArrayList<>();
-        CharSequence[] cs_list;
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor res = db.rawQuery(
@@ -338,15 +336,7 @@ public class work_DBHelper extends SQLiteOpenHelper {
         }
         res.close();
 
-
-        cs_list = new CharSequence[p_list.size()];
-
-        for (int i = 0 ; i < p_list.size(); ++i)
-        {
-            cs_list[i]= p_list.get(i);
-        }
-
-        return cs_list;
+        return p_list;
     }
 
     /*
@@ -396,10 +386,9 @@ public class work_DBHelper extends SQLiteOpenHelper {
     /*
     This function returns a String ArrayList containing the workouts assigned to the given program
     */
-    public CharSequence[] get_workouts_from_prog (String prog_name) {
+    public ArrayList get_workouts_from_prog (String prog_name) {
         ArrayList<String> w_list = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
-        CharSequence [] cs_list;
         int prog_id = get_prog_id_from_name(prog_name);
         int work_id = 0;
         //retrieve the id's of all workouts from the desired program
@@ -417,14 +406,7 @@ public class work_DBHelper extends SQLiteOpenHelper {
         }
         res.close();
 
-        cs_list = new CharSequence[w_list.size()];
-
-        for (int i = 0 ; i < w_list.size(); ++i)
-        {
-            cs_list[i]= w_list.get(i);
-        }
-
-        return cs_list;
+        return w_list;
     }
 
     /*
