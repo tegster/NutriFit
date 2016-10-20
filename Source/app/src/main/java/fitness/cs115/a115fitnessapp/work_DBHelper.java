@@ -20,9 +20,9 @@ import android.database.sqlite.SQLiteDatabase;
 
 public class work_DBHelper extends SQLiteOpenHelper {
 
-    private static final Boolean DEBUG = false;
+    private static final Boolean DEBUG = true;
     //see load_def_values() to edit defaults
-    private static final Boolean LOAD_DEFAULT_VALUES = true;
+    private static final Boolean LOAD_DEFAULTS = true;
     public static final String DATABASE_NAME = "user_work.db";
 
     /*
@@ -166,41 +166,66 @@ public class work_DBHelper extends SQLiteOpenHelper {
                 + "primary key (" + PROG_DETAIL_COL_PROG_ID + ", " + PROG_DETAIL_COL_WORK_ID
                 + ") )"
         );
-        
-        if (LOAD_DEFAULT_VALUES)
-        {
-            load_default_values();
-        }
+
     }
 
-    private void load_default_values() {
-        
-        this.clear_all_tables();
-        this.create_workout("Chest and Tri's");
-        this.create_workout("Back;(and Biceps!)");
-        this.create_workout("12_L3g_D4y_56");
-        this.create_workout("Easy Day");
-        this.create_workout("EXXTREEME");
+    public void reset_default_values() {
+        if (DEBUG)
+        {
+            System.out.println( "" + new Exception().getStackTrace()[0]);
+            System.out.println("starting work_DBHelper.reset_default_values()");
+        }
 
-        this.add_work_to_prog("Default Program 1", "Chest and Tri's");
-        this.add_work_to_prog("Default Program 1", "Back;(and Biceps!)");
-        this.add_work_to_prog("Default Program 1", "12_L3g_D4y_56");
-        this.add_work_to_prog("Default Program 2", "Easy Day");
-        this.add_work_to_prog("Default Program 2", "EXXTREEME");
-        this.add_work_to_prog("Default Program 3","12_L3g_D4y_56");
+        clear_all_tables();
 
-        this.add_exer_to_work("Chest and Tri's","Bench Press","rep",3,10,100);
-        this.add_exer_to_work("Chest and Tri's","Dumbell Press","rep",3,10,80);
-        this.add_exer_to_work("Chest and Tri's","Pushups","rep",4,20,0);
-        this.add_exer_to_work("Chest and Tri's","Dumbell Tricep Extension, Overhead",
+        create_program("Default Program 1");
+        create_program("Default Program 2");
+        create_program("Default Program 3");
+
+        create_workout("Chest and Tri's");
+        create_workout("Back and Biceps");
+        create_workout("Leg Day");
+        create_workout("Easy Day");
+        create_workout("EXXTREEME");
+
+        add_work_to_prog("Default Program 1", "Chest and Tri's");
+        add_work_to_prog("Default Program 1", "Back and Biceps");
+        add_work_to_prog("Default Program 1", "Leg Day");
+        add_work_to_prog("Default Program 2", "Easy Day");
+        add_work_to_prog("Default Program 2", "EXXTREEME");
+        add_work_to_prog("Default Program 3","Leg Day");
+
+        add_exer_to_work("Chest and Tri's","Bench Press","rep",3,10,100);
+        add_exer_to_work("Chest and Tri's","Dumbell Press","rep",3,10,80);
+        add_exer_to_work("Chest and Tri's","Pushups","rep",4,20,0);
+        add_exer_to_work("Chest and Tri's","Dumbell Tricep Extension, Overhead",
                 "rep",4,15,50);
-        this.add_exer_to_work("Back;(and Biceps!)","Pullups","rep",4,10,0);
-        this.add_exer_to_work("Back;(and Biceps!)","Dumbell Curls","rep",4,10,30);
-        this.add_exer_to_work("Back;(and Biceps!)","Planks","timed",4,60,0);
-        this.add_exer_to_work("12_L3g_D4y_56","Squats","rep",4,10,60);
-        this.add_exer_to_work("12_L3g_D4y_56","Lunges","rep",4,10,30);
-        this.add_exer_to_work("12_L3g_D4y_56","Planks","rep",4,60,0);
-        this.add_exer_to_work("12_L3g_D4y_56","Run a mile","timed",1,10,0);
+        add_exer_to_work("Back and Biceps","Pullups","rep",4,10,0);
+        add_exer_to_work("Back and Biceps","Dumbell Curls","rep",4,10,30);
+        add_exer_to_work("Back and Biceps","Planks","timed",4,60,0);
+        add_exer_to_work("Leg Day","Squats","rep",4,10,60);
+        add_exer_to_work("Leg Day","Lunges","rep",4,10,30);
+        add_exer_to_work("Leg Day","Planks","rep",4,60,0);
+        add_exer_to_work("Leg Day","Run a mile","timed",1,10,0);
+
+        add_exer_to_work("EXXTREEME","Bench Press","rep",3,10,100);
+        add_exer_to_work("EXXTREEME","Dumbell Press","rep",3,10,80);
+        add_exer_to_work("EXXTREEME","Pushups","rep",4,20,0);
+        add_exer_to_work("EXXTREEME","Dumbell Tricep Extension, Overhead",
+                "rep",4,15,50);
+        add_exer_to_work("EXXTREEME","Pullups","rep",4,10,0);
+        add_exer_to_work("EXXTREEME","Dumbell Curls","rep",4,10,30);
+        add_exer_to_work("EXXTREEME","Planks","timed",4,60,0);
+        add_exer_to_work("EXXTREEME","Squats","rep",4,10,60);
+        add_exer_to_work("EXXTREEME","Lunges","rep",4,10,30);
+        add_exer_to_work("EXXTREEME","Run a mile","timed",1,10,0);
+
+        if (DEBUG)
+        {
+            System.out.println( "" + new Exception().getStackTrace()[0]);
+            System.out.println("work_DBHelper.reset_default_values() finished");
+            dump_tables();
+        }
 
     }
 
@@ -494,6 +519,23 @@ public class work_DBHelper extends SQLiteOpenHelper {
             db.execSQL("delete from " + WORK_DB_TABLES[ind]);
         }
         db.close();
+    }
+
+    //prints all tables to console
+    public void dump_tables(){
+        System.out.println("prog_index: \n" +
+                this.dump_table(work_DBHelper.PROG_INDEX_TABLE_NAME));
+        System.out.println("prog_detail: \n" +
+                this.dump_table(work_DBHelper.PROG_DETAIL_TABLE_NAME));
+        System.out.println("work_index: \n" +
+                this.dump_table(work_DBHelper.WORK_INDEX_TABLE_NAME));
+        System.out.println("work_detail: \n" +
+                this.dump_table(work_DBHelper.WORK_DETAIL_TABLE_NAME));
+        System.out.println("work_sessions: \n" +
+                this.dump_table(work_DBHelper.WORK_SESSIONS_TABLE_NAME));
+        System.out.println("work_log: \n" +
+                this.dump_table(work_DBHelper.WORK_LOG_TABLE_NAME));
+
     }
 
     /*
