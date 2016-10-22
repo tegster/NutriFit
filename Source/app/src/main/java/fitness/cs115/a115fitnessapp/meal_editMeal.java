@@ -12,6 +12,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import static android.provider.AlarmClock.EXTRA_MESSAGE;
 
@@ -23,10 +24,10 @@ public class meal_editMeal extends AppCompatActivity {
     private meal_mealDBHelper mydb;
     private boolean DEBUG = true;
     String table;
-    private ListView lv;
-    ArrayList<String> food_names = new ArrayList<>();
-    ArrayList<String> items_add = new ArrayList<>();
-    ArrayList<String> already_existing_foods = new ArrayList<>();
+    private ListView lv; //used to display foods
+    ArrayList<String> food_names = new ArrayList<>();  //store all foods in the foods database
+    ArrayList<String> items_add = new ArrayList<>(); // items to add to this meal
+    ArrayList<String> already_existing_foods = new ArrayList<>(); //items that are already present in the meal
 
     private meal_foodDBHelper foodDB;
 
@@ -44,7 +45,7 @@ public class meal_editMeal extends AppCompatActivity {
         table = extras.getString("TABLE"); //this is the name of the table that is being edited.
         foodDB = new meal_foodDBHelper(this);
         food_names = foodDB.getAllFoodsAndCalories();
-        mydb = new meal_mealDBHelper(this, table);
+        mydb = new meal_mealDBHelper(this, table); //myDB is the name of the db that is being edited
         if (DEBUG) {
             mydb.insertFood("chicken", 400.3);
             System.out.println(mydb.getAllFoodInfo());
@@ -54,9 +55,28 @@ public class meal_editMeal extends AppCompatActivity {
         lv = (ListView) findViewById(R.id.meal_items);
         //iterate through foods database and add all foods and their calories
         if (DEBUG) {
-            food_names.add("bacon");
+            food_names.add("bacon"); //dummy data, not correctly formatted
         }
-        already_existing_foods = mydb.getAllFoodsAndCalories();
+        already_existing_foods = mydb.getAllFoodsAndCalories(); //this gets all of the foods currently in this meal
+
+        food_names.removeAll(already_existing_foods);//in the list of all foods, get rid of elements that are already in the meal, they will be inserted at the front
+        //put both lists in lexographical order
+        Collections.sort(food_names);
+        Collections.sort(already_existing_foods);
+
+        if (DEBUG) {
+            System.out.println("food names: " + food_names);
+            System.out.println("already_existing_foods in meal: " + already_existing_foods);
+        }
+
+        for (String temp_food : already_existing_foods) { //iterate through the list, adding each item to the beginning of the list
+            food_names.add(0, temp_food);
+        }
+
+        if (DEBUG) {
+            System.out.println("food names: " + food_names);
+        }
+
         ArrayAdapter<String> foodArrayAdapter = //this attaches the listview to the array list to display the food names and calories
                 new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, food_names);
 
@@ -70,7 +90,6 @@ public class meal_editMeal extends AppCompatActivity {
                 if (DEBUG) {
                     Toast.makeText(getApplicationContext(), "position: " + position, Toast.LENGTH_SHORT).show();
                 }
-                //Toast.makeText(getApplicationContext(), "item: " + food_names.get(position), Toast.LENGTH_SHORT).show();
                 if (items_add.contains(food_names.get(position))) {
                     items_add.remove(food_names.get(position));
                     Toast.makeText(getApplicationContext(), "removed: " + food_names.get(position) + " from meal", Toast.LENGTH_SHORT).show();
