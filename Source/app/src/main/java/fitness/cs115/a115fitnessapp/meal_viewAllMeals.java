@@ -25,18 +25,32 @@ public class meal_viewAllMeals extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_all_meals);
         listView = (ListView) findViewById(R.id.meals);
-
+        listView.setLongClickable(true);
         ArrayAdapter adapter = new ArrayAdapter<String>(this, simple_list_item_1, dummyArray);
-
         listView.setAdapter(adapter);
-        listView.setOnItemClickListener(new ListClickHandler());
-    }
-
-    public class ListClickHandler implements AdapterView.OnItemClickListener {
-        @Override
-        public void onItemClick(AdapterView<?> adapter, View view, int position, long arg3) {
-            Toast.makeText(getApplicationContext(), "clicked: " + position + " " + dummyArray[position], Toast.LENGTH_SHORT).show();
-        }
+        setUpClickListener();
 
     }
+
+    private void setUpClickListener() {
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
+                                           final int position, long arg3) {
+                Toast.makeText(getApplicationContext(), "long click: " + position + " " + dummyArray[position], Toast.LENGTH_LONG).show();
+                return true;
+            }
+        });
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, final int position,
+                                    long id) {
+                Toast.makeText(getApplicationContext(), "click: " + position + " " + dummyArray[position], Toast.LENGTH_LONG).show();
+
+            }
+        });
+
+    }
+
 }
