@@ -27,6 +27,9 @@ public class meal_foodDBHelper extends SQLiteOpenHelper {
 
     private static final String FOOD_NAME = "name";
     private static final String CALORIES = "calories";
+    private static final String FAT = "fat";
+    private static final String CARBS = "carbs";
+    private static final String POTASIUM = "potasium";
 
     public meal_foodDBHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
@@ -39,7 +42,7 @@ public class meal_foodDBHelper extends SQLiteOpenHelper {
         }
         db.execSQL(
                 "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " " +
-                        "(id integer primary key, name text,calories REAL)"
+                        "(id integer primary key, name text,calories REAL,fat REAL,carbs REAL,potasium REAL)"
         );
     }
 
@@ -50,7 +53,7 @@ public class meal_foodDBHelper extends SQLiteOpenHelper {
     }
 
     //add a new food
-    public boolean insertFood(String name, Double calories) {
+    public boolean insertFood(String name, Double calories, Double fat, Double carbs, Double potasium) {
         if (isFoodInDataBase(name)) { //don't insert same item twice
             if (DEBUG) {
                 System.out.println(name + " is already in database");
@@ -61,6 +64,15 @@ public class meal_foodDBHelper extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
         contentValues.put(FOOD_NAME, name);
         contentValues.put(CALORIES, calories);
+        if (fat != -1) {
+            contentValues.put(FAT, fat);
+        }
+        if (carbs != -1) {
+            contentValues.put(CARBS, carbs);
+        }
+        if (potasium != -1) {
+            contentValues.put(POTASIUM, potasium);
+        }
         db.insert(TABLE_NAME, null, contentValues);
         return true;
     }
@@ -168,6 +180,10 @@ public class meal_foodDBHelper extends SQLiteOpenHelper {
             array_list.add("Item: " + count);
             array_list.add("name " + res.getString(res.getColumnIndex(FOOD_NAME)));
             array_list.add("calories " + res.getString(res.getColumnIndex(CALORIES)));
+            array_list.add("fat " + res.getString(res.getColumnIndex(FAT)));
+            array_list.add("carbs " + res.getString(res.getColumnIndex(CARBS)));
+            array_list.add("potassium " + res.getString(res.getColumnIndex(POTASIUM)));
+
             array_list.add("index " + res.getString(res.getColumnIndex("id")));
             res.moveToNext();
             count++;
