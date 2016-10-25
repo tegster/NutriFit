@@ -188,7 +188,7 @@ public class work_programList extends AppCompatActivity{
     }
 
     public void NewProgram(){
-        Intent newProgram = new Intent(work_programList.this, work_workoutList.class);
+        Intent newProgram = new Intent(work_programList.this, work_createProgram.class);
         newProgram.putExtra("pName","Create Program");
         startActivity(newProgram);
     }
