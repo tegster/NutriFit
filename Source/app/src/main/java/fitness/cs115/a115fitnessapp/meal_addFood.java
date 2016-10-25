@@ -16,12 +16,12 @@ import android.widget.EditText;
  */
 
 public class meal_addFood extends AppCompatActivity {
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG = true;
     private EditText foodName;
     private EditText calories;
 
     private meal_foodDBHelper mydb;
-
+    private double no_value = -1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,11 +38,11 @@ public class meal_addFood extends AppCompatActivity {
         //hardcoded stuff to test database
         mydb = new meal_foodDBHelper(this);
         if (DEBUG) {
-            mydb.insertFood("hotdog", 200.2);
-            mydb.insertFood("hotdog", 400.87);//shouldn't be added since hotdog already in database
-            mydb.insertFood("hotdog", 200.2);//shouldn't be added since hotdog already in database
-            mydb.insertFood("cat", 300.0);
-            mydb.insertFood("orange", 120.5);
+            mydb.insertFood("hotdog", 200.2, no_value, no_value, no_value);
+            mydb.insertFood("hotdog", 400.87, no_value, no_value, no_value);//shouldn't be added since hotdog already in database
+            mydb.insertFood("hotdog", 200.2, no_value, no_value, no_value);//shouldn't be added since hotdog already in database
+            mydb.insertFood("cat", 300.0, no_value, no_value, no_value);
+            mydb.insertFood("orange", 120.5, no_value, no_value, no_value);
             System.out.println(mydb.getAllFoods());
             System.out.println(mydb.getAllFoodInfo());
             System.out.println("number of rows/items is: " + mydb.getNumberOfRows());
@@ -57,7 +57,7 @@ public class meal_addFood extends AppCompatActivity {
             System.out.println("z is " + z);
 
             System.out.println(mydb.getAllFoodInfo());
-            mydb.insertFood("hotdog", 120.357897456);
+            mydb.insertFood("hotdog", 120.357897456, no_value, no_value, no_value);
             System.out.println(mydb.getAllFoodInfo());
             System.out.println(mydb.deleteFood("orange"));
             System.out.println(mydb.deleteFood("orange"));
@@ -93,7 +93,26 @@ public class meal_addFood extends AppCompatActivity {
                 }
 
                 double numberOfCalories = Double.parseDouble(caloriesString);
-                mydb.insertFood(name, numberOfCalories);//insert food to database
+                double numberOfCarbs = -1;
+                double amountOfFat = -1;
+                double amountOfPotasium = -1;
+                EditText carbs = (EditText) findViewById(R.id.carb);
+                EditText fat = (EditText) findViewById(R.id.fat);
+                EditText potasium = (EditText) findViewById(R.id.pot);
+                //need to check if it is null or not
+                if (!carbs.getText().toString().isEmpty()) {
+                    numberOfCarbs = Double.parseDouble(carbs.getText().toString());
+                    System.out.println("carbs: " + numberOfCarbs);
+                }
+                if (!fat.getText().toString().isEmpty()) {
+                    amountOfFat = Double.parseDouble(fat.getText().toString());
+                    System.out.println("fat: " + amountOfFat);
+                }
+                if (!potasium.getText().toString().isEmpty()) {
+                    amountOfPotasium = Double.parseDouble(potasium.getText().toString());
+                    System.out.println("potasium: " + amountOfPotasium);
+                }
+                mydb.insertFood(name, numberOfCalories, amountOfFat, numberOfCarbs, amountOfPotasium);//insert food to database
                 if (DEBUG) {
                     // System.out.println(mydb.getAllFoods());
                     System.out.println(mydb.getAllFoodInfo());

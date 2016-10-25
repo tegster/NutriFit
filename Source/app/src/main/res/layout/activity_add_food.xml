@@ -3,26 +3,6 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Button
-        android:text="Confirm"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/confirm"
-        android:layout_marginBottom="104dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:layout_marginTop="79dp"
-        android:id="@+id/foodName"
-        android:hint="Enter Food Name"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
-
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -33,5 +13,55 @@
         android:layout_marginTop="13dp"
         android:id="@+id/calories"
         android:hint="Number of Calories" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:layout_below="@+id/calories"
+        android:layout_alignEnd="@+id/calories"
+        android:layout_marginTop="13dp"
+        android:id="@+id/fat"
+        android:hint="Fat" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/pot"
+        android:layout_below="@+id/carb"
+        android:layout_alignStart="@+id/carb"
+        android:hint="Potassium" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/carb"
+        android:hint="Carbs"
+        android:layout_below="@+id/fat"
+        android:layout_alignStart="@+id/fat" />
+
+    <Button
+        android:text="Confirm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/confirm"
+        android:layout_below="@+id/pot"
+        android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:layout_marginTop="52dp"
+        android:id="@+id/foodName"
+        android:hint="Enter Food Name"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
