@@ -70,7 +70,6 @@
             android:configChanges="orientation"
             android:label="Program Name Placeholder"
             android:screenOrientation="portrait"
-            android:label="Workout Name Placeholder"
             android:theme="@style/AppTheme" />
 
         <activity
