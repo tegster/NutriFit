@@ -151,7 +151,7 @@ public class work_DBHelper extends SQLiteOpenHelper {
             + WORK_LOG_COL_ACTUAL + " integer, "
             + WORK_LOG_COL_WEIGHT + " integer, "
             + "primary key (" +WORK_LOG_COL_SESSION_ID +", "
-            + WORK_LOG_COL_EXER_ID
+            + WORK_LOG_COL_EXER_ID + ", " + WORK_LOG_COL_SET_NUM
             + ") )"
         );
 
@@ -308,7 +308,7 @@ public class work_DBHelper extends SQLiteOpenHelper {
     }
 
     /**
-     * Adds an existing workout to an existing program.
+     * Adds a workout to an existing program.
      *
      * @param prog_name program to be added to. must already exist, use
      *                  is_taken_prog_name(String) to check.
@@ -333,6 +333,7 @@ public class work_DBHelper extends SQLiteOpenHelper {
             throw new RuntimeException("Error adding work to prog: program\"" +
                     prog_name + "\" was not found.");
         }
+        //TODO: remove work invariant and replace with create work if not found
         if ( !is_taken_work_name(work_name)) {
             throw new RuntimeException("Error adding work to prog: workout \"" +
                     work_name + "\" was not found.");
@@ -543,9 +544,8 @@ public class work_DBHelper extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
         int work_id = get_work_id_from_name(work_name);
 
-        contentValues.put("work_id", work_id);
-        contentValues.put("date_time", current_time_ISO8601());
-
+        contentValues.put(WORK_SESSIONS_COL_WORK_ID, work_id);
+        contentValues.put(WORK_SESSIONS_COL_DATETIME, current_time_ISO8601());
         //TODO: include insert invariant that db is not full
         //invariant:work_name exists in work_index
         if (! is_taken_work_name(work_name)) {
@@ -559,10 +559,37 @@ public class work_DBHelper extends SQLiteOpenHelper {
         return (int) session_id;
     }
 
-    public int create_work_log (int session_id)
+    public int log_set (int session_id, int exercise_id, int set_num,
+                             int goal, int actual, int weight)
     {
-        //TODO: fill this function
-        return -1;
+        long log_id = -1;
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        //TODO: invariant that session_id already exists
+        //invariant: session_id already exists
+        if ( !is_taken_session_id(session_id)) {
+            throw new RuntimeException("Error logging set: session_id "
+                    + session_id + " does not exist.");
+        }
+
+        contentValues.put (WORK_LOG_COL_SESSION_ID, session_id);
+        contentValues.put (WORK_LOG_COL_EXER_ID, exercise_id);
+        contentValues.put (WORK_LOG_COL_SET_NUM, set_num);
+        contentValues.put (WORK_LOG_COL_GOAL, goal);
+        contentValues.put (WORK_LOG_COL_ACTUAL, actual);
+        contentValues.put (WORK_LOG_COL_WEIGHT, weight);
+
+        //TODO: include insert invariant that db is not full
+
+        log_id = db.insert(WORK_LOG_TABLE_NAME, null, contentValues);
+        db.close();
+
+        return (int) log_id;
+    }
+
+    public boolean is_taken_session_id(int session_id) {
+        //TODO: fill this method
+        return true;
     }
 
     //gets contents of the table specified as a String
@@ -629,8 +656,8 @@ public class work_DBHelper extends SQLiteOpenHelper {
                     col_padding;
         }
 
-        //print formatted columns to output String
-        for (int row_i = 0; row_i < num_rows; ++row_i){
+        //print formatted columns to output String. +1 to print col headers
+        for (int row_i = 0; row_i < num_rows + 1; ++row_i){
             row_str ="";
             for (int col_j = 0; col_j < num_cols; ++col_j){
                 col_entry = col_data.get(col_j).get(row_i);
@@ -690,7 +717,7 @@ public class work_DBHelper extends SQLiteOpenHelper {
     http://beginnersbook.com/2013/05/current-date-time-in-java/
      */
     private String current_time_ISO8601() {
-        DateFormat df = new SimpleDateFormat("yyyy-MM-DD HH:mm");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         Date dateobj = new Date();
         String date_str = df.format(dateobj);
 

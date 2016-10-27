@@ -37,10 +37,18 @@ public class user_DBHelperTest {
     }
 
     @Test
-    public void clearAllTables_test() {
+    public void create_program_test() {
+        String [] test_progs = {"testProgram one","_testProgram's\" 2_",
+                "123testPrograms:;|3"};
 
-        user_work_db.clear_all_tables();
+        ArrayList<String> prog_list = new ArrayList<>();
 
+        for (String prog : test_progs){
+            prog_list.add(prog);
+            user_work_db.create_program(prog);
+        }
+        assertEquals("create_program error",prog_list,
+                user_work_db.get_user_program_list());
     }
 
     @Test
@@ -86,8 +94,6 @@ public class user_DBHelperTest {
             System.out.println(prog_list.get(i) +": " + work_list.toString() );
         }
 
-
-
         user_work_db.dump_tables();
         System.out.println("starting work_DBHelper.add_exer_to_work tests");
 
@@ -111,16 +117,19 @@ public class user_DBHelperTest {
         user_work_db.dump_tables();
         System.out.println("starting work_DBHelper.create_session tests");
 
-        int sess_id = user_work_db.create_session("Chest and Tri's");
+        user_work_db.create_session("Chest and Tri's");
+        user_work_db.create_session("Back;(and Biceps!)");
+        user_work_db.create_session("Chest and Tri's");
 
         user_work_db.dump_tables();
-        System.out.println("starting work_DBHelper.create_work_log tests");
+        System.out.println("starting work_DBHelper.log_set tests");
 
-        //TODO: test user_work_db.create_work_log(sess_id);
+        user_work_db.log_set(1, 1, 1, 10, 10, 100);
+        user_work_db.log_set(2, 1, 2, 10, 9, 110);
+        user_work_db.log_set(3, 1, 3, 8,  7, 100);
+        user_work_db.log_set(4, 1, 1, 10, 8, 100);
 
         user_work_db.dump_tables();
         System.out.println("finished work_DBHelper tests");
     }
-
-    
 }
