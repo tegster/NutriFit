@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:clickable="true"
         app:srcCompat="@drawable/ic_add_white_24dp"
-        android:id="@+id/fab_addProgram"
+        android:id="@+id/fab_addWorkout"
         app:backgroundTint="?attr/colorPrimary"
         app:fabSize="normal"
         android:layout_alignParentBottom="true"

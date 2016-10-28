@@ -72,12 +72,13 @@ public class work_createProgram extends AppCompatActivity{
         //  Floating Action Button
         //======================================================================================
         //Adds a new program to the Program List.
-        FloatingActionButton fabAdd = (FloatingActionButton) findViewById(R.id.fab_addProgram);
+        FloatingActionButton fabAdd = (FloatingActionButton) findViewById(R.id.fab_addWorkout);
         fabAdd.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
                 //TODO: Call createWorkout.
-                //newProgramSelection.show();
+                Intent newWorkout = new Intent(work_createProgram.this, work_createWorkout.class);
+                startActivity(newWorkout);
             }
         });
 
@@ -93,10 +94,12 @@ public class work_createProgram extends AppCompatActivity{
         workoutListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id){
-                Intent openWorkout = new Intent(work_createProgram.this, work_exerciseList.class);
-                String workoutName = String.valueOf(parent.getItemAtPosition(position));
-                openWorkout.putExtra("wName", workoutName);
-                startActivity(openWorkout);
+                //TODO: Edit workout
+
+                //Intent openWorkout = new Intent(work_createProgram.this, work_exerciseList.class);
+                //String workoutName = String.valueOf(parent.getItemAtPosition(position));
+                //openWorkout.putExtra("wName", workoutName);
+                //startActivity(openWorkout);
 
             }
         });
