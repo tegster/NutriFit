@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
@@ -80,8 +81,16 @@ public class work_createWorkout extends AppCompatActivity{
         });
 
 
-
-
+        //======================================================================================
+        //  Buttons
+        //======================================================================================
+        Button saveNameButton = (Button) findViewById(R.id.btn_saveName);
+        saveNameButton.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //TODO: Save the name of the workout
+            }
+        });
 
 
         //======================================================================================
