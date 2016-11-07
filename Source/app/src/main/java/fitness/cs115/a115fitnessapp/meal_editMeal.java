@@ -51,7 +51,7 @@ public class meal_editMeal extends AppCompatActivity {
         //once the item in the listview is clicked
         //mydb.insertfoodinmeal
         //below is just debug, start at line 84
-        /**
+
         if (DEBUG) {
             mydb.insertFoodinMeal("chicken", 200.2, 12.2, 11.2, 25.6);
             System.out.println(mydb.getAllFoodInfofromMeal());
@@ -82,7 +82,7 @@ public class meal_editMeal extends AppCompatActivity {
         if (DEBUG) {
             System.out.println("food names: " + food_names);
         }
-         */
+
 
         //this attaches the listview to the array list to display the food names and calories
         ArrayAdapter<String> foodArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, food_names);

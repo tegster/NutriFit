@@ -228,7 +228,7 @@ public class meal_foodDBHelper extends SQLiteOpenHelper {
         long count = 0;
         while (res.isAfterLast() == false) {
             array_list.add("Item: " + count);
-
+            //  array_list.add("index " + res.getString(res.getColumnIndex(Col_1)));
             array_list.add("foodname " + res.getString(res.getColumnIndex(Col_2)));
             array_list.add("calories " + res.getString(res.getColumnIndex(Col_3)));
             array_list.add("totalfat " + res.getString(res.getColumnIndex(Col_4)));
@@ -240,7 +240,6 @@ public class meal_foodDBHelper extends SQLiteOpenHelper {
             array_list.add("fiber " + res.getString(res.getColumnIndex(Col_10)));
             array_list.add("sugar " + res.getString(res.getColumnIndex(Col_11)));
             array_list.add("protein " + res.getString(res.getColumnIndex(Col_12)));
-            array_list.add("index " + res.getString(res.getColumnIndex(Col_1)));
 
             res.moveToNext();
             count++;

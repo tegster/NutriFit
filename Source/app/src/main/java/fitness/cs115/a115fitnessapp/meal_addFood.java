@@ -16,7 +16,7 @@ import android.widget.EditText;
  */
 
 public class meal_addFood extends AppCompatActivity {
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG = true;
     private EditText foodName, calories, totalfat, cholestrol, sodium, carbs, protein;
     private EditText satfat, transfat, fiber, sugars;
 
@@ -118,39 +118,39 @@ public class meal_addFood extends AppCompatActivity {
                 }
                 if (TextUtils.isEmpty(totalfatstring)) {
                     totalfatstring = "0.0";
-                    return;
+                    // return;
                 }
                 if (TextUtils.isEmpty(transfatstring)) {
                     transfatstring = "0.0";
-                    return;
+                    // return;
                 }
                 if (TextUtils.isEmpty(satfatstring)) {
                     satfatstring = "0.0";
-                    return;
+                    // return;
                 }
                 if (TextUtils.isEmpty(cholestrolstring)) {
                     cholestrolstring = "0.0";
-                    return;
+                    // return;
                 }
                 if (TextUtils.isEmpty(sodiumstring)) {
                     sodiumstring = "0.0";
-                    return;
+                    // return;
                 }
                 if (TextUtils.isEmpty(carbsstring)) {
                     carbsstring = "0.0";
-                    return;
+                    //  return;
                 }
                 if (TextUtils.isEmpty(fiberstring)) {
                     fiberstring = "0.0";
-                    return;
+                    // return;
                 }
                 if (TextUtils.isEmpty(sugarstring)) {
                     sugarstring = "0.0";
-                    return;
+                    //  return;
                 }
                 if (TextUtils.isEmpty(proteinstring)) {
                     proteinstring = "0.0";
-                    return;
+                    // return;
                 }
 
 
