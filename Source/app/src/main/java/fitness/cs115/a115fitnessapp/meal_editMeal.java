@@ -22,7 +22,7 @@ import static android.provider.AlarmClock.EXTRA_MESSAGE;
 
 public class meal_editMeal extends AppCompatActivity {
     private meal_mealDBHelper mydb;
-    private boolean DEBUG = true;
+    private boolean DEBUG = false;
     String mealtablename;
     private ListView lv; //used to display foods
     ArrayList<String> food_names = new ArrayList<>();  //store all foods in the foods database
@@ -41,8 +41,7 @@ public class meal_editMeal extends AppCompatActivity {
             startActivity(intent);
             return;
         }
-
-        mealtablename = extras.getString("TABLE"); //this is the name of the [meal] table that is being edited.
+        mealtablename = "[" + extras.getString("TABLE") + "]"; //this is the name of the [meal] table that is being edited.
         food_names = foodDB.getAllmacrosInfo(); //food_names = arraylist of all foods and their cals
         mydb = new meal_mealDBHelper(this, mealtablename); //myDB is the name of the meal db that is being edited
         lv = (ListView) findViewById(R.id.meal_items);
@@ -105,10 +104,12 @@ public class meal_editMeal extends AppCompatActivity {
                     items_add.remove(food_names.get(position));
                     Toast.makeText(getApplicationContext(), "removed: " + food_names.get(position) + " from meal", Toast.LENGTH_SHORT).show();
                     //remove from database
+                    mydb.deleteFoodinMeal(food_names.get(position));
                 } else { //means it's not already in the meal
                     items_add.add(food_names.get(position));
+                    System.out.println(items_add);
                     Toast.makeText(getApplicationContext(), "added: " + food_names.get(position) + " to meal", Toast.LENGTH_SHORT).show();
-                    Log.d("tag","printing after adding to items" + items_add.get(position));
+                    Log.d("tag", "printing after adding to items" + items_add);
                     ArrayList<Double> item = extractIntegers(k); //extracting the double paramters from the foods
                     String name = k.substring(0, k.indexOf(','));
                     Log.d("tag","printing after decypher " + "name[" + name + "]");
@@ -117,8 +118,6 @@ public class meal_editMeal extends AppCompatActivity {
                     Log.d("tag","printing after decypher " + "Carbs" + item.get(2)+ "]");
                     Log.d("tag","printing after decypher " + "Protein[" + item.get(3)+ "]");
                     mydb.insertFoodinMeal(name,item.get(0),item.get(1),item.get(2),item.get(3)); //inserting to meals DB
-
-
                 }
             }
         });

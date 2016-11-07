@@ -80,11 +80,10 @@ public class meal_viewAllMeals extends AppCompatActivity {
             public void onClick(DialogInterface dialogInterface, int selection_id) {
                 if (selection_id == 0) {
                     //edit program
-                    /*
-                    Intent intent = new Intent(meal_viewAllMeals.this, work_createWorkout.class);
-                    intent.putExtra();
+                    Intent intent = new Intent(meal_viewAllMeals.this, meal_editMeal.class);
+                    intent.putExtra("TABLE", selectedTable);
                     startActivity(intent);
-                    */
+
                 } else {
                     //delete the program
                     programOptionDelete.show();
@@ -139,9 +138,11 @@ public class meal_viewAllMeals extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position,
                                     long id) {
+                selectedTable = arrTblNames.get(position);
                 if (DEBUG) {
                     Toast.makeText(getApplicationContext(), "click: " + position + " " + arrTblNames.get(position), Toast.LENGTH_LONG).show();
                 }
+
             }
         });
     }
