@@ -17,8 +17,9 @@ import android.widget.EditText;
 
 public class meal_addFood extends AppCompatActivity {
     private static final boolean DEBUG = true;
-    private EditText foodName;
-    private EditText calories;
+    private EditText foodName, calories, totalfat, cholestrol, sodium, carbs, protein;
+    private EditText satfat, transfat, fiber, sugars;
+
 
     private meal_foodDBHelper mydb;
     private double no_value = -1;
@@ -29,6 +30,18 @@ public class meal_addFood extends AppCompatActivity {
 
         foodName = (EditText) findViewById(R.id.foodName);
         calories = (EditText) findViewById(R.id.calories);
+        totalfat = (EditText) findViewById(R.id.totalfat);
+        transfat = (EditText) findViewById(R.id.transfat);
+        satfat = (EditText) findViewById(R.id.saturatedfat);
+        cholestrol = (EditText) findViewById(R.id.cholestrol);
+        sodium = (EditText) findViewById(R.id.sodium);
+        carbs = (EditText) findViewById(R.id.carbs);
+        fiber = (EditText) findViewById(R.id.fiber);
+        sugars = (EditText) findViewById(R.id.sugar);
+        protein = (EditText) findViewById(R.id.protein);
+
+
+
         //get data passed into intent? maybe which meal an item is being added to is passed in????
         Intent intent = getIntent();
         //item = intent.getStringExtra("stuffz");
@@ -38,11 +51,15 @@ public class meal_addFood extends AppCompatActivity {
         //hardcoded stuff to test database
         mydb = new meal_foodDBHelper(this);
         if (DEBUG) {
-            mydb.insertFood("hotdog", 200.2, no_value, no_value, no_value);
-            mydb.insertFood("hotdog", 400.87, no_value, no_value, no_value);//shouldn't be added since hotdog already in database
-            mydb.insertFood("hotdog", 200.2, no_value, no_value, no_value);//shouldn't be added since hotdog already in database
-            mydb.insertFood("cat", 300.0, no_value, no_value, no_value);
-            mydb.insertFood("orange", 120.5, no_value, no_value, no_value);
+
+            /**
+            mydb.insertFood("dummyhotdog", 176.2, 12.0, 3.0, 2.0, 7.0, 123.0, 4.0, 1235.3, 23.0, 4.0);
+            mydb.insertFood("dummycorn", 22.3, 15.3, 5.0, 2.0, 9.0, 123.0, 4.0, 1235.3, 23.0, 4.0);
+            mydb.insertFood("dummybun", 189.3, 12.0, 3.0, 2.0, 7.0, 123.0, 4.0, 1235.3, 23.0, 4.0);
+            mydb.insertFood("dummypeas", 182.4, 15.3, 5.0, 2.0, 9.0, 123.0, 4.0, 1235.3, 23.0, 4.0);
+            mydb.insertFood("dummychicken", 234.2, 12.0, 3.0, 2.0, 7.0, 123.0, 4.0, 1235.3, 23.0, 4.0);
+            mydb.insertFood("dummyrice", 15.2, 15.3, 5.0, 2.0, 9.0, 123.0, 4.0, 1235.3, 23.0, 4.0);
+
             System.out.println(mydb.getAllFoods());
             System.out.println(mydb.getAllFoodInfo());
             System.out.println("number of rows/items is: " + mydb.getNumberOfRows());
@@ -57,33 +74,86 @@ public class meal_addFood extends AppCompatActivity {
             System.out.println("z is " + z);
 
             System.out.println(mydb.getAllFoodInfo());
-            mydb.insertFood("hotdog", 120.357897456, no_value, no_value, no_value);
-            System.out.println(mydb.getAllFoodInfo());
-            System.out.println(mydb.deleteFood("orange"));
-            System.out.println(mydb.deleteFood("orange"));
-            System.out.println(mydb.deleteFood("kiwi"));
-            System.out.println(mydb.getAllFoodInfo());
+            //mydb.insertFood("hotdog", 120.35);
+
 
 
             mydb.deleteEntireTable();
             System.out.println("After deleting entire table " + mydb.getAllFoodInfo());
         }
 
+             */
         Button confirm = (Button) findViewById(R.id.confirm);
         confirm.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //check that both fields are filled in and display error message if not
-                String name = foodName.getText().toString();
+                //get all the info from the edittext's, and insert it into
+                // the insetfood(), if nothing inputted, make it default 0
+                //check that both fields are filled in and display error message if not, only name and cals
+                String name, caloriestring, totalfatstring, cholestrolstring, sodiumstring, carbsstring, proteinstring;
+                String transfatstring, satfatstring, fiberstring, sugarstring;
+
+                // getting info from the edittext, once the confirm button is clicked
+                name = foodName.getText().toString();
+                caloriestring = calories.getText().toString();
+                totalfatstring = totalfat.getText().toString();
+                transfatstring = transfat.getText().toString();
+                satfatstring = satfat.getText().toString();
+                cholestrolstring = cholestrol.getText().toString();
+                sodiumstring = sodium.getText().toString();
+                carbsstring = carbs.getText().toString();
+                fiberstring = fiber.getText().toString();
+                sugarstring = sugars.getText().toString();
+                proteinstring = protein.getText().toString();
+
+
+
                 if (TextUtils.isEmpty(name)) {
-                    foodName.setError("Enter a food's name");
+                    foodName.setError("Enter the foods name, you'd like to enter");
                     return;
                 }
-                String caloriesString = calories.getText().toString();
-                if (TextUtils.isEmpty(caloriesString)) {
+                if (TextUtils.isEmpty(caloriestring)) {
                     calories.setError("Enter the number of calories");
                     return;
                 }
+                if (TextUtils.isEmpty(totalfatstring)) {
+                    totalfatstring = "0.0";
+                    // return;
+                }
+                if (TextUtils.isEmpty(transfatstring)) {
+                    transfatstring = "0.0";
+                    // return;
+                }
+                if (TextUtils.isEmpty(satfatstring)) {
+                    satfatstring = "0.0";
+                    // return;
+                }
+                if (TextUtils.isEmpty(cholestrolstring)) {
+                    cholestrolstring = "0.0";
+                    // return;
+                }
+                if (TextUtils.isEmpty(sodiumstring)) {
+                    sodiumstring = "0.0";
+                    // return;
+                }
+                if (TextUtils.isEmpty(carbsstring)) {
+                    carbsstring = "0.0";
+                    //  return;
+                }
+                if (TextUtils.isEmpty(fiberstring)) {
+                    fiberstring = "0.0";
+                    // return;
+                }
+                if (TextUtils.isEmpty(sugarstring)) {
+                    sugarstring = "0.0";
+                    //  return;
+                }
+                if (TextUtils.isEmpty(proteinstring)) {
+                    proteinstring = "0.0";
+                    // return;
+                }
+
+
 
                 //hide keyboard
                 View view1 = getCurrentFocus();
@@ -92,27 +162,22 @@ public class meal_addFood extends AppCompatActivity {
                     imm.hideSoftInputFromWindow(view1.getWindowToken(), 0);
                 }
 
-                double numberOfCalories = Double.parseDouble(caloriesString);
-                double numberOfCarbs = -1;
-                double amountOfFat = -1;
-                double amountOfPotasium = -1;
-                EditText carbs = (EditText) findViewById(R.id.carb);
-                EditText fat = (EditText) findViewById(R.id.fat);
-                EditText potasium = (EditText) findViewById(R.id.pot);
-                //need to check if it is null or not
-                if (!carbs.getText().toString().isEmpty()) {
-                    numberOfCarbs = Double.parseDouble(carbs.getText().toString());
-                    System.out.println("carbs: " + numberOfCarbs);
-                }
-                if (!fat.getText().toString().isEmpty()) {
-                    amountOfFat = Double.parseDouble(fat.getText().toString());
-                    System.out.println("fat: " + amountOfFat);
-                }
-                if (!potasium.getText().toString().isEmpty()) {
-                    amountOfPotasium = Double.parseDouble(potasium.getText().toString());
-                    System.out.println("potasium: " + amountOfPotasium);
-                }
-                mydb.insertFood(name, numberOfCalories, amountOfFat, numberOfCarbs, amountOfPotasium);//insert food to database
+
+                double numberOfCalories = Double.parseDouble(caloriestring);
+                double numberOftotalfat = Double.parseDouble(totalfatstring);
+                double numberOftransfat = Double.parseDouble(transfatstring);
+                double numberOfsatfat = Double.parseDouble(satfatstring);
+                double numberOfCholestorl = Double.parseDouble(cholestrolstring);
+                double numberOfSodium = Double.parseDouble(sodiumstring);
+                double numberOfCarbs = Double.parseDouble(carbsstring);
+                double numberOffiber = Double.parseDouble(fiberstring);
+                double numberOfsugar = Double.parseDouble(sugarstring);
+                double numberOfprotein = Double.parseDouble(proteinstring);
+                    //insert food to database
+                mydb.insertFood(name, numberOfCalories, numberOftotalfat, numberOftransfat,
+                        numberOfsatfat, numberOfCholestorl, numberOfSodium, numberOfCarbs,
+                        numberOffiber, numberOfsugar, numberOfprotein);
+
                 if (DEBUG) {
                     // System.out.println(mydb.getAllFoods());
                     System.out.println(mydb.getAllFoodInfo());
@@ -130,8 +195,9 @@ public class meal_addFood extends AppCompatActivity {
 
 
             }
-        });
 
-    }
 
+    });
+
+}}
 }

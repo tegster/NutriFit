@@ -1,7 +1,7 @@
 package fitness.cs115.a115fitnessapp;
 
 /**
- * Created by Matthew on 10/7/16.
+ * Created by Matthew on 11/6/16.
  */
 //this was used as a starting point but modified a bunch https://www.tutorialspoint.com/android/android_sqlite_database.htm
 
@@ -18,12 +18,12 @@ import android.database.sqlite.SQLiteDatabase;
 
 import static android.R.attr.id;
 
-public class meal_foodDBHelper extends SQLiteOpenHelper {
+public class meal_eatFoodDBHelper extends SQLiteOpenHelper {
     private static final Boolean DEBUG = true;
 
-    //intializing the database
+    //initializing the database
     private static final String DATABASE_NAME = "foods.db";
-    private static final String TABLE_NAME = "food";
+    private String TABLE_NAME = "food";
 
     //declaring variables for the columns of our database
     public static final String Col_1 = "ID";
@@ -32,7 +32,7 @@ public class meal_foodDBHelper extends SQLiteOpenHelper {
     public static final String Col_4 = "totalfat";
     public static final String Col_5 = "transfat";
     public static final String Col_6 = "satfat";
-    public static final String Col_7 = "cholestrol";
+    public static final String Col_7 = "cholesterol";
     public static final String Col_8 = "sodium";
     public static final String Col_9 = "carbs";
     public static final String Col_10 = "fiber";
@@ -40,8 +40,16 @@ public class meal_foodDBHelper extends SQLiteOpenHelper {
     public static final String Col_12 = "protein";
 
 
-    public meal_foodDBHelper(Context context) {
+    public meal_eatFoodDBHelper(Context context, String table_name) {
         super(context, DATABASE_NAME, null, 1);
+        this.TABLE_NAME = table_name;
+        if (DEBUG) {
+            System.out.println("1337 Constructor called with: " + this.TABLE_NAME);
+        }
+        if (DEBUG) {
+            System.out.println("1337 onCreate " + TABLE_NAME);
+        }
+
     }
 
     @Override
@@ -52,7 +60,7 @@ public class meal_foodDBHelper extends SQLiteOpenHelper {
         db.execSQL(
                 "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " " +
                         "(id INTEGER PRIMARY KEY, foodname text, calories DECIMAL(5,1), totalfat DECIMAL(5,1), transfat DECIMAL(5,1)," +
-                        "satfat DECIMAL(5,1), cholestrol DECIMAL(5,1), sodium DECIMAL(5,1), carbs DECIMAL(5,1)," +
+                        "satfat DECIMAL(5,1), cholesterol DECIMAL(5,1), sodium DECIMAL(5,1), carbs DECIMAL(5,1)," +
                         "fiber DECIMAL(5,1), sugar DECIMAL(5,1), protein DECIMAL(5,1));"
         );
     }
@@ -67,13 +75,6 @@ public class meal_foodDBHelper extends SQLiteOpenHelper {
     public boolean insertFood(String foodname, Double calories, Double totalfat, Double transfat, Double satfat,
                               Double cholestrol, Double sodium, Double carbs, Double fiber, Double sugar,
                               Double protein) {
-        if (isFoodInDataBase(foodname)) { //don't insert same item twice
-
-            if (DEBUG) {
-                System.out.println(foodname + " is already in database");
-            }
-            return false;
-        }
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
@@ -209,7 +210,7 @@ public class meal_foodDBHelper extends SQLiteOpenHelper {
             macros_array_list.add(res.getString(res.getColumnIndex(Col_2)) + "," +
                     "Cal: " + res.getString(res.getColumnIndex(Col_3)) + "," +
                     "Fat: " + res.getString(res.getColumnIndex(Col_4)) + "," +
-                    "Carbs: "+ res.getString(res.getColumnIndex(Col_9)) + "," +
+                    "Carbs: " + res.getString(res.getColumnIndex(Col_9)) + "," +
                     "Protein: " + res.getString(res.getColumnIndex(Col_12)));
 
             res.moveToNext();
@@ -285,6 +286,106 @@ public class meal_foodDBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_NAME, null, null);
         return true;
+    }
+
+    //returns the total number of calories stored in this table
+    public int getTotalCalories() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cur = db.rawQuery("SELECT SUM(calories) FROM " + TABLE_NAME, null);
+        if (cur.moveToFirst()) {
+            return cur.getInt(0);
+        }
+        return 0; //error
+    }
+
+    //returns the total number of totalfat stored in this table
+    public int getTotalFat() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cur = db.rawQuery("SELECT SUM(totalfat) FROM " + TABLE_NAME, null);
+        if (cur.moveToFirst()) {
+            return cur.getInt(0);
+        }
+        return 0; //error
+    }
+
+    //returns the total number of transfat stored in this table
+    public int getTotalTransFat() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cur = db.rawQuery("SELECT SUM(transfat) FROM " + TABLE_NAME, null);
+        if (cur.moveToFirst()) {
+            return cur.getInt(0);
+        }
+        return 0; //error
+    }
+
+    //returns the total number of satfat stored in this table
+    public int getTotalSatFat() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cur = db.rawQuery("SELECT SUM(satfat) FROM " + TABLE_NAME, null);
+        if (cur.moveToFirst()) {
+            return cur.getInt(0);
+        }
+        return 0; //error
+    }
+
+    //returns the total number of cholesterol stored in this table
+    public int getTotalCholesterol() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cur = db.rawQuery("SELECT SUM(cholesterol) FROM " + TABLE_NAME, null);
+        if (cur.moveToFirst()) {
+            return cur.getInt(0);
+        }
+        return 0; //error
+    }
+
+    //returns the total number of sodium stored in this table
+    public int getTotalSodium() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cur = db.rawQuery("SELECT SUM(sodium) FROM " + TABLE_NAME, null);
+        if (cur.moveToFirst()) {
+            return cur.getInt(0);
+        }
+        return 0; //error
+    }
+
+    //returns the total number of carbs stored in this table
+    public int getTotalCarbs() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cur = db.rawQuery("SELECT SUM(carbs) FROM " + TABLE_NAME, null);
+        if (cur.moveToFirst()) {
+            return cur.getInt(0);
+        }
+        return 0; //error
+    }
+
+    //returns the total number of fiber stored in this table
+    public int getTotalFiber() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cur = db.rawQuery("SELECT SUM(fiber) FROM " + TABLE_NAME, null);
+        if (cur.moveToFirst()) {
+            return cur.getInt(0);
+        }
+        return 0; //error
+    }
+
+    //returns the total number of sugar stored in this table
+    public int getTotalSugar() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cur = db.rawQuery("SELECT SUM(sugar) FROM " + TABLE_NAME, null);
+        if (cur.moveToFirst()) {
+            return cur.getInt(0);
+        }
+        return 0; //error
+    }
+
+    //returns the total number of protein stored in this table
+    public int getTotalProtein() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cur = db.rawQuery("SELECT SUM(protein) FROM " + TABLE_NAME, null);
+        if (cur.moveToFirst()) {
+            return cur.getInt(0);
+        }
+        return 0; //error
     }
 
 }

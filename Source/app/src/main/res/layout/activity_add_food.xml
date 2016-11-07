@@ -8,60 +8,137 @@
         android:layout_height="wrap_content"
         android:inputType="number"
         android:ems="10"
-        android:layout_below="@+id/foodName"
-        android:layout_alignStart="@+id/foodName"
-        android:layout_marginTop="13dp"
-        android:id="@+id/calories"
-        android:hint="Number of Calories" />
+        android:id="@+id/fiber"
+        android:hint="Dietary fiber"
+        android:layout_alignBaseline="@+id/carbs"
+        android:layout_alignBottom="@+id/carbs"
+        android:layout_alignParentEnd="true"
+        android:layout_toEndOf="@+id/protein" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="number"
         android:ems="10"
+        android:id="@+id/protein"
+        android:hint="Protein"
+        android:layout_below="@+id/carbs"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/carbs"
+        android:hint="Carbohydrates"
+        android:layout_below="@+id/sodium"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/cholestrol"
+        android:hint="Cholestrol"
+        android:layout_below="@+id/totalfat"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/totalfat"
+        android:hint="Total Fat"
         android:layout_below="@+id/calories"
-        android:layout_alignEnd="@+id/calories"
-        android:layout_marginTop="13dp"
-        android:id="@+id/fat"
-        android:hint="Fat" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="number"
-        android:ems="10"
-        android:id="@+id/pot"
-        android:layout_below="@+id/carb"
-        android:layout_alignStart="@+id/carb"
-        android:hint="Potassium" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="number"
-        android:ems="10"
-        android:id="@+id/carb"
-        android:hint="Carbs"
-        android:layout_below="@+id/fat"
-        android:layout_alignStart="@+id/fat" />
-
-    <Button
-        android:text="Confirm"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/confirm"
-        android:layout_below="@+id/pot"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignParentStart="true" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
         android:ems="10"
-        android:layout_marginTop="52dp"
         android:id="@+id/foodName"
         android:hint="Enter Food Name"
-        android:layout_alignParentTop="true"
+        android:layout_below="@+id/textView2"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:text="Confirm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/confirm"
+        android:layout_marginBottom="104dp"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:text="Nutrition Facts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView2"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textStyle="normal|bold"
+        android:fontFamily="sans-serif-condensed"
+        android:textSize="34sp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignEnd="@+id/foodName" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/calories"
+        android:hint="Calories"
+        android:layout_below="@+id/foodName"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/sodium"
+        android:hint="Sodium"
+        android:layout_below="@+id/cholestrol"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/sugar"
+        android:hint="sugars"
+        android:layout_below="@+id/fiber"
+        android:layout_alignParentEnd="true"
+        android:layout_toEndOf="@+id/protein" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/saturatedfat"
+        android:hint="Saturated Fat"
+        android:layout_alignBaseline="@+id/totalfat"
+        android:layout_alignBottom="@+id/totalfat"
+        android:layout_alignParentEnd="true"
+        android:layout_toEndOf="@+id/cholestrol" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/transfat"
+        android:hint="Trans Fat"
+        android:layout_below="@+id/saturatedfat"
+        android:layout_alignParentEnd="true"
+        android:layout_toEndOf="@+id/cholestrol" />
 
 </RelativeLayout>
