@@ -75,13 +75,6 @@ public class meal_eatFoodDBHelper extends SQLiteOpenHelper {
     public boolean insertFood(String foodname, Double calories, Double totalfat, Double transfat, Double satfat,
                               Double cholestrol, Double sodium, Double carbs, Double fiber, Double sugar,
                               Double protein) {
-        if (isFoodInDataBase(foodname)) { //don't insert same item twice
-
-            if (DEBUG) {
-                System.out.println(foodname + " is already in database");
-            }
-            return false;
-        }
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
