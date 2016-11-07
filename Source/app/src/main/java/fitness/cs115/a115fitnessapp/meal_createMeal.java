@@ -67,13 +67,12 @@ public class meal_createMeal extends AppCompatActivity {
                 SQLiteDatabase mDatabase = openOrCreateDatabase("meal.db", SQLiteDatabase.CREATE_IF_NECESSARY, null);
                 mDatabase.execSQL(
                         "CREATE TABLE IF NOT EXISTS " + input + " " +
-                                "(id integer primary key, name text,calories REAL)"
-                );
+                                "(id integer primary key, name text,calories REAL, fat REAL, Carbs REAL, Protein REAL);");
 
                 //now need to make the table so that it actually exists
                 //i also need to update this code so that it uses the proper database and not "foods.db"
                 Intent intent = new Intent(meal_createMeal.this, meal_editMeal.class);
-                intent.putExtra("TABLE", input); //send the meal name to edit_Meal
+                intent.putExtra("TABLE", input); //send the meal name to edit_Meal as "TABLE"
                 startActivity(intent);
 
             }

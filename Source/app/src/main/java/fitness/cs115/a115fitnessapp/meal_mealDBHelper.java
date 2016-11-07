@@ -13,6 +13,8 @@ import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteDatabase;
 
+import static android.R.attr.id;
+
 public class meal_mealDBHelper extends SQLiteOpenHelper {
     private static final Boolean DEBUG = true;
 
@@ -20,8 +22,14 @@ public class meal_mealDBHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "meal.db";
     private String TABLE_NAME = "meal";
 
-    private static final String FOOD_NAME = "name";
-    private static final String CALORIES = "calories";
+//    private static final String Col_1_id = "id";
+    private static final String Col_2_name = "name";
+    private static final String Col_3_cals = "calories";
+    private static final String Col_4_fat = "fat";
+    private static final String Col_5_carbs = "carbs";
+    private static final String Col_6_protein = "protein";
+
+
 
 
     public meal_mealDBHelper(Context context, String table_name) {
@@ -43,7 +51,7 @@ public class meal_mealDBHelper extends SQLiteOpenHelper {
         }
         db.execSQL(
                 "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " " +
-                        "(id integer primary key, name text,calories REAL)"
+                        "(id integer primary key, name text,calories REAL, fat REAL, Carbs REAL, Protein REAL);)"
         );
     }
 
@@ -54,8 +62,8 @@ public class meal_mealDBHelper extends SQLiteOpenHelper {
     }
 
     //add a new food
-    public boolean insertFood(String name, Double calories) {
-        if (isFoodInDataBase(name)) { //don't insert same item twice
+    public boolean insertFoodinMeal(String name, Double calories, Double fat, Double carbs, Double protein) {
+        if (isFoodInMealtable(name)) { //don't insert same item twice
             if (DEBUG) {
                 System.out.println(name + " is already in database");
             }
@@ -63,8 +71,11 @@ public class meal_mealDBHelper extends SQLiteOpenHelper {
         }
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(FOOD_NAME, name);
-        contentValues.put(CALORIES, calories);
+        contentValues.put(Col_2_name, name);
+        contentValues.put(Col_3_cals, calories);
+        contentValues.put(Col_4_fat, fat);
+        contentValues.put(Col_5_carbs, carbs);
+        contentValues.put(Col_6_protein, protein);
         db.insert(TABLE_NAME, null, contentValues);
         return true;
     }
@@ -84,18 +95,21 @@ public class meal_mealDBHelper extends SQLiteOpenHelper {
     }
 
     //can change the foods name and number of calories
-    public boolean updateFood(Integer id, String name, Double calories) {
+    public boolean updateFoodinMeal(Integer id, String name, Double calories, Double fat, Double carbs, Double protein) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(FOOD_NAME, name);
-        contentValues.put(CALORIES, calories);
+        contentValues.put(Col_2_name, name);
+        contentValues.put(Col_3_cals, calories);
+        contentValues.put(Col_4_fat, fat);
+        contentValues.put(Col_5_carbs, carbs);
+        contentValues.put(Col_6_protein, protein);
         db.update(TABLE_NAME, contentValues, "id = ? ", new String[]{Integer.toString(id)});
         return true;
     }
 
 
     //deletes the food with the given id
-    public Boolean deleteFood(Integer id) {
+    public Boolean deleteFoodinMeal(Integer id) {
         SQLiteDatabase db = this.getWritableDatabase();
         if (DEBUG) {
             System.out.println("deleting food with id " + id);
@@ -108,9 +122,9 @@ public class meal_mealDBHelper extends SQLiteOpenHelper {
 
     //true means delete successful
     //false means not successful, probably because the food doesn't exist in the database
-    public boolean deleteFood(String name) {
+    public boolean deleteFoodinMeal(String name) {
         SQLiteDatabase db = this.getWritableDatabase();
-        int delete = db.delete(TABLE_NAME, FOOD_NAME + " = ?", new String[]{name});
+        int delete = db.delete(TABLE_NAME, Col_2_name + " = ?", new String[]{name});
         if (DEBUG) {
             System.out.println("deleted x value is " + delete);
         }
@@ -119,14 +133,14 @@ public class meal_mealDBHelper extends SQLiteOpenHelper {
 
 
     //returns a List of all food names in Database
-    public ArrayList<String> getAllFoods() {
+    public ArrayList<String> getAllFoodfromMeal() {
         ArrayList<String> array_list = new ArrayList<String>();
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.rawQuery("select * from " + TABLE_NAME, null);
         res.moveToFirst();
 
         while (res.isAfterLast() == false) {
-            array_list.add(res.getString(res.getColumnIndex(FOOD_NAME)));
+            array_list.add(res.getString(res.getColumnIndex(Col_2_name)));
             res.moveToNext();
         }
         res.close();
@@ -134,16 +148,20 @@ public class meal_mealDBHelper extends SQLiteOpenHelper {
     }
 
     //gets food and calories information
-    public ArrayList<String> getAllFoodInfo() {
+    public ArrayList<String> getAllFoodInfofromMeal() {
         ArrayList<String> array_list = new ArrayList<String>();
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("select * from " + TABLE_NAME, null);
+        //Cursor res = db.rawQuery("select * from " + TABLE_NAME, null);
+        Cursor res = db.rawQuery("select * from "+ TABLE_NAME +" WHERE id='" + id + "'",null);
         res.moveToFirst();
         long count = 0;
         while (res.isAfterLast() == false) {
             array_list.add("Item: " + count);
-            array_list.add("name " + res.getString(res.getColumnIndex(FOOD_NAME)));
-            array_list.add("calories " + res.getString(res.getColumnIndex(CALORIES)));
+            array_list.add("name " + res.getString(res.getColumnIndex(Col_2_name)));
+            array_list.add("calories " + res.getString(res.getColumnIndex(Col_3_cals)));
+            array_list.add("fat " + res.getString(res.getColumnIndex(Col_4_fat)));
+            array_list.add("crabs " + res.getString(res.getColumnIndex(Col_5_carbs)));
+            array_list.add("protein " + res.getString(res.getColumnIndex(Col_6_protein)));
             array_list.add("index " + res.getString(res.getColumnIndex("id")));
             res.moveToNext();
             count++;
@@ -170,12 +188,12 @@ public class meal_mealDBHelper extends SQLiteOpenHelper {
     //true means the data is in the databse
     //true means food name is already in database
     //false means food is not in database
-    public boolean isFoodInDataBase(String foodName) {
+    public boolean isFoodInMealtable(String foodName) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.rawQuery("select * from " + TABLE_NAME, null);
         res.moveToFirst();
         while (res.isAfterLast() == false) {
-            if (res.getString(res.getColumnIndex(FOOD_NAME)).equals(foodName)) {
+            if (res.getString(res.getColumnIndex(Col_2_name)).equals(foodName)) {
                 return true; //means food is in database
             }
             res.moveToNext();
@@ -185,14 +203,14 @@ public class meal_mealDBHelper extends SQLiteOpenHelper {
     }
 
     //returns all foods and their respective calories at the same time
-    public ArrayList<String> getAllFoodsAndCalories() {
+    public ArrayList<String> getAllFoodsAndCaloriesfromMeal() {
         ArrayList<String> array_list = new ArrayList<String>();
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.rawQuery("select * from " + TABLE_NAME, null);
         res.moveToFirst();
 
         while (res.isAfterLast() == false) {
-            array_list.add(res.getString(res.getColumnIndex(FOOD_NAME)) + ", cal: " + res.getString(res.getColumnIndex(CALORIES)));
+            array_list.add(res.getString(res.getColumnIndex(Col_2_name)) + ", cal: " + res.getString(res.getColumnIndex(Col_3_cals)));
             res.moveToNext();
         }
         res.close();
@@ -203,6 +221,16 @@ public class meal_mealDBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_NAME, null, null);
         return true;
+    }
+
+    //returns the total number of calories stored in this table
+    public int getTotalCalories() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cur = db.rawQuery("SELECT SUM(calories) FROM " + TABLE_NAME, null);
+        if (cur.moveToFirst()) {
+            return cur.getInt(0);
+        }
+        return 0; //error
     }
 
 }
