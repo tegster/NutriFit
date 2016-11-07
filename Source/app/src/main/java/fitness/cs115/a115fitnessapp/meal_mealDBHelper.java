@@ -223,4 +223,14 @@ public class meal_mealDBHelper extends SQLiteOpenHelper {
         return true;
     }
 
+    //returns the total number of calories stored in this table
+    public int getTotalCalories() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cur = db.rawQuery("SELECT SUM(calories) FROM " + TABLE_NAME, null);
+        if (cur.moveToFirst()) {
+            return cur.getInt(0);
+        }
+        return 0; //error
+    }
+
 }

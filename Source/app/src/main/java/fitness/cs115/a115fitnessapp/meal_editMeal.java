@@ -110,14 +110,20 @@ public class meal_editMeal extends AppCompatActivity {
                     System.out.println(items_add);
                     Toast.makeText(getApplicationContext(), "added: " + food_names.get(position) + " to meal", Toast.LENGTH_SHORT).show();
                     Log.d("tag", "printing after adding to items" + items_add);
-                    ArrayList<Double> item = extractIntegers(k); //extracting the double paramters from the foods
-                    String name = k.substring(0, k.indexOf(','));
-                    Log.d("tag","printing after decypher " + "name[" + name + "]");
-                    Log.d("tag","printing after decypher " + "Cals[" + item.get(0)+ "]");
-                    Log.d("tag","printing after decypher " + "Fals[" + item.get(1)+ "]");
-                    Log.d("tag","printing after decypher " + "Carbs" + item.get(2)+ "]");
-                    Log.d("tag","printing after decypher " + "Protein[" + item.get(3)+ "]");
-                    mydb.insertFoodinMeal(name,item.get(0),item.get(1),item.get(2),item.get(3)); //inserting to meals DB
+                    try {
+                        ArrayList<Double> item = extractIntegers(k); //extracting the double paramters from the foods
+                        String name = k.substring(0, k.indexOf(','));
+                        Log.d("tag", "printing after decypher " + "name[" + name + "]");
+                        Log.d("tag", "printing after decypher " + "Cals[" + item.get(0) + "]");
+                        Log.d("tag", "printing after decypher " + "Fals[" + item.get(1) + "]");
+                        Log.d("tag", "printing after decypher " + "Carbs" + item.get(2) + "]");
+                        Log.d("tag", "printing after decypher " + "Protein[" + item.get(3) + "]");
+                        mydb.insertFoodinMeal(name, item.get(0), item.get(1), item.get(2), item.get(3)); //inserting to meals DB
+                        Log.d("tag", "total cal: " + mydb.getTotalCalories());
+                    } catch (Exception e) {//this is just for debugging to stop app from crashing based off of incomplete hardcoded database entries
+                        //this catch will *not* get triggered with actual values
+                        System.out.println(e.toString());
+                    }
                 }
             }
         });
