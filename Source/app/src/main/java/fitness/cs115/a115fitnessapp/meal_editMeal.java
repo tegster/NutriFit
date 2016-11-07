@@ -42,7 +42,9 @@ public class meal_editMeal extends AppCompatActivity {
             return;
         }
         mealtablename = "[" + extras.getString("TABLE") + "]"; //this is the name of the [meal] table that is being edited.
-        food_names = foodDB.getAllmacrosInfo(); //food_names = arraylist of all foods and their cals
+        food_names = foodDB.getAllmacrosInfo(); //food_names = arraylist of all foods and their cals'
+        food_names.add("Foods in Database");
+
         mydb = new meal_mealDBHelper(this, mealtablename); //myDB is the name of the meal db that is being edited
         lv = (ListView) findViewById(R.id.meal_items);
         // this is where we need to add the data from foodnames to
@@ -73,11 +75,10 @@ public class meal_editMeal extends AppCompatActivity {
             System.out.println("food names: " + food_names);
             System.out.println("already_existing_foods in meal: " + already_existing_foods);
         }
-
         for (String temp_food : already_existing_foods) { //iterate through the list, adding each item to the beginning of the list
             food_names.add(0, temp_food);
         }
-
+        food_names.add(0, "Foods in Meal"); //explain to user what is already in meal
         if (DEBUG) {
             System.out.println("food names: " + food_names);
         }
@@ -97,6 +98,9 @@ public class meal_editMeal extends AppCompatActivity {
                 if (DEBUG) {
                     Toast.makeText(getApplicationContext(), "position: " + position, Toast.LENGTH_SHORT).show();
                     //getApplicationContext().
+                }
+                if (k.equals("Foods in Meal") || k.equals("Foods in Database")) { //can't add this to meal, it's just a prompt
+                    return;
                 }
                 //find the the four parameters from this position and add them to mydb table
                 if (items_add.contains(food_names.get(position))) {

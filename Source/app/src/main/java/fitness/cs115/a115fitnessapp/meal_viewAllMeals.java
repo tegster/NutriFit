@@ -21,6 +21,7 @@ import static android.R.layout.simple_list_item_1;
 
 /**
  * Created by Matthew on 10/24/16.
+ * dialog box stuff modified from Henry's code
  */
 
 public class meal_viewAllMeals extends AppCompatActivity {
@@ -142,6 +143,8 @@ public class meal_viewAllMeals extends AppCompatActivity {
                 if (DEBUG) {
                     Toast.makeText(getApplicationContext(), "click: " + position + " " + arrTblNames.get(position), Toast.LENGTH_LONG).show();
                 }
+                //eat meal here
+
 
             }
         });
