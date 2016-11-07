@@ -23,18 +23,18 @@ import static android.provider.AlarmClock.EXTRA_MESSAGE;
 public class meal_editMeal extends AppCompatActivity {
     private meal_mealDBHelper mydb;
     private boolean DEBUG = true;
-    String table;
+    String mealtablename;
     private ListView lv; //used to display foods
     ArrayList<String> food_names = new ArrayList<>();  //store all foods in the foods database
     ArrayList<String> items_add = new ArrayList<>(); // items to add to this meal
     ArrayList<String> already_existing_foods = new ArrayList<>(); //items that are already present in the meal
 
-    private meal_foodDBHelper foodDB;
+    private meal_foodDBHelper foodDB = new meal_foodDBHelper(this);
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_meal);
-        Bundle extras = getIntent().getExtras();
+        Bundle extras = getIntent().getExtras();    //meal name coming in to be edited
         if (extras == null) {
             Log.e("meal_editMeal: ", "error getting table name");
             Intent intent = new Intent(meal_editMeal.this, MainActivity.class); //if weird error here, just go back to main activity
@@ -42,22 +42,28 @@ public class meal_editMeal extends AppCompatActivity {
             return;
         }
 
-        table = extras.getString("TABLE"); //this is the name of the table that is being edited.
-        foodDB = new meal_foodDBHelper(this);
-        food_names = foodDB.getAllFoodsAndCalories();
-        mydb = new meal_mealDBHelper(this, table); //myDB is the name of the db that is being edited
+        mealtablename = extras.getString("TABLE"); //this is the name of the [meal] table that is being edited.
+        food_names = foodDB.getAllmacrosInfo(); //food_names = arraylist of all foods and their cals
+        mydb = new meal_mealDBHelper(this, mealtablename); //myDB is the name of the meal db that is being edited
+        lv = (ListView) findViewById(R.id.meal_items);
+        // this is where we need to add the data from foodnames to
+        // meals table
+        //once the item in the listview is clicked
+        //mydb.insertfoodinmeal
+        //below is just debug, start at line 84
+        /**
         if (DEBUG) {
-            mydb.insertFood("chicken", 400.3);
-            System.out.println(mydb.getAllFoodInfo());
+            mydb.insertFoodinMeal("chicken", 200.2, 12.2, 11.2, 25.6);
+            System.out.println(mydb.getAllFoodInfofromMeal());
         }
 
-        Log.v("meal_editMeal:", " table name is: " + table);
-        lv = (ListView) findViewById(R.id.meal_items);
+        Log.v("meal_editMeal:", " table name is: " + mealtablename);
+
         //iterate through foods database and add all foods and their calories
         if (DEBUG) {
             food_names.add("bacon"); //dummy data, not correctly formatted
         }
-        already_existing_foods = mydb.getAllFoodsAndCalories(); //this gets all of the foods currently in this meal
+        already_existing_foods = mydb.getAllFoodsAndCaloriesfromMeal(); //this gets all of the foods currently in this meal
 
         food_names.removeAll(already_existing_foods);//in the list of all foods, get rid of elements that are already in the meal, they will be inserted at the front
         //put both lists in lexographical order
@@ -76,31 +82,48 @@ public class meal_editMeal extends AppCompatActivity {
         if (DEBUG) {
             System.out.println("food names: " + food_names);
         }
+         */
 
-        ArrayAdapter<String> foodArrayAdapter = //this attaches the listview to the array list to display the food names and calories
-                new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, food_names);
+        //this attaches the listview to the array list to display the food names and calories
+        ArrayAdapter<String> foodArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, food_names);
 
         lv.setAdapter(foodArrayAdapter);
 
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position,
-                                    long id) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                  String k = food_names.get(position);
+
                 if (DEBUG) {
                     Toast.makeText(getApplicationContext(), "position: " + position, Toast.LENGTH_SHORT).show();
+                    //getApplicationContext().
                 }
+                //find the the four parameters from this position and add them to mydb table
                 if (items_add.contains(food_names.get(position))) {
+                    //we can update the food in meal, rather than jus deleting it
                     items_add.remove(food_names.get(position));
                     Toast.makeText(getApplicationContext(), "removed: " + food_names.get(position) + " from meal", Toast.LENGTH_SHORT).show();
                     //remove from database
                 } else { //means it's not already in the meal
                     items_add.add(food_names.get(position));
                     Toast.makeText(getApplicationContext(), "added: " + food_names.get(position) + " to meal", Toast.LENGTH_SHORT).show();
-                    //add to database
+                    Log.d("tag","printing after adding to items" + items_add.get(position));
+                    ArrayList<Double> item = extractIntegers(k); //extracting the double paramters from the foods
+                    String name = k.substring(0, k.indexOf(','));
+                    Log.d("tag","printing after decypher " + "name[" + name + "]");
+                    Log.d("tag","printing after decypher " + "Cals[" + item.get(0)+ "]");
+                    Log.d("tag","printing after decypher " + "Fals[" + item.get(1)+ "]");
+                    Log.d("tag","printing after decypher " + "Carbs" + item.get(2)+ "]");
+                    Log.d("tag","printing after decypher " + "Protein[" + item.get(3)+ "]");
+                    mydb.insertFoodinMeal(name,item.get(0),item.get(1),item.get(2),item.get(3)); //inserting to meals DB
+
+
                 }
             }
         });
+
+        //mydb.insertFoodinMeal(it)
 
         //need to load all existing food names/calories into array list to see if they exist already. if it already exists, in a meal. don't add it
         // and display error message saying
@@ -108,6 +131,35 @@ public class meal_editMeal extends AppCompatActivity {
 
         Toast.makeText(this, "Tap the items you wish to add to the meal, Tap again to move", Toast.LENGTH_LONG).show();
 
+
+
+    }
+
+    //extract integers from a string and return them in Arraylist of double
+    public ArrayList<Double> extractIntegers(String input) {
+        ArrayList<Double> result = new ArrayList<Double>();
+        int index = 0;
+        double v = 0;
+        int l = 0;
+        while (index < input.length())
+        {
+            char c = input.charAt(index);
+            if (Character.isDigit(c)) {
+                v *= 10;
+                v += c - '0';
+                l++;
+            }
+            else if (l > 0) {
+                result.add(v);
+                l = 0;
+                v = 0;
+            }
+            index++;
+        }
+        if (l > 0) {
+            result.add(v);
+        }
+        return result;
     }
 
 }
