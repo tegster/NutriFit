@@ -199,5 +199,5 @@ public class meal_addFood extends AppCompatActivity {
 
     });
 
-}
+}}
 }
