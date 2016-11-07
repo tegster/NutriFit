@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/et_exerciseName"
+        android:hint="Exercise Name" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:layout_below="@+id/et_exerciseName"
+        android:layout_alignParentStart="true"
+        android:id="@+id/editText3"
+        android:hint="Sets" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:layout_below="@+id/editText3"
+        android:layout_alignEnd="@+id/editText3"
+        android:id="@+id/editText4"
+        android:hint="Reps" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:layout_below="@+id/editText4"
+        android:layout_alignParentStart="true"
+        android:id="@+id/editText5"
+        android:hint="Starting Weight" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:layout_below="@+id/editText5"
+        android:layout_alignParentStart="true"
+        android:id="@+id/editText6"
+        android:hint="Increment Weight" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:layout_below="@+id/editText6"
+        android:layout_alignEnd="@+id/editText6"
+        android:id="@+id/editText7"
+        android:hint="Rest Time" />
+
+</RelativeLayout>
