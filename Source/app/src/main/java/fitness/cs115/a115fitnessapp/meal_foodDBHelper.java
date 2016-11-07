@@ -40,10 +40,6 @@ public class meal_foodDBHelper extends SQLiteOpenHelper {
     public static final String Col_12 = "protein";
 
 
-
-
-
-
     public meal_foodDBHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
     }
@@ -72,6 +68,7 @@ public class meal_foodDBHelper extends SQLiteOpenHelper {
                               Double cholestrol, Double sodium, Double carbs, Double fiber, Double sugar,
                               Double protein) {
         if (isFoodInDataBase(foodname)) { //don't insert same item twice
+
             if (DEBUG) {
                 System.out.println(foodname + " is already in database");
             }
@@ -79,6 +76,7 @@ public class meal_foodDBHelper extends SQLiteOpenHelper {
         }
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
+
         contentValues.put(Col_2, foodname);
         contentValues.put(Col_3, calories);
         contentValues.put(Col_4, totalfat);
@@ -90,6 +88,7 @@ public class meal_foodDBHelper extends SQLiteOpenHelper {
         contentValues.put(Col_10, fiber);
         contentValues.put(Col_11, sugar);
         contentValues.put(Col_12, protein);
+
         db.insert(TABLE_NAME, null, contentValues);
         return true;
     }
@@ -229,6 +228,7 @@ public class meal_foodDBHelper extends SQLiteOpenHelper {
         long count = 0;
         while (res.isAfterLast() == false) {
             array_list.add("Item: " + count);
+
             array_list.add("foodname " + res.getString(res.getColumnIndex(Col_2)));
             array_list.add("calories " + res.getString(res.getColumnIndex(Col_3)));
             array_list.add("totalfat " + res.getString(res.getColumnIndex(Col_4)));
@@ -240,9 +240,8 @@ public class meal_foodDBHelper extends SQLiteOpenHelper {
             array_list.add("fiber " + res.getString(res.getColumnIndex(Col_10)));
             array_list.add("sugar " + res.getString(res.getColumnIndex(Col_11)));
             array_list.add("protein " + res.getString(res.getColumnIndex(Col_12)));
-
-
             array_list.add("index " + res.getString(res.getColumnIndex(Col_1)));
+
             res.moveToNext();
             count++;
         }

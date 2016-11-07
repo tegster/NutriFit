@@ -22,7 +22,7 @@ public class meal_addFood extends AppCompatActivity {
 
 
     private meal_foodDBHelper mydb;
-
+    private double no_value = -1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +51,7 @@ public class meal_addFood extends AppCompatActivity {
         //hardcoded stuff to test database
         mydb = new meal_foodDBHelper(this);
         if (DEBUG) {
+
             /**
             mydb.insertFood("dummyhotdog", 176.2, 12.0, 3.0, 2.0, 7.0, 123.0, 4.0, 1235.3, 23.0, 4.0);
             mydb.insertFood("dummycorn", 22.3, 15.3, 5.0, 2.0, 9.0, 123.0, 4.0, 1235.3, 23.0, 4.0);
@@ -58,7 +59,7 @@ public class meal_addFood extends AppCompatActivity {
             mydb.insertFood("dummypeas", 182.4, 15.3, 5.0, 2.0, 9.0, 123.0, 4.0, 1235.3, 23.0, 4.0);
             mydb.insertFood("dummychicken", 234.2, 12.0, 3.0, 2.0, 7.0, 123.0, 4.0, 1235.3, 23.0, 4.0);
             mydb.insertFood("dummyrice", 15.2, 15.3, 5.0, 2.0, 9.0, 123.0, 4.0, 1235.3, 23.0, 4.0);
-             */
+
             System.out.println(mydb.getAllFoods());
             System.out.println(mydb.getAllFoodInfo());
             System.out.println("number of rows/items is: " + mydb.getNumberOfRows());
@@ -74,17 +75,14 @@ public class meal_addFood extends AppCompatActivity {
 
             System.out.println(mydb.getAllFoodInfo());
             //mydb.insertFood("hotdog", 120.35);
-            System.out.println(mydb.getAllFoodInfo());
-            System.out.println(mydb.deleteFood("orange"));
-            System.out.println(mydb.deleteFood("orange"));
-            System.out.println(mydb.deleteFood("kiwi"));
-            System.out.println(mydb.getAllFoodInfo());
+
 
 
             mydb.deleteEntireTable();
             System.out.println("After deleting entire table " + mydb.getAllFoodInfo());
         }
 
+             */
         Button confirm = (Button) findViewById(R.id.confirm);
         confirm.setOnClickListener(new Button.OnClickListener() {
             @Override
@@ -164,6 +162,7 @@ public class meal_addFood extends AppCompatActivity {
                     imm.hideSoftInputFromWindow(view1.getWindowToken(), 0);
                 }
 
+
                 double numberOfCalories = Double.parseDouble(caloriestring);
                 double numberOftotalfat = Double.parseDouble(totalfatstring);
                 double numberOftransfat = Double.parseDouble(transfatstring);
@@ -178,6 +177,7 @@ public class meal_addFood extends AppCompatActivity {
                 mydb.insertFood(name, numberOfCalories, numberOftotalfat, numberOftransfat,
                         numberOfsatfat, numberOfCholestorl, numberOfSodium, numberOfCarbs,
                         numberOffiber, numberOfsugar, numberOfprotein);
+
                 if (DEBUG) {
                     // System.out.println(mydb.getAllFoods());
                     System.out.println(mydb.getAllFoodInfo());
