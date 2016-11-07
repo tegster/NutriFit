@@ -10,15 +10,20 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 /**
  * Created by Henry on 10/17/2016.
  */
 
 public class work_exerciseList extends AppCompatActivity{
+    private work_DBHelper work_dbh;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_work_exercise_list);
+        work_dbh = new work_DBHelper(this);
 
         //Get the name of the workout and set it as the title.
         Intent intent = getIntent();
@@ -27,8 +32,8 @@ public class work_exerciseList extends AppCompatActivity{
 
         //TODO: Get database entries
         //temporary list.
-        String[] exercises = {"Squat", "Bench Press", "Deadlift", "Overhead Press"};
-
+        //String[] exercises = {"Squat", "Bench Press", "Deadlift", "Overhead Press"};
+        ArrayList<String> exercises = work_dbh.get_exers_from_work(workoutName);
 
 
         //Create the list.
