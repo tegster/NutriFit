@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
@@ -28,8 +29,23 @@ public class work_workoutList extends AppCompatActivity{
         //temporary list.
         String[] workouts = {"Workout A", "Workout B"};
 
+        //======================================================================================
+        //  Buttons
+        //======================================================================================
+        Button work_db_test_btn = (Button) findViewById(R.id.btn_testWorkDB);
+        work_db_test_btn.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(work_workoutList.this, work_tracker.class);
+                startActivity(intent);
+            }
+        });
 
 
+
+        //======================================================================================
+        //  ListView
+        //======================================================================================
         //Create the list.
         //ListAdapter programListAdapter = new work_programList_adapter(this, programs);
         ListAdapter workoutListAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, workouts);

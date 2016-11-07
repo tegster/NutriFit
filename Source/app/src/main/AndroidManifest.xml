@@ -64,6 +64,7 @@
             android:label="Program Name Placeholder"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
+
         <activity
             android:name=".work_exerciseList"
             android:configChanges="orientation"
@@ -76,6 +77,20 @@
             android:configChanges="orientation"
             android:label="New Workout"
             android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+
+        <activity
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
+            android:name=".work_createProgram"
+            android:label="New Program"
+            android:theme="@style/AppTheme" />
+
+        <activity
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
+            android:name=".work_tracker"
+            android:label="Workout Tracker"
             android:theme="@style/AppTheme" />
 
 
