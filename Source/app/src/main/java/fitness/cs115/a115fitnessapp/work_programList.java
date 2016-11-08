@@ -29,7 +29,8 @@ public class work_programList extends AppCompatActivity{
         setContentView(R.layout.activity_work_program_list);
 
         work_db = new work_DBHelper(this);
-        work_db.reset_default_values();
+        //TODO: remove reset to defaults when time to ship product
+         work_db.reset_default_values();
         //check for user programs. If there aren't any, bring up a popup menu prompting users
         //to choose "Create New" or a pre-included beginner program. Replace with database programs.
         final CharSequence defaultPrograms[] = new CharSequence[] {"Create New Program", "Starting Strength",

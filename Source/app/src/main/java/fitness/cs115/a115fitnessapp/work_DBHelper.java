@@ -135,7 +135,7 @@ public class work_DBHelper extends SQLiteOpenHelper {
             + WORK_INDEX_COL_WORK_NAME + " text, "
             + WORK_INDEX_COL_CREATED_ON + " text, "
             + WORK_INDEX_COL_LAST_USED + " text , "
-            + WORK_INDEX_COL_DISABLED + " boolean default false)"
+            + WORK_INDEX_COL_DISABLED + " integer default 0)"
         );
 
         db.execSQL( "CREATE TABLE IF NOT EXISTS " + WORK_DETAIL_TABLE_NAME + " "
@@ -176,8 +176,7 @@ public class work_DBHelper extends SQLiteOpenHelper {
                 + PROG_INDEX_COL_PROG_NAME + " text, "
                 + PROG_INDEX_COL_CREATED_ON + " text, "
                 + PROG_INDEX_COL_LAST_USED + " text, "
-                + PROG_INDEX_COL_DISABLED + " boolean default false)"
-                + ")"
+                + PROG_INDEX_COL_DISABLED + " integer default 0 )"
         );
         db.execSQL( "CREATE TABLE IF NOT EXISTS " + PROG_DETAIL_TABLE_NAME + " "
                 + "(" + PROG_DETAIL_COL_PROG_ID + " integer, "
