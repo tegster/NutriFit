@@ -45,7 +45,7 @@ public class meal_viewAllMeals extends AppCompatActivity {
         // Program Deletion Dialog Box
         // - A deletion confirmation dialog box.
         final AlertDialog.Builder programOptionDelete = new AlertDialog.Builder(this);
-        programOptionDelete.setTitle("Delete Program?");
+        programOptionDelete.setTitle("Delete Meal?");
         programOptionDelete.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int selection_id) {
