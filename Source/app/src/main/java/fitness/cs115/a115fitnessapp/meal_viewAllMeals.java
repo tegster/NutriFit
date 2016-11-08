@@ -15,7 +15,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import static android.R.layout.simple_list_item_1;
 
@@ -38,14 +41,18 @@ public class meal_viewAllMeals extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.meals);
         listView.setLongClickable(true);
 
-
+        Calendar calendar = Calendar.getInstance();
+        int dayyear = calendar.get(Calendar.DAY_OF_YEAR);
+        int year = calendar.get(Calendar.YEAR);
+        System.out.println("dayyear is: " + dayyear);
+        System.out.println("year is: " + year);
         //======================================================================================
         //  Dialog Boxes
         //======================================================================================
         // Program Deletion Dialog Box
         // - A deletion confirmation dialog box.
         final AlertDialog.Builder programOptionDelete = new AlertDialog.Builder(this);
-        programOptionDelete.setTitle("Delete Program?");
+        programOptionDelete.setTitle("Delete Meal?");
         programOptionDelete.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int selection_id) {
@@ -104,7 +111,9 @@ public class meal_viewAllMeals extends AppCompatActivity {
         Cursor c = db.rawQuery("SELECT name FROM sqlite_master WHERE type='table'", null);
         if (c.moveToFirst()) {
             while (!c.isAfterLast()) {
-                arrTblNames.add(c.getString(c.getColumnIndex("name")));
+                if (!c.getString((c.getColumnIndex("name"))).equals("android_metadata")) {
+                    arrTblNames.add(c.getString(c.getColumnIndex("name")));
+                }
                 c.moveToNext();
             }
         }

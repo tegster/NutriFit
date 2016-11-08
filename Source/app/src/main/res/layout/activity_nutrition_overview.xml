@@ -42,7 +42,7 @@
         android:text="Eat Meal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/existing"
+        android:layout_below="@+id/barCode"
         android:layout_centerHorizontal="true"
         android:id="@+id/eat" />
 
@@ -55,19 +55,19 @@
         android:layout_alignEnd="@+id/eat" />
 
     <Button
-        android:text="View Existing Meals"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/existing"
-        android:layout_below="@+id/edit_meal"
-        android:layout_alignStart="@+id/addFood" />
-
-    <Button
         android:text="View Meals"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/view_meals"
         android:layout_below="@+id/eat"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:text="BarCode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/barCode"
+        android:layout_below="@+id/edit_meal"
         android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
