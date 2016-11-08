@@ -32,7 +32,7 @@ public class meal_barCodeScannerTest extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_barcode);
         RequestQueue ExampleRequestQueue = Volley.newRequestQueue(this);
-        String url = "https://api.nutritionix.com/v1_1/item?upc=49000036756&appId=[dc7f6afd]&appKey=[8976d7ae10363be41401e2419d2bddf3]";
+        String url = "https://api.nutritionix.com/v1_1/item?upc=49000036756&appId=dc7f6afd&appKey=8976d7ae10363be41401e2419d2bddf3";
         StringRequest ExampleStringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
