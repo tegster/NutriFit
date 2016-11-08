@@ -15,10 +15,13 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 
 import static android.provider.ContactsContract.CommonDataKinds.Website.URL;
+import static fitness.cs115.a115fitnessapp.R.id.textView;
 
 /**
  * Created by Matthew on 11/8/16.
@@ -38,7 +41,16 @@ public class meal_barCodeScannerTest extends AppCompatActivity {
             public void onResponse(String response) {
                 //This code is executed if the server responds, whether or not the response contains data.
                 //The String 'response' contains the server's response.
-                System.out.println("1337: " + response);
+                //  System.out.println("1337: " + response);
+                try {
+                    JSONObject jObject = new JSONObject(response); // json
+                    //    System.out.println(jObject.toString());
+                    System.out.println(jObject.toString(2));
+                } catch (Exception e) {
+                    System.out.println(e);
+                }
+                //  textView.setText(jsonObject.toString(2));
+
             }
         }, new Response.ErrorListener() { //Create an error listener to handle errors appropriately.
             @Override
@@ -50,7 +62,10 @@ public class meal_barCodeScannerTest extends AppCompatActivity {
             protected Map<String, String> getParams() {
                 Map<String, String> MyData = new HashMap<String, String>();
                 MyData.put("Field", "Value"); //Add the data you'd like to send to the server.
-                System.out.println("1337: " + MyData);
+                System.out.println("1337 map : " + MyData);
+                //     JSONObject jsonObject = (new JSONObject(MyData)).getJSONObject("");
+                //  textView.setText(jsonObject.toString(2));
+
                 return MyData;
             }
         };
