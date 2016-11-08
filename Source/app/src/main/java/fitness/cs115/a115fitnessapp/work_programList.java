@@ -29,7 +29,8 @@ public class work_programList extends AppCompatActivity{
         setContentView(R.layout.activity_work_program_list);
 
         work_db = new work_DBHelper(this);
-        work_db.reset_default_values();
+        //TODO: remove reset to defaults when time to ship product
+         work_db.reset_default_values();
         //check for user programs. If there aren't any, bring up a popup menu prompting users
         //to choose "Create New" or a pre-included beginner program. Replace with database programs.
         final CharSequence defaultPrograms[] = new CharSequence[] {"Create New Program", "Starting Strength",
@@ -44,7 +45,8 @@ public class work_programList extends AppCompatActivity{
 
         //String[] programs = {};
 
-
+        //TODO: force user to set program name before creation
+        //TODO: make name entry updatable when create program view displays
         /*
         //Create dialog box for custom program name entry.
         final AlertDialog.Builder newProgramNameEntry = new AlertDialog.Builder(this);
@@ -181,7 +183,6 @@ public class work_programList extends AppCompatActivity{
     //======================================================================================
     public void OpenProgram(String progName){
         Intent openProgram = new Intent(work_programList.this, work_workoutList.class);
-        //TODO: Pass database information to the workoutList.
 
         openProgram.putExtra("pName", progName);
         startActivity(openProgram);

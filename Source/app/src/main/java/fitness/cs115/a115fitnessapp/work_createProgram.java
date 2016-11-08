@@ -12,17 +12,28 @@ import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
+import java.util.ArrayList;
+
 /**
  * Created by Henry on 10/25/2016.
  */
 
 public class work_createProgram extends AppCompatActivity{
+    private work_DBHelper workDBH;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_work_create_program);
 
+        workDBH= new work_DBHelper(this);
+
+        //TODO: check if program name is not taken
+        //TODO: create program before adding exercises
+
         //TODO: Replace with database stuff.
+        //ArrayList<String> workouts = workDBH.get_workouts_from_prog(programName);
+
         String[] workouts = {"Workout A", "Workout B"};
 
         //======================================================================================
@@ -72,12 +83,13 @@ public class work_createProgram extends AppCompatActivity{
         //  Floating Action Button
         //======================================================================================
         //Adds a new program to the Program List.
-        FloatingActionButton fabAdd = (FloatingActionButton) findViewById(R.id.fab_addProgram);
+        FloatingActionButton fabAdd = (FloatingActionButton) findViewById(R.id.fab_addWorkout);
         fabAdd.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                //TODO: Call createWorkout.
-                //newProgramSelection.show();
+                //TODO: Call createWorkout
+                Intent newWorkout = new Intent(work_createProgram.this, work_createWorkout.class);
+                startActivity(newWorkout);
             }
         });
 
@@ -93,10 +105,12 @@ public class work_createProgram extends AppCompatActivity{
         workoutListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id){
-                Intent openWorkout = new Intent(work_createProgram.this, work_exerciseList.class);
-                String workoutName = String.valueOf(parent.getItemAtPosition(position));
-                openWorkout.putExtra("wName", workoutName);
-                startActivity(openWorkout);
+                //TODO: Edit workout
+
+                //Intent openWorkout = new Intent(work_createProgram.this, work_exerciseList.class);
+                //String workoutName = String.valueOf(parent.getItemAtPosition(position));
+                //openWorkout.putExtra("wName", workoutName);
+                //startActivity(openWorkout);
 
             }
         });
