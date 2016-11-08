@@ -44,6 +44,7 @@ public class meal_barCodeScannerTest extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 //This code is executed if there is an error.
+                System.out.println("error: " + error);
             }
         }) {
             protected Map<String, String> getParams() {
