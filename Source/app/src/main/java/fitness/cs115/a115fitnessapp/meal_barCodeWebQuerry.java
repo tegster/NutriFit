@@ -30,6 +30,7 @@ import static fitness.cs115.a115fitnessapp.R.id.textView;
  */
 
 public class meal_barCodeWebQuerry extends AppCompatActivity {
+    private static final boolean DEBUG = true;
 
     // https://api.nutritionix.com/v1_1/search/cheddar%20cheese?fields=item_name%2Citem_id%2Cbrand_name%2Cnf_calories%2Cnf_total_fat&appId=[YOURID]&appKey=[YOURKEY]
     @Override
@@ -55,7 +56,70 @@ public class meal_barCodeWebQuerry extends AppCompatActivity {
                 try {
                     JSONObject jObject = new JSONObject(response); // json
                     //    System.out.println(jObject.toString());
-                    System.out.println(jObject.toString(2));
+                    if (DEBUG) {
+                        System.out.println(jObject.toString(2));
+                    }
+                    //now extract all of the necessary information from the foods database.
+
+                    String food_name;
+                    if (!jObject.isNull("item_name")) {
+                        food_name = jObject.getString("item_name");
+                    } else {
+                        food_name = "error";
+                    }
+                    double calories = 0;
+                    if (!jObject.isNull("nf_calories")) {
+                        calories = jObject.getDouble("nf_calories");
+                    }
+                    double sat_fat = 0;
+                    if (!jObject.isNull("nf_saturated_fat")) {
+                        sat_fat = jObject.getDouble("nf_saturated_fat");
+                    }
+                    double tran_fat = 0;
+                    if (!jObject.isNull("nf_trans_fatty_acid")) {
+                        tran_fat = jObject.getDouble("nf_trans_fatty_acid");
+                    }
+                    double cholesterol = 0;
+                    if (!jObject.isNull("nf_cholesterol")) {
+                        cholesterol = jObject.getDouble("nf_cholesterol");
+                    }
+                    double sodium = 0;
+                    if (!jObject.isNull("nf_sodium")) {
+                        sodium = jObject.getDouble("nf_sodium");
+                    }
+                    double carbohydrate = 0;
+                    if (!jObject.isNull("nf_total_carbohydrate")) {
+                        carbohydrate = jObject.getDouble("nf_total_carbohydrate");
+                    }
+                    double fiber = 0;
+                    if (!jObject.isNull("nf_dietary_fiber")) {
+                        fiber = jObject.getDouble("nf_dietary_fiber");
+                    }
+                    double sugars = 0;
+                    if (!jObject.isNull("nf_sugars")) {
+                        sugars = jObject.getDouble("nf_sugars");
+                    }
+                    double protein = 0;
+                    if (!jObject.isNull("nf_protein")) {
+                        protein = jObject.getDouble("nf_protein");
+                    }
+
+                    if (DEBUG) {
+                        System.out.println("food name: " + food_name);
+                        System.out.println("calories :" + calories);
+                        System.out.println("sat_fat :" + sat_fat);
+                        System.out.println("trans fat :" + tran_fat);
+                        System.out.println("cholesterol :" + cholesterol);
+                        System.out.println("sodium :" + sodium);
+                        System.out.println("carbohydrate :" + carbohydrate);
+                        System.out.println("fiber :" + fiber);
+                        System.out.println("sugars :" + sugars);
+                        System.out.println("protein :" + protein);
+
+                    }
+                    //now displays values in textviews so user can see what they scanned
+
+
                 } catch (Exception e) {
                     System.out.println(e);
                 }
