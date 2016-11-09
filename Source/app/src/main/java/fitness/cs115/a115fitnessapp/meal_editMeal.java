@@ -41,7 +41,7 @@ public class meal_editMeal extends AppCompatActivity {
             startActivity(intent);
             return;
         }
-        mealtablename = "[" + extras.getString("TABLE") + "]"; //this is the name of the [meal] table that is being edited.
+        mealtablename =  extras.getString("TABLE"); //this is the name of the [meal] table that is being edited.
         food_names = foodDB.getAllmacrosInfo(); //food_names = arraylist of all foods and their cals'
         food_names.add("Foods in Database:");
 
@@ -120,7 +120,7 @@ public class meal_editMeal extends AppCompatActivity {
                         Log.d("tag", "printing after decypher " + "name[" + name + "]");
                         Log.d("tag", "printing after decypher " + "Cals[" + item.get(0) + "]");
                         Log.d("tag", "printing after decypher " + "Fals[" + item.get(1) + "]");
-                        Log.d("tag", "printing after decypher " + "Carbs" + item.get(2) + "]");
+                        Log.d("tag", "printing after decypher " + "Carbs[" + item.get(2) + "]");
                         Log.d("tag", "printing after decypher " + "Protein[" + item.get(3) + "]");
                         mydb.insertFoodinMeal(name, item.get(0), item.get(1), item.get(2), item.get(3)); //inserting to meals DB
                         Log.d("tag", "total cal: " + mydb.getTotalCalories());

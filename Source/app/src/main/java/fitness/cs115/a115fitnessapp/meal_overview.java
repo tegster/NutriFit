@@ -34,6 +34,7 @@ public class meal_overview extends AppCompatActivity {
             }
         });
 
+        //view all meals
         Button viewMeals = (Button) findViewById(R.id.view_meals);
         viewMeals.setOnClickListener(new Button.OnClickListener() {
             @Override
