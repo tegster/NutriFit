@@ -1,8 +1,10 @@
 package fitness.cs115.a115fitnessapp;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 
 import java.io.ByteArrayOutputStream;
@@ -36,7 +38,13 @@ public class meal_barCodeWebQuerry extends AppCompatActivity {
         setContentView(R.layout.activity_barcode);
         RequestQueue ExampleRequestQueue = Volley.newRequestQueue(this);
         String upc = "49000036756"; //defaults to coke. use this in the event that something weird happens
-
+        Intent intent = getIntent();
+        try {
+            upc = intent.getStringExtra("barcode");
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        Log.v("meal_barCodeWebQuerry", "upc is: " + upc);
         String url = "https://api.nutritionix.com/v1_1/item?upc=" + upc + "&appId=dc7f6afd&appKey=8976d7ae10363be41401e2419d2bddf3";
         StringRequest ExampleStringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
