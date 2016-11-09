@@ -27,7 +27,7 @@ import static fitness.cs115.a115fitnessapp.R.id.textView;
  * Created by Matthew on 11/8/16.
  */
 
-public class meal_barCodeScannerTest extends AppCompatActivity {
+public class meal_barCodeWebQuerry extends AppCompatActivity {
 
     // https://api.nutritionix.com/v1_1/search/cheddar%20cheese?fields=item_name%2Citem_id%2Cbrand_name%2Cnf_calories%2Cnf_total_fat&appId=[YOURID]&appKey=[YOURKEY]
     @Override
@@ -35,7 +35,9 @@ public class meal_barCodeScannerTest extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_barcode);
         RequestQueue ExampleRequestQueue = Volley.newRequestQueue(this);
-        String url = "https://api.nutritionix.com/v1_1/item?upc=49000036756&appId=dc7f6afd&appKey=8976d7ae10363be41401e2419d2bddf3";
+        String upc = "49000036756"; //defaults to coke. use this in the event that something weird happens
+
+        String url = "https://api.nutritionix.com/v1_1/item?upc=" + upc + "&appId=dc7f6afd&appKey=8976d7ae10363be41401e2419d2bddf3";
         StringRequest ExampleStringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {

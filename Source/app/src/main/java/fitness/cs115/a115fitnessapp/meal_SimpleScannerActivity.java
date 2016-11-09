@@ -4,6 +4,7 @@ package fitness.cs115.a115fitnessapp;
  * Created by Matthew on 11/8/16.
  */
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.ViewGroup;
@@ -52,7 +53,11 @@ public class meal_SimpleScannerActivity extends meal_BaseScannerActivity impleme
                 ", Format = " + rawResult.getBarcodeFormat().toString());
 
         //add to database here
+        Intent intent = new Intent(meal_SimpleScannerActivity.this, meal_barCodeWebQuerry.class);
+        intent.putExtra("barcode", rawResult.getText());
+        startActivity(intent);
 
+        this.finish();
         // Note:
         // * Wait 2 seconds to resume the preview.
         // * On older devices continuously stopping and resuming camera preview can result in freezing the app.
