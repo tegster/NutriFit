@@ -44,6 +44,18 @@ public class meal_overview extends AppCompatActivity {
             }
         });
 
+
+        //this is the actual scanner
+        Button barcodeScan = (Button) findViewById(R.id.scan);
+        barcodeScan.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(meal_overview.this, meal_SimpleScannerActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        //this is the web querry
         Button barcode = (Button) findViewById(R.id.barCode);
         barcode.setOnClickListener(new Button.OnClickListener() {
             @Override
