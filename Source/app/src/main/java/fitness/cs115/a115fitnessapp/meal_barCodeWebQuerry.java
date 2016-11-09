@@ -5,6 +5,9 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 
 import java.io.ByteArrayOutputStream;
@@ -23,7 +26,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static android.provider.ContactsContract.CommonDataKinds.Website.URL;
-import static fitness.cs115.a115fitnessapp.R.id.textView;
+//import static fitness.cs115.a115fitnessapp.R.id.textView;
 
 /**
  * Created by Matthew on 11/8/16.
@@ -45,6 +48,8 @@ public class meal_barCodeWebQuerry extends AppCompatActivity {
         } catch (Exception e) {
             System.out.println(e);
         }
+        final Button confirm = (Button) findViewById(R.id.confirm);
+
         Log.v("meal_barCodeWebQuerry", "upc is: " + upc);
         String url = "https://api.nutritionix.com/v1_1/item?upc=" + upc + "&appId=dc7f6afd&appKey=8976d7ae10363be41401e2419d2bddf3";
         StringRequest ExampleStringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
@@ -118,7 +123,32 @@ public class meal_barCodeWebQuerry extends AppCompatActivity {
 
                     }
                     //now displays values in textviews so user can see what they scanned
+                    TextView text = (TextView) findViewById(R.id.foodName);
+                    text.setText(food_name);
+                    text = (TextView) findViewById(R.id.calories);
+                    text.setText("calories :" + Double.toString(calories));
+                    text = (TextView) findViewById(R.id.saturatedfat);
+                    text.setText("sat_fat :" + Double.toString(sat_fat));
+                    text = (TextView) findViewById(R.id.transfat);
+                    text.setText("trans fat :" + Double.toString(tran_fat));
+                    text = (TextView) findViewById(R.id.cholestrol);
+                    text.setText("cholesterol :" + Double.toString(cholesterol));
+                    text = (TextView) findViewById(R.id.sodium);
+                    text.setText("sodium :" + Double.toString(sodium));
+                    text = (TextView) findViewById(R.id.carbs);
+                    text.setText("carbohydrate :" + Double.toString(carbohydrate));
+                    text = (TextView) findViewById(R.id.fiber);
+                    text.setText("fiber :" + Double.toString(fiber));
+                    text = (TextView) findViewById(R.id.protein);
+                    text.setText("protein :" + Double.toString(protein));
+                    text = (TextView) findViewById(R.id.sugar);
+                    text.setText("sugar :" + Double.toString(sugars));
 
+                    confirm.setOnClickListener(new Button.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                        }
+                    });
 
                 } catch (Exception e) {
                     System.out.println(e);
