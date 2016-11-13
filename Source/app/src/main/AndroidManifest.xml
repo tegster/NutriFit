@@ -66,6 +66,13 @@
             android:theme="@style/AppTheme" />
 
         <activity
+            android:name=".work_newProgramName"
+            android:configChanges="orientation"
+            android:label="Nutrifit"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+
+        <activity
             android:name=".work_exerciseList"
             android:configChanges="orientation"
             android:label="Program Name Placeholder"
