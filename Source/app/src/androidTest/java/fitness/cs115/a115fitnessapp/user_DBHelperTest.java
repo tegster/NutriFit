@@ -149,28 +149,28 @@ public class user_DBHelperTest {
         System.out.println("starting work_DBHelper.add_exer_to_work tests");
 
 
-        user_work_db.add_exer_to_work("Chest and Tri's","Dumbell Press","rep",3,10,80,10,60);
-        user_work_db.add_exer_to_work("Chest and Tri's","Pushups","rep",4,20,0,10,60);
+        user_work_db.add_exer_to_work("Chest and Tri's","Dumbell Press", 3,10,80,10,60);
+        user_work_db.add_exer_to_work("Chest and Tri's","Pushups", 4,20,0,10,60);
         user_work_db.add_exer_to_work("Chest and Tri's","Dumbell Tricep Extension, Overhead",
-                "rep",4,15,50,10,60);
-        user_work_db.add_exer_to_work("Back;(and Biceps!)","Pullups","rep",4,10,0,10,60);
-        user_work_db.add_exer_to_work("Back;(and Biceps!)","Dumbell Curls","rep",4,10,30,10,60);
-        user_work_db.add_exer_to_work("Back;(and Biceps!)","Planks","timed",4,60,0,10,60);
-        user_work_db.add_exer_to_work("12_L3g_D4y_56","Squats","rep",4,10,60,10,60);
-        user_work_db.add_exer_to_work("12_L3g_D4y_56","Lunges","rep",4,10,30,10,60);
-        user_work_db.add_exer_to_work("12_L3g_D4y_56","Planks","rep",4,60,0,10,60);
-        user_work_db.add_exer_to_work("12_L3g_D4y_56","Run a mile","timed",1,10,0,10,60);
-        user_work_db.add_exer_to_work("EXXTREEME","Bench Press","rep",3,10,100,10,60);
-        user_work_db.add_exer_to_work("EXXTREEME","Dumbell Press","rep",3,10,80,10,60);
-        user_work_db.add_exer_to_work("EXXTREEME","Pushups","rep",4,20,0,10,60);
+                4,15,50,10,60);
+        user_work_db.add_exer_to_work("Back;(and Biceps!)","Pullups", 4,10,0,10,60);
+        user_work_db.add_exer_to_work("Back;(and Biceps!)","Dumbell Curls", 4,10,30,10,60);
+        user_work_db.add_exer_to_work("Back;(and Biceps!)","Planks", 4,60,0,10,60);
+        user_work_db.add_exer_to_work("12_L3g_D4y_56","Squats", 4,10,60,10,60);
+        user_work_db.add_exer_to_work("12_L3g_D4y_56","Lunges", 4,10,30,10,60);
+        user_work_db.add_exer_to_work("12_L3g_D4y_56","Planks", 4,60,0,10,60);
+        user_work_db.add_exer_to_work("12_L3g_D4y_56","Run a mile", 1,10,0,10,60);
+        user_work_db.add_exer_to_work("EXXTREEME","Bench Press", 3,10,100,10,60);
+        user_work_db.add_exer_to_work("EXXTREEME","Dumbell Press", 3,10,80,10,60);
+        user_work_db.add_exer_to_work("EXXTREEME","Pushups", 4,20,0,10,60);
         user_work_db.add_exer_to_work("EXXTREEME","Dumbell Tricep Extension, Overhead",
-                "rep",4,15,50,10,60);
-        user_work_db.add_exer_to_work("EXXTREEME","Pullups","rep",4,10,0,10,60);
-        user_work_db.add_exer_to_work("EXXTREEME","Dumbell Curls","rep",4,10,30,10,60);
-        user_work_db.add_exer_to_work("EXXTREEME","Planks","timed",4,60,0,10,60);
-        user_work_db.add_exer_to_work("EXXTREEME","Squats","rep",4,10,60,10,60);
-        user_work_db.add_exer_to_work("EXXTREEME","Lunges","rep",4,10,30,10,60);
-        user_work_db.add_exer_to_work("EXXTREEME","Run a mile","timed",1,10,0,10,60);
+                4,15,50,10,60);
+        user_work_db.add_exer_to_work("EXXTREEME","Pullups", 4,10,0,10,60);
+        user_work_db.add_exer_to_work("EXXTREEME","Dumbell Curls", 4,10,30,10,60);
+        user_work_db.add_exer_to_work("EXXTREEME","Planks", 4,60,0,10,60);
+        user_work_db.add_exer_to_work("EXXTREEME","Squats", 4,10,60,10,60);
+        user_work_db.add_exer_to_work("EXXTREEME","Lunges", 4,10,30,10,60);
+        user_work_db.add_exer_to_work("EXXTREEME","Run a mile", 1,10,0,10,60);
         System.out.println(user_work_db);
         System.out.println("starting work_DBHelper.create_session tests");
 
@@ -183,10 +183,10 @@ public class user_DBHelperTest {
         System.out.println(user_work_db);
         System.out.println("starting work_DBHelper.log_set tests");
 
-        user_work_db.log_set(1, 1, 1, 10, 10, 100);
-        user_work_db.log_set(2, 1, 2, 10, 9, 110);
-        user_work_db.log_set(3, 1, 3, 8,  7, 100);
-        user_work_db.log_set(4, 1, 1, 10, 8, 100);
+        user_work_db.log_set(1, "Dumbell Press", 1, 10, 10, 100);
+        user_work_db.log_set(2, "Pullups", 2, 10, 9, 110);
+        user_work_db.log_set(3, "Pushups", 3, 8,  7, 100);
+        user_work_db.log_set(4, "Planks", 1, 10, 8, 100);
 
         System.out.println(user_work_db);
         System.out.println("finished work_DBHelper tests");

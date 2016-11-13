@@ -76,7 +76,7 @@ public class work_DBHelper extends SQLiteOpenHelper {
      */
     public static final String WORK_LOG_TABLE_NAME = "work_log";
     public static final String WORK_LOG_COL_SESSION_ID = "session_id";
-    public static final String WORK_LOG_COL_EXER_ID = "exer_id";
+    public static final String WORK_LOG_COL_EXER_NAME = "exer_name";
     public static final String WORK_LOG_COL_SET_NUM = "set_num";
     public static final String WORK_LOG_COL_GOAL = "goal";
     public static final String WORK_LOG_COL_ACTUAL = "actual";
@@ -155,13 +155,13 @@ public class work_DBHelper extends SQLiteOpenHelper {
         );
         db.execSQL( "CREATE TABLE IF NOT EXISTS " + WORK_LOG_TABLE_NAME + " "
             + "(" + WORK_LOG_COL_SESSION_ID + " integer, "
-            + WORK_LOG_COL_EXER_ID + " integer, "
+            + WORK_LOG_COL_EXER_NAME + " text, "
             + WORK_LOG_COL_SET_NUM + " integer, "
             + WORK_LOG_COL_GOAL + " integer, "
             + WORK_LOG_COL_ACTUAL + " integer, "
             + WORK_LOG_COL_WEIGHT + " integer, "
             + "primary key (" +WORK_LOG_COL_SESSION_ID +", "
-            + WORK_LOG_COL_EXER_ID + ", " + WORK_LOG_COL_SET_NUM
+            + WORK_LOG_COL_EXER_NAME + ", " + WORK_LOG_COL_SET_NUM
             + ") )"
         );
 
@@ -186,7 +186,6 @@ public class work_DBHelper extends SQLiteOpenHelper {
                 + PROG_DETAIL_COL_WORK_ID
                 + ") )"
         );
-
     }
 
     public void reset_default_values() {
@@ -215,29 +214,29 @@ public class work_DBHelper extends SQLiteOpenHelper {
         add_work_to_prog("Default Program 2", "EXXTREEME");
         add_work_to_prog("Default Program 3","Leg Day");
 
-        add_exer_to_work("Chest and Tri's","Bench Press","rep",3,10,100,10,60);
-        add_exer_to_work("Chest and Tri's","Dumbell Press","rep",3,10,80,10,60);
-        add_exer_to_work("Chest and Tri's","Pushups","rep",4,20,0,10,60);
+        add_exer_to_work("Chest and Tri's","Bench Press", 3,10,100,10,60);
+        add_exer_to_work("Chest and Tri's","Dumbell Press", 3,10,80,10,60);
+        add_exer_to_work("Chest and Tri's","Pushups", 4,20,0,10,60);
         add_exer_to_work("Chest and Tri's","Dumbell Tricep Extension, Overhead",
-                "rep",4,15,50,10,60);
-        add_exer_to_work("Back and Biceps","Pullups","rep",4,10,0,10,60);
-        add_exer_to_work("Back and Biceps","Dumbell Curls","rep",4,10,30,10,60);
-        add_exer_to_work("Back and Biceps","Planks","timed",4,60,0,10,60);
-        add_exer_to_work("Leg Day","Squats","rep",4,10,60,10,60);
-        add_exer_to_work("Leg Day","Lunges","rep",4,10,30,10,60);
-        add_exer_to_work("Leg Day","Planks","rep",4,60,0,10,60);
-        add_exer_to_work("Leg Day","Run a mile","timed",1,10,0,10,60);
-        add_exer_to_work("EXXTREEME","Bench Press","rep",3,10,100,10,60);
-        add_exer_to_work("EXXTREEME","Dumbell Press","rep",3,10,80,10,60);
-        add_exer_to_work("EXXTREEME","Pushups","rep",4,20,0,10,60);
+                4,15,50,10,60);
+        add_exer_to_work("Back and Biceps","Pullups", 4,10,0,10,60);
+        add_exer_to_work("Back and Biceps","Dumbell Curls", 4,10,30,10,60);
+        add_exer_to_work("Back and Biceps","Planks", 4,60,0,10,60);
+        add_exer_to_work("Leg Day","Squats", 4,10,60,10,60);
+        add_exer_to_work("Leg Day","Lunges", 4,10,30,10,60);
+        add_exer_to_work("Leg Day","Planks", 4,60,0,10,60);
+        add_exer_to_work("Leg Day","Run a mile", 1,10,0,10,60);
+        add_exer_to_work("EXXTREEME","Bench Press", 3,10,100,10,60);
+        add_exer_to_work("EXXTREEME","Dumbell Press", 3,10,80,10,60);
+        add_exer_to_work("EXXTREEME","Pushups", 4,20,0,10,60);
         add_exer_to_work("EXXTREEME","Dumbell Tricep Extension, Overhead",
-                "rep",4,15,50,10,60);
-        add_exer_to_work("EXXTREEME","Pullups","rep",4,10,0,10,60);
-        add_exer_to_work("EXXTREEME","Dumbell Curls","rep",4,10,30,10,60);
-        add_exer_to_work("EXXTREEME","Planks","timed",4,60,0,10,60);
-        add_exer_to_work("EXXTREEME","Squats","rep",4,10,60,10,60);
-        add_exer_to_work("EXXTREEME","Lunges","rep",4,10,30,10,60);
-        add_exer_to_work("EXXTREEME","Run a mile","timed",1,10,0,10,60);
+                4,15,50,10,60);
+        add_exer_to_work("EXXTREEME","Pullups", 4,10,0,10,60);
+        add_exer_to_work("EXXTREEME","Dumbell Curls", 4,10,30,10,60);
+        add_exer_to_work("EXXTREEME","Planks", 4,60,0,10,60);
+        add_exer_to_work("EXXTREEME","Squats", 4,10,60,10,60);
+        add_exer_to_work("EXXTREEME","Lunges", 4,10,30,10,60);
+        add_exer_to_work("EXXTREEME","Run a mile", 1,10,0,10,60);
 
         if (DEBUG)
         {
@@ -268,10 +267,41 @@ public class work_DBHelper extends SQLiteOpenHelper {
         }
     }
 
-    //returns true if workName is found in the work_index
+    /**
+     * Checks if the workout already exists in the database.
+     * @param workName
+     * @return true if workName is found in the work_index table, false otherwise.
+     */
     public boolean is_taken_work_name(String workName) {
         int found = get_work_id_from_name(workName);
         if (found == -1) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
+    /**
+     * checks if an exercise with the given name can be added to the given workout.
+     * precondition:
+     * @param exercise name of the new exercise to be added to the workout
+     * @param workout name of the wrokout to add a new exercise to. must already
+     *                exist in the database. use is_taken_work_name to check.
+     * @return true if a new exercise with the given name can be added to the
+     *  existing workout, false otherwise.
+     * @throws IllegalArgumentException (unchecked) if the workout specified does
+     *  not exist.
+     */
+    public boolean can_add_exer_to_work(String exercise, String workout){
+        //check precondition
+        if(!is_taken_work_name(workout)) {
+            throw new IllegalArgumentException("workout name " + workout
+                    + " does not exist");
+        }
+        ArrayList<String> exers_in_work = this.get_exers_from_work(workout);
+
+        if (exers_in_work.contains(exercise)) {
             return false;
         }
         else {
@@ -406,8 +436,10 @@ public class work_DBHelper extends SQLiteOpenHelper {
         db.close();
         return (int) conf_prog_id;
     }
-    /*
-    This function returns a String ArrayList containing the user's program names
+    /**
+    * This function returns an Arraylist containing the user's program names
+    * @return ArrayList of user's program names. returns empty list if the user
+    *   has no programs.
      */
     public ArrayList<String> get_user_program_list() {
         ArrayList<String> p_list = new ArrayList<>();
@@ -468,7 +500,6 @@ public class work_DBHelper extends SQLiteOpenHelper {
      * @param work_name name of the workout to be added to.
      * @see #is_taken_work_name(String) to check preconditions.
      * @param exer_name name of the exercise to be added.
-     * @param exer_type exercise type, either "rep" or "timed"
      * @param num_of_sets goal. use 1 for timed exercise types.
      * @param reps_per_set goal. used to populate work log targets.
      * @param start_weight initial weight lifted, for weighted exercises.
@@ -477,26 +508,28 @@ public class work_DBHelper extends SQLiteOpenHelper {
      * @return inserted item's work_id, or -1 if insertion fails.
      */
     public int add_exer_to_work(String work_name, String exer_name,
-                String exer_type, int num_of_sets, int reps_per_set,
-                int start_weight, int increment_weight, int rest_time)
+                int num_of_sets, int reps_per_set, int start_weight,
+                int increment_weight, int rest_time)
     {
         long confirm_row_id = -1;
         int work_id = get_work_id_from_name(work_name);
         int exer_id = get_exer_id_from_name(exer_name);
+        //TODO: change exer_type to retrieve exercise type if timed exercises are allowed
+        String exer_type = "reps";
         ArrayList<String> exers_in_work;
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
         //invariant: workout already exists
         if (!is_taken_work_name(work_name)) {
-            throw new RuntimeException("Error adding exercise \"" + exer_name +
+            throw new IllegalArgumentException("Error adding exercise \"" + exer_name +
                     "\" to workout \"" + work_name +
                     "\": workout does not exist.");
         }
         //invariant: exercise is not already part of program
         exers_in_work = get_exers_from_work(work_name);
         if (exers_in_work.contains(exer_name)){
-            throw new RuntimeException("Error adding exercise \"" + exer_name +
+            throw new IllegalArgumentException("Error adding exercise \"" + exer_name +
                     "\" to workout \"" + work_name + "\": " +
                     "this exercise is already part of this workout.");
         }
@@ -524,7 +557,7 @@ public class work_DBHelper extends SQLiteOpenHelper {
      * @param work_name the workout to retrieve. Must have already been created.
      * @return list of exercise names that have been assigned to work_name. Will
      *         return an empty list if no exercises have been added yet.
-     * @see is_taken_work_name(String) to check that work_name has been created.
+     * @see #is_taken_work_name(String) to check that work_name has been created.
      */
     public ArrayList<String> get_exers_from_work(String work_name) {
         ArrayList<String> exer_list = new ArrayList<>();
@@ -622,7 +655,7 @@ public class work_DBHelper extends SQLiteOpenHelper {
      *
      * @param session_id the current workout session ID. must already have been
      *                   created.
-     * @param exercise_id the current exercise ID. the exercise must be a part
+     * @param exer_name the current exercise. the exercise must be a part
      *                    of the workout associated with the session_id.
      * @param set_num the current set number for the current session and exercise
      * @param goal the target number of repetitions for the set to be logged
@@ -632,7 +665,7 @@ public class work_DBHelper extends SQLiteOpenHelper {
      * @return the ID of the new set log entry, if creation was successful.
      *         returns -1 if insertion fails.
      */
-    public int log_set (int session_id, int exercise_id, int set_num,
+    public int log_set (int session_id, String exer_name, int set_num,
                              int goal, int actual, int weight)
     {
         long log_id = -1;
@@ -646,7 +679,7 @@ public class work_DBHelper extends SQLiteOpenHelper {
         }
 
         contentValues.put (WORK_LOG_COL_SESSION_ID, session_id);
-        contentValues.put (WORK_LOG_COL_EXER_ID, exercise_id);
+        contentValues.put (WORK_LOG_COL_EXER_NAME, exer_name);
         contentValues.put (WORK_LOG_COL_SET_NUM, set_num);
         contentValues.put (WORK_LOG_COL_GOAL, goal);
         contentValues.put (WORK_LOG_COL_ACTUAL, actual);
