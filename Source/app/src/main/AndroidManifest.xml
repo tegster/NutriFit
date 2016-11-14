@@ -54,7 +54,7 @@
         <activity
             android:name=".work_programList"
             android:configChanges="orientation"
-            android:label="Fitness Log"
+            android:label="My Workout Programs"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
 

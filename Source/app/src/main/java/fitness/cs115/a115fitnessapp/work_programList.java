@@ -42,14 +42,6 @@ public class work_programList extends AppCompatActivity{
         ArrayList<String> userProgAL = work_db.get_user_program_list();
         String[] programs = userProgAL.toArray(new String[userProgAL.size()]);
 
-        //temporary list. replace with user selected programs.
-        //        String[] programs = {"Brosplits", "Stronglifts", "Starting Strength", "Greyskull LP", "PPL for Beginners",
-//                "Ice Cream Fitness", "Arnold's Golden Six", "5/3/1", "PHUL", "Madcows", "Texas Method", "PHAT", "Bodyweight"};
-
-        //String[] programs = {};
-
-        //TODO: force user to set program name before creation
-        //TODO: make name entry updatable when create program view displays
 
         //======================================================================================
         //  Dialog Boxes
