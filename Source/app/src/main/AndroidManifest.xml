@@ -100,6 +100,20 @@
             android:label="Workout Tracker"
             android:theme="@style/AppTheme" />
 
+        <activity
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
+            android:name=".work_trackerSetList"
+            android:label="Workout Tracker"
+            android:theme="@style/AppTheme" />
+
+        <activity
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
+            android:name=".work_trackerSetDetail"
+            android:label="Workout Tracker"
+            android:theme="@style/AppTheme" />
+
 
         <meta-data
             android:name="com.google.android.gms.version"
