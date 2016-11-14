@@ -26,6 +26,8 @@ public class work_workoutList extends AppCompatActivity{
     String newWorkoutName = "";
     String[] userWorkouts;
     ArrayList<String> workoutsInProgram;
+    ListAdapter workoutListAdapter;
+    ListView workoutListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +71,24 @@ public class work_workoutList extends AppCompatActivity{
         });
 
         //======================================================================================
+        //  ListView
+        //======================================================================================
+        //Create the list.
+        workoutListAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, workoutsInProgram);
+        workoutListView = (ListView) findViewById(R.id.lv_workoutList);
+        workoutListView.setAdapter(workoutListAdapter);
+        workoutListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id){
+                Intent openWorkout = new Intent(work_workoutList.this, work_exerciseList.class);
+                String workoutName = String.valueOf(parent.getItemAtPosition(position));
+                openWorkout.putExtra("wName", workoutName);
+                startActivity(openWorkout);
+
+            }
+        });
+
+        //======================================================================================
         // Workout Creation / Selection Dialog Box
         //======================================================================================
         // Shown when the Floating Action Button is clicked. lists all of the user's workouts
@@ -76,6 +96,7 @@ public class work_workoutList extends AppCompatActivity{
 
         //for Adding New Workout: get database entries for all user workouts
         ArrayList<String> allWorkoutsList = work_dbh.get_user_workout_list();
+        allWorkoutsList.add(0,"Create New Workout");
         userWorkouts = allWorkoutsList.toArray(new String[allWorkoutsList.size()]);
 
         final AlertDialog.Builder newWorkoutSelection = new AlertDialog.Builder(this);
@@ -90,7 +111,7 @@ public class work_workoutList extends AppCompatActivity{
                     //add selected workout to the user's workout list.
                     String workoutToAdd = userWorkouts[selection_id];
                     work_dbh.add_work_to_prog(programName,workoutToAdd);
-                    return;
+                    regenerateWorkoutList();
                 }
             }
         });
@@ -99,7 +120,7 @@ public class work_workoutList extends AppCompatActivity{
         //  Floating Action Button
         //======================================================================================
         //Adds a new workout to the workout List.
-        FloatingActionButton fabAdd = (FloatingActionButton) findViewById(R.id.fab_addProgram);
+        FloatingActionButton fabAdd = (FloatingActionButton) findViewById(R.id.fab_addWorkout);
         fabAdd.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
@@ -108,25 +129,27 @@ public class work_workoutList extends AppCompatActivity{
         });
 
 
+    }
+
+    private void regenerateWorkoutList(){
         //======================================================================================
         //  ListView
         //======================================================================================
         //Create the list.
-        //ListAdapter programListAdapter = new work_programList_adapter(this, programs);
-        ListAdapter workoutListAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, workoutsInProgram);
-        ListView workoutListView = (ListView) findViewById(R.id.lv_workoutList);
+        workoutsInProgram = work_dbh.get_user_workout_list();
+        workoutListAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, workoutsInProgram);
+//        workoutListView = (ListView) findViewById(R.id.lv_workoutList);
         workoutListView.setAdapter(workoutListAdapter);
-        workoutListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id){
-                Intent openWorkout = new Intent(work_workoutList.this, work_exerciseList.class);
-                String workoutName = String.valueOf(parent.getItemAtPosition(position));
-                openWorkout.putExtra("wName", workoutName);
-                startActivity(openWorkout);
-
-            }
-        });
-
+//        workoutListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id){
+//                Intent openWorkout = new Intent(work_workoutList.this, work_exerciseList.class);
+//                String workoutName = String.valueOf(parent.getItemAtPosition(position));
+//                openWorkout.putExtra("wName", workoutName);
+//                startActivity(openWorkout);
+//
+//            }
+//        });
     }
 
     //======================================================================================

@@ -84,8 +84,7 @@ public class work_createProgram extends AppCompatActivity{
         fabAdd.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                //TODO: Call createWorkout
-                Intent newWorkout = new Intent(work_createProgram.this, work_createWorkout.class);
+                Intent newWorkout = new Intent(work_createProgram.this, work_newWorkoutName.class);
                 startActivity(newWorkout);
             }
         });

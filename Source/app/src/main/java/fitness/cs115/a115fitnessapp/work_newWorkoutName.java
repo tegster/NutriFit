@@ -14,7 +14,7 @@ import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 
 /**
- * This class controls the program name text entry activity
+ * This class controls the Workout name text entry activity
  */
 public class work_newWorkoutName extends AppCompatActivity {
     /**
@@ -26,28 +26,28 @@ public class work_newWorkoutName extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_work_new_program_name);
+        setContentView(R.layout.activity_work_new_workout_name);
 
         workDBH = new work_DBHelper(this);
         Button confirm_button = (Button) findViewById(R.id.confirm);
         confirm_button.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View view) {
-                TextView prog_name_text_view = (TextView) findViewById(R.id.et_newProgramName);
+                TextView workNameTextView = (TextView) findViewById(R.id.et_newWorkoutName);
 
-                String pname = prog_name_text_view.getText().toString();
-                if (pname.isEmpty()) {
-                    prog_name_text_view.setError("Please enter a program name");
+                String wName= workNameTextView.getText().toString();
+                if (wName.isEmpty()) {
+                    workNameTextView.setError("Please enter a workout name");
                     return;
                 }
-                if (workDBH.is_taken_prog_name(pname)) {
-                    prog_name_text_view.setError("There is already a program with this name");
+                if (workDBH.is_taken_work_name(wName)) {
+                    workNameTextView.setError("There is already a workout with this name");
                     return;
                 }
-                //create entry in program table
-                workDBH.create_program(pname);
-                //go to create program activity
-                OpenProgram(pname);
+                //create entry in Workout table
+                workDBH.create_workout(wName);
+                //go to create workout activity
+                OpenWorkout(wName);
 
             }
         });
@@ -96,11 +96,11 @@ public class work_newWorkoutName extends AppCompatActivity {
     //======================================================================================
     //  Start Activities
     //======================================================================================
-    public void OpenProgram(String progName){
-        Intent openProgram = new Intent(work_newWorkoutName.this, work_workoutList.class);
+    public void OpenWorkout(String workName){
+        Intent openWorkout = new Intent(work_newWorkoutName.this, work_exerciseList.class);
 
-        openProgram.putExtra("pName", progName);
-        startActivity(openProgram);
+        openWorkout.putExtra("wName", workName);
+        startActivity(openWorkout);
     }
 
 

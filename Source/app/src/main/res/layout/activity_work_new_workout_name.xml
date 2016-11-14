@@ -11,9 +11,9 @@
         android:inputType="textPersonName"
         android:ems="10"
         android:layout_marginTop="81dp"
-        android:id="@+id/et_newProgramName"
+        android:id="@+id/et_newWorkoutName"
         android:gravity="center"
-        android:hint="Program Name"
+        android:hint="New Workout Name"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
@@ -23,6 +23,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="21dp"
         android:id="@+id/confirm"
-        android:layout_below="@id/et_newProgramName"
+        android:layout_below="@id/et_newWorkoutName"
         android:layout_centerHorizontal="true" />
 </RelativeLayout>
