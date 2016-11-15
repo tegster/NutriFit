@@ -1008,4 +1008,33 @@ public class work_DBHelper extends SQLiteOpenHelper {
         return w_list;
     }
 
+    /**
+     * This function returns an Arraylist containing the user's exercise names
+     *
+     * @return ArrayList of all of user's exercise names. returns empty list if the user
+     * has no exercises.
+     */
+    public ArrayList<String> get_user_exercise_list() {
+        ArrayList<String> w_list = new ArrayList<>();
+
+        //TODO: implement get_user_exercise_list()
+//        SQLiteDatabase db = this.getReadableDatabase();
+//
+//        //retrieve the names of all workouts in the work index table
+//        Cursor res = db.query(WORK_INDEX_TABLE_NAME,
+//                new String[]{WORK_INDEX_COL_WORK_NAME},
+//                null, null, null, null, null);
+//
+//        res.moveToFirst();
+//        while (!res.isAfterLast()) {
+//            //add the current row in the table
+//            w_list.add(res.getString(res.getColumnIndex(
+//                    WORK_INDEX_COL_WORK_NAME)));
+//            res.moveToNext();
+//        }
+//        res.close();
+
+        return w_list;
+    }
+
 }

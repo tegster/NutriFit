@@ -17,13 +17,13 @@ import java.util.ArrayList;
 
 /**
  * Created by Henry on 10/17/2016.
+ * Edited by James on 11/14/2016.
  */
 
 public class work_workoutList extends AppCompatActivity{
 
     private work_DBHelper work_dbh;
     String programName = "";
-    String newWorkoutName = "";
     String[] userWorkouts;
     ArrayList<String> workoutsInProgram;
     ListAdapter workoutListAdapter;
@@ -33,11 +33,11 @@ public class work_workoutList extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_work_workout_list);
+
         //Get the name of the program and set it as the title.
         Intent intent = getIntent();
         programName = intent.getExtras().getString("pName");
         setTitle(programName);
-
 
         work_dbh = new work_DBHelper(this);
 
@@ -80,11 +80,8 @@ public class work_workoutList extends AppCompatActivity{
         workoutListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id){
-                Intent openWorkout = new Intent(work_workoutList.this, work_exerciseList.class);
-                String workoutName = String.valueOf(parent.getItemAtPosition(position));
-                openWorkout.putExtra("wName", workoutName);
-                startActivity(openWorkout);
-
+            String workoutName = String.valueOf(parent.getItemAtPosition(position));
+            OpenWorkout(workoutName);
             }
         });
 
@@ -95,9 +92,11 @@ public class work_workoutList extends AppCompatActivity{
         //for the user to choose from to add to the current program.
 
         //for Adding New Workout: get database entries for all user workouts
-        ArrayList<String> allWorkoutsList = work_dbh.get_user_workout_list();
-        allWorkoutsList.add(0,"Create New Workout");
-        userWorkouts = allWorkoutsList.toArray(new String[allWorkoutsList.size()]);
+        ArrayList<String> addWorkoutsList = work_dbh.get_user_workout_list();
+        //remove workouts that are already a part of the program
+        addWorkoutsList.removeAll(workoutsInProgram);
+        addWorkoutsList.add(0,"Create New Workout");
+        userWorkouts = addWorkoutsList.toArray(new String[addWorkoutsList.size()]);
 
         final AlertDialog.Builder newWorkoutSelection = new AlertDialog.Builder(this);
         newWorkoutSelection.setTitle("Please choose a workout to add.");
@@ -106,7 +105,7 @@ public class work_workoutList extends AppCompatActivity{
             public void onClick(DialogInterface dialogInterface, int selection_id) {
                 //check which Workout was selected.
                 if (selection_id == 0){
-                    NewWorkout();
+                    NewWorkout(programName);
                 } else {
                     //add selected workout to the user's workout list.
                     String workoutToAdd = userWorkouts[selection_id];
@@ -155,15 +154,17 @@ public class work_workoutList extends AppCompatActivity{
     //======================================================================================
     //  Start Activities
     //======================================================================================
-    public void OpenWorkout(String progName){
-        Intent openWorkout = new Intent(work_workoutList.this, work_workoutList.class);
+    public void OpenWorkout(String workName){
+        Intent openWorkout = new Intent(work_workoutList.this, work_exerciseList.class);
 
-        openWorkout.putExtra("pName", progName);
+        openWorkout.putExtra("wName", workName);
         startActivity(openWorkout);
+
     }
 
-    public void NewWorkout(){
+    public void NewWorkout(String progName){
         Intent newWorkout = new Intent(work_workoutList.this, work_newWorkoutName.class);
+        newWorkout.putExtra("pName", progName);
         startActivity(newWorkout);
     }
 

@@ -20,7 +20,7 @@
         android:ems="10"
         android:layout_below="@+id/et_exerciseName"
         android:layout_alignParentStart="true"
-        android:id="@+id/editText3"
+        android:id="@+id/et_sets"
         android:hint="Sets" />
 
     <EditText
@@ -28,19 +28,19 @@
         android:layout_height="wrap_content"
         android:inputType="number"
         android:ems="10"
-        android:layout_below="@+id/editText3"
-        android:layout_alignEnd="@+id/editText3"
-        android:id="@+id/editText4"
-        android:hint="Reps" />
+        android:layout_below="@id/et_sets"
+        android:layout_alignEnd="@id/et_sets"
+        android:id="@+id/et_reps"
+        android:hint="Reps per Set" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="number"
         android:ems="10"
-        android:layout_below="@+id/editText4"
-        android:layout_alignParentStart="true"
-        android:id="@+id/editText5"
+        android:layout_below="@id/et_reps"
+        android:layout_alignParentStart="@id/et_reps"
+        android:id="@+id/et_startWeight"
         android:hint="Starting Weight" />
 
     <EditText
@@ -48,9 +48,9 @@
         android:layout_height="wrap_content"
         android:inputType="number"
         android:ems="10"
-        android:layout_below="@+id/editText5"
-        android:layout_alignParentStart="true"
-        android:id="@+id/editText6"
+        android:layout_below="@id/et_startWeight"
+        android:layout_alignEnd="@id/et_startWeight"
+        android:id="@+id/et_incrWeight"
         android:hint="Increment Weight" />
 
     <EditText
@@ -58,9 +58,18 @@
         android:layout_height="wrap_content"
         android:inputType="number"
         android:ems="10"
-        android:layout_below="@+id/editText6"
-        android:layout_alignEnd="@+id/editText6"
-        android:id="@+id/editText7"
+        android:layout_below="@id/et_incrWeight"
+        android:layout_alignEnd="@id/et_incrWeight"
+        android:id="@+id/et_restTime"
         android:hint="Rest Time" />
+
+    <Button
+        android:text="Confirm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="21dp"
+        android:id="@+id/confirm"
+        android:layout_below="@id/et_restTime"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

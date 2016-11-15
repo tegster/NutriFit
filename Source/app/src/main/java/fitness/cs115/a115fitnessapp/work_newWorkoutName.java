@@ -23,10 +23,16 @@ public class work_newWorkoutName extends AppCompatActivity {
      */
     private GoogleApiClient client;
     private work_DBHelper workDBH;
+    private String programToAddTo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_work_new_workout_name);
+
+        //Get the name of the program this workout should be added to.
+        Intent intent = getIntent();
+        programToAddTo = intent.getExtras().getString("pName");
+
 
         workDBH = new work_DBHelper(this);
         Button confirm_button = (Button) findViewById(R.id.confirm);
@@ -44,8 +50,10 @@ public class work_newWorkoutName extends AppCompatActivity {
                     workNameTextView.setError("There is already a workout with this name");
                     return;
                 }
-                //create entry in Workout table
+                //create entry in Workout table and add the new workout to the intended program
                 workDBH.create_workout(wName);
+                workDBH.add_work_to_prog(programToAddTo,wName);
+
                 //go to create workout activity
                 OpenWorkout(wName);
 

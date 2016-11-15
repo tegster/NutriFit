@@ -16,7 +16,6 @@
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -66,13 +65,6 @@
             android:theme="@style/AppTheme" />
 
         <activity
-            android:name=".work_newProgramName"
-            android:configChanges="orientation"
-            android:label="Nutrifit"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
-
-        <activity
             android:name=".work_exerciseList"
             android:configChanges="orientation"
             android:label="Program Name Placeholder"
@@ -87,19 +79,39 @@
             android:theme="@style/AppTheme" />
 
         <activity
+            android:name=".work_createProgram"
             android:configChanges="orientation"
             android:screenOrientation="portrait"
-            android:name=".work_createProgram"
             android:label="New Program"
             android:theme="@style/AppTheme" />
 
         <activity
+            android:name=".work_tracker"
             android:configChanges="orientation"
             android:screenOrientation="portrait"
-            android:name=".work_tracker"
             android:label="Workout Tracker"
             android:theme="@style/AppTheme" />
 
+        <activity
+            android:name=".work_newProgramName"
+            android:configChanges="orientation"
+            android:label="Enter New Program Name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+
+        <activity
+            android:name=".work_newWorkoutName"
+            android:configChanges="orientation"
+            android:label="Enter New Workout Name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+
+        <activity
+            android:name=".work_createExercise"
+            android:configChanges="orientation"
+            android:label="Add Exercise"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
 
         <meta-data
             android:name="com.google.android.gms.version"
