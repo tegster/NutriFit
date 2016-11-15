@@ -55,15 +55,7 @@ public class work_exerciseList extends AppCompatActivity{
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id){
                 String exercise = String.valueOf(parent.getItemAtPosition(position));
-                Toast.makeText(work_exerciseList.this, "You selected " + exercise + 
-                    ".\nWorkout tracker coming soon!", Toast.LENGTH_SHORT).show();
-
-                /*
-                Intent openWorkout = new Intent(work_workoutList.this, work_exerciseList.class);
-                String workoutName = String.valueOf(parent.getItemAtPosition(position));
-                openWorkout.putExtra("wName", workoutName);
-                startActivity(openWorkout);
-                */
+                startExercise(exercise);
             }
         });
 
@@ -87,11 +79,11 @@ public class work_exerciseList extends AppCompatActivity{
             public void onClick(DialogInterface dialogInterface, int selection_id) {
                 //check which Exercise was selected.
                 if (selection_id == 0){
-                    NewExercise();
+                    newExercise();
                 } else {
                     //add selected exercise to the user's exercise list.
                     String exerciseToAdd = userExercises[selection_id];
-                    OpenExercise(exerciseToAdd);
+                    addExercise(exerciseToAdd);
                 }
             }
         });
@@ -135,7 +127,7 @@ public class work_exerciseList extends AppCompatActivity{
     //======================================================================================
     //  Start Activities
     //======================================================================================
-    public void OpenExercise(String exerName){
+    public void addExercise(String exerName){
         //// TODO: 11/14/2016 figure out where to go when an exercise is pressed
         Intent openExercise = new Intent(work_exerciseList.this, work_createExercise.class);
         openExercise.putExtra("wName", workoutName);
@@ -144,7 +136,16 @@ public class work_exerciseList extends AppCompatActivity{
 
     }
 
-    public void NewExercise(){
+    public void startExercise(String exerName){
+        //// TODO: 11/14/2016 figure out where to go when an exercise is pressed
+        Intent openExercise = new Intent(work_exerciseList.this, work_trackerSetDetail.class);
+        openExercise.putExtra("wName", workoutName);
+        openExercise.putExtra("eName", exerName);
+        startActivity(openExercise);
+
+    }
+
+    public void newExercise(){
         Intent newExercise = new Intent(work_exerciseList.this, work_createExercise.class);
         newExercise.putExtra("wName", workoutName);
         startActivity(newExercise);
