@@ -2,6 +2,9 @@ package fitness.cs115.a115fitnessapp;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
 /**
  * Created by Henry on 10/23/2016.
@@ -17,7 +20,19 @@ public class work_trackerSetDetail extends AppCompatActivity{
 
         //this is the file that handles actual set logging
 
+        TextView onEachSideText = (TextView) findViewById(R.id.tv_oes);
+        TextView plateResult = (TextView) findViewById(R.id.tv_platesNeeded);
+        EditText totalWeightInput = (EditText) findViewById(R.id.et_totalWeight);
+        EditText barWeightInput = (EditText) findViewById(R.id.et_barWeight);
+        Button logButton = (Button) findViewById(R.id.btn_log);
+        Button calcPlates = (Button) findViewById(R.id.btn_calcPlate);
 
+        //
+        //int totalWeight = totalWeightInput.getText().toString();
+        //int barWeight = barWeightInput.getText().toString();
+
+        onEachSideText.setText(eachSide(150,45));
+        plateResult.setText(plateCalculator(150,45));
 
 
     }
