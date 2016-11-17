@@ -7,13 +7,18 @@ package fitness.cs115.a115fitnessapp;
  * https://www.tutorialspoint.com/android/android_sqlite_database.htm
  */
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.PriorityQueue;
+import java.util.SortedMap;
+import java.util.TreeMap;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -32,7 +37,7 @@ public class work_DBHelper extends SQLiteOpenHelper {
     private static final Boolean DEBUG = true;
     public static final String DATABASE_NAME = "user_work.db";
 
-    /*
+    /**
     WORK_INDEX: This table will serve as an index of all of the user's created
      workouts. The fields are: work_id (integer unique to each workout);
      name(of the workout, given by user); created_on (datetime string);
@@ -75,12 +80,13 @@ public class work_DBHelper extends SQLiteOpenHelper {
      exercise); actual (time or reps actually completed); weight.
      */
     public static final String WORK_LOG_TABLE_NAME = "work_log";
-    public static final String WORK_LOG_COL_SESSION_ID = "session_id";
-    public static final String WORK_LOG_COL_EXER_NAME = "exer_name";
-    public static final String WORK_LOG_COL_SET_NUM = "set_num";
-    public static final String WORK_LOG_COL_GOAL = "goal";
-    public static final String WORK_LOG_COL_ACTUAL = "actual";
-    public static final String WORK_LOG_COL_WEIGHT = "weight";
+    public static final String WORK_LOG_COL_SESSION_ID = "wl_session_id";
+    public static final String WORK_LOG_COL_EXER_NAME = "wl_exer_name";
+    public static final String WORK_LOG_COL_SET_NUM = "wl_set_num";
+    public static final String WORK_LOG_COL_GOAL = "wl_goal";
+    public static final String WORK_LOG_COL_ACTUAL = "wl_actual";
+    public static final String WORK_LOG_COL_WEIGHT = "wl_weight";
+    public static final String WORK_LOG_COL_TIMESTAMP = "wl_timestamp";
     /*
     WORK_SESSIONS: This table stores a log for each time the user chooses to
     begin a workout. The fields are: session_id (unique id assigned to each
@@ -110,13 +116,33 @@ public class work_DBHelper extends SQLiteOpenHelper {
     public static final String PROG_DETAIL_COL_WORK_ID = "work_id";
     public static final String PROG_DETAIL_COL_LAST_USED = "last_used";
 
-    //List of all tables in the work DB
-    public static final String[] WORK_DB_TABLES = {WORK_INDEX_TABLE_NAME,
-            WORK_DETAIL_TABLE_NAME, WORK_LOG_TABLE_NAME, WORK_SESSIONS_TABLE_NAME,
-            PROG_DETAIL_TABLE_NAME, PROG_INDEX_TABLE_NAME};
+    /**
+     EXER_INDEX: serves as an index of all of the user's exercises.
+     The fields are: exer_id (integer unique to each exercise);
+     name(of the exercise); created_on (datetime string);
+     last_used (datetime string); disabled (false unless exercise was deleted).
+     */
+    public static final String EXER_INDEX_TABLE_NAME = "exer_index";
+    public static final String EXER_INDEX_COL_EXER_ID = "ei_exer_id";
+    public static final String EXER_INDEX_COL_EXER_NAME = "ei_exer_name";
+    public static final String EXER_INDEX_COL_CREATED_ON = "ei_created_on";
+    public static final String EXER_INDEX_COL_LAST_USED = "ei_last_used";
+    public static final String EXER_INDEX_COL_DISABLED = "ei_disabled";
 
     /**
-     * constructor for the class
+     * List of all tables in the work DB
+     */
+    public static final String[] WORK_DB_TABLES = {WORK_INDEX_TABLE_NAME,
+            WORK_DETAIL_TABLE_NAME, WORK_LOG_TABLE_NAME, WORK_SESSIONS_TABLE_NAME,
+            PROG_DETAIL_TABLE_NAME, PROG_INDEX_TABLE_NAME, EXER_INDEX_TABLE_NAME};
+
+    /**
+     * formatting used when storing and retrieving dates from the database
+     */
+    public static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+    
+    /**
+     * class constructor
      *
      * @param context context of the workDBHelper.
      */
@@ -136,6 +162,15 @@ public class work_DBHelper extends SQLiteOpenHelper {
                 + WORK_INDEX_COL_CREATED_ON + " text, "
                 + WORK_INDEX_COL_LAST_USED + " text , "
                 + WORK_INDEX_COL_DISABLED + " integer default 0)"
+        );
+
+        //create tables if they don't yet exist
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + EXER_INDEX_TABLE_NAME + " ("
+                + EXER_INDEX_COL_EXER_ID + " integer primary key, "
+                + EXER_INDEX_COL_EXER_NAME + " text, "
+                + EXER_INDEX_COL_CREATED_ON + " text, "
+                + EXER_INDEX_COL_LAST_USED + " text , "
+                + EXER_INDEX_COL_DISABLED + " integer default 0)"
         );
 
         db.execSQL("CREATE TABLE IF NOT EXISTS " + WORK_DETAIL_TABLE_NAME + " "
@@ -160,6 +195,7 @@ public class work_DBHelper extends SQLiteOpenHelper {
                 + WORK_LOG_COL_GOAL + " integer, "
                 + WORK_LOG_COL_ACTUAL + " integer, "
                 + WORK_LOG_COL_WEIGHT + " integer, "
+                + WORK_LOG_COL_TIMESTAMP + " text, "
                 + "primary key (" + WORK_LOG_COL_SESSION_ID + ", "
                 + WORK_LOG_COL_EXER_NAME + ", " + WORK_LOG_COL_SET_NUM
                 + ") )"
@@ -325,7 +361,7 @@ public class work_DBHelper extends SQLiteOpenHelper {
 
         //invariant: program_name doesn't already exist in prog_index
         if (is_taken_prog_name(program_name)) {
-            throw new RuntimeException("Error creating program: name \"" +
+            throw new IllegalArgumentException("Error creating program: name \"" +
                     program_name + "\" is already taken.");
         }
         new_prog_id = db.insert(PROG_INDEX_TABLE_NAME, null, contentValues);
@@ -358,6 +394,7 @@ public class work_DBHelper extends SQLiteOpenHelper {
      * RuntimeException if the precondition is violated.
      */
     public int delete_program(String program_name) {
+        //TODO: AMEND DELETE_PROGRAM TO DO AS IT SHOULD
         long new_prog_id = 0;
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -479,13 +516,9 @@ public class work_DBHelper extends SQLiteOpenHelper {
             throw new RuntimeException("Error creating workout: "
                     + "no workout name has been specified.");
         }
-
         contentValues.put(WORK_INDEX_COL_WORK_NAME, workout_name);
         contentValues.put(WORK_INDEX_COL_CREATED_ON, current_time_ISO8601());
         contentValues.put(WORK_INDEX_COL_LAST_USED, "never");
-
-        //TODO: include insert invariant that db is not full
-
 
         inserted_id = db.insert(WORK_INDEX_TABLE_NAME, null, contentValues);
         db.close();
@@ -531,6 +564,12 @@ public class work_DBHelper extends SQLiteOpenHelper {
                     "this exercise is already part of this workout.");
         }
 
+        //create exercise if it doesnt already exist
+        if ( !is_taken_exer_name(exer_name))   {
+            db.close();
+            create_exercise(exer_name);
+            db = getWritableDatabase();
+        }
         contentValues.put(WORK_DETAIL_COL_WORK_ID, work_id);
         contentValues.put(WORK_DETAIL_COL_EXER_ID, exer_id);
         contentValues.put(WORK_DETAIL_COL_EXER_NAME, exer_name);
@@ -633,7 +672,6 @@ public class work_DBHelper extends SQLiteOpenHelper {
 
         contentValues.put(WORK_SESSIONS_COL_WORK_ID, work_id);
         contentValues.put(WORK_SESSIONS_COL_DATETIME, current_time_ISO8601());
-        //TODO: include insert invariant that db is not full
         //invariant:work_name exists in work_index
         if (!is_taken_work_name(work_name)) {
             throw new IllegalArgumentException("Error creating session: workout \""
@@ -680,12 +718,10 @@ public class work_DBHelper extends SQLiteOpenHelper {
         contentValues.put(WORK_LOG_COL_GOAL, goal);
         contentValues.put(WORK_LOG_COL_ACTUAL, actual);
         contentValues.put(WORK_LOG_COL_WEIGHT, weight);
-
-        //TODO: include insert invariant that db is not full
+        contentValues.put(WORK_LOG_COL_TIMESTAMP, current_time_ISO8601());
 
         log_id = db.insert(WORK_LOG_TABLE_NAME, null, contentValues);
         db.close();
-
         return (int) log_id;
     }
 
@@ -730,7 +766,6 @@ public class work_DBHelper extends SQLiteOpenHelper {
     private String get_table(String table_name) {
         //col_padding used to add empty space between columns
         int col_padding = 2;
-        ArrayList<String> array_list = new ArrayList<String>();
         SQLiteDatabase db = this.getReadableDatabase();
         final List<String> TABLE_LIST = Arrays.asList(WORK_DB_TABLES);
         //invariant: table_name is a valid table
@@ -854,11 +889,27 @@ public class work_DBHelper extends SQLiteOpenHelper {
     http://beginnersbook.com/2013/05/current-date-time-in-java/
      */
     private String current_time_ISO8601() {
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        DateFormat df = new SimpleDateFormat(DATE_FORMAT);
         Date dateobj = new Date();
         String date_str = df.format(dateobj);
 
         return date_str;
+    }
+
+    /*
+    Converts ISO 8601 formatted String date representation into a Date object
+     */
+    private Date string_ISO8601_to_Date(String date_str) {
+        DateFormat df = new SimpleDateFormat(DATE_FORMAT);
+
+        Date date_obj;
+        try {
+            date_obj = df.parse(date_str);
+        } catch (ParseException pe) {
+            date_obj = null;
+        }
+
+        return date_obj;
     }
 
     //returns prog_id if found, -1 if not found
@@ -950,10 +1001,29 @@ public class work_DBHelper extends SQLiteOpenHelper {
     //returns work_id if found, -1 if not found
     private int get_exer_id_from_name(String exer_name) {
         if (DEBUG) {
-            System.out.println("all tables dropping like flies");
+            System.out.println("starting: " +
+                    new Exception().getStackTrace()[0]);
         }
-        //TODO: stub for now. retrieve exercise name from master exercise DB when implemented.
-        return -1;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        int exer_id = -1;
+
+        //retrieve the exer ID if the exercise name matches exer_name for the row
+        Cursor res = db.query(EXER_INDEX_TABLE_NAME,
+                new String[]{EXER_INDEX_COL_EXER_ID},
+                EXER_INDEX_COL_EXER_NAME + " = ?",
+                new String[]{exer_name}, null, null, null);
+
+        res.moveToFirst();
+        if (!res.isAfterLast()) {
+            exer_id = res.getInt(res.getColumnIndex(EXER_INDEX_COL_EXER_ID));
+        }
+        if (DEBUG) {
+            System.out.println("exer_id: " + exer_id + "  found for exer_name: " + exer_name);
+        }
+        res.close();
+
+        return exer_id;
     }
 
     private void drop_all_tables() {
@@ -1015,26 +1085,136 @@ public class work_DBHelper extends SQLiteOpenHelper {
      * has no exercises.
      */
     public ArrayList<String> get_user_exercise_list() {
-        ArrayList<String> w_list = new ArrayList<>();
+        ArrayList<String> exer_list = new ArrayList<>();
+        String name_entry = "";
+        SQLiteDatabase db = this.getReadableDatabase();
 
-        //TODO: implement get_user_exercise_list()
-//        SQLiteDatabase db = this.getReadableDatabase();
-//
-//        //retrieve the names of all workouts in the work index table
-//        Cursor res = db.query(WORK_INDEX_TABLE_NAME,
-//                new String[]{WORK_INDEX_COL_WORK_NAME},
-//                null, null, null, null, null);
-//
-//        res.moveToFirst();
-//        while (!res.isAfterLast()) {
-//            //add the current row in the table
-//            w_list.add(res.getString(res.getColumnIndex(
-//                    WORK_INDEX_COL_WORK_NAME)));
-//            res.moveToNext();
-//        }
-//        res.close();
-
-        return w_list;
+        //retrieve the names of all exercises in the exer index table
+        Cursor res = db.query(EXER_INDEX_TABLE_NAME,
+                new String[]{EXER_INDEX_COL_EXER_NAME},
+                null, null, null, null, null);
+        res.moveToFirst();
+        while (!res.isAfterLast()) {
+            //add the current row in the table
+            name_entry = res.getString(res.getColumnIndex(EXER_INDEX_COL_EXER_NAME));
+            exer_list.add(name_entry);
+            res.moveToNext();
+        }
+        res.close();
+        return exer_list;
     }
 
+    /**
+     * checks if an exercise name is already taken.
+     *
+     * @param exercise_name name of the exercise. can case sensitive.
+     * @return true if there is already an exercise with the given name, false
+     *  otherwise.
+     */
+    public Boolean is_taken_exer_name(String exercise_name) {
+        int found = get_exer_id_from_name(exercise_name);
+
+        if (found == -1) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    /**
+     * retrieves the weight used for all log entries for a given exercise,
+     * sorted by timestamp.
+     *
+     * Usage:
+     * TreeMap<Date, Integer> weight_log;
+     * weight_log =  user_work_db.get_weight_logs_for_exer("Bench Press");
+     * for (Map.Entry<Date, Integer> date_weight_entry : weight_log.entrySet()){
+     *    Date date_entry = date_weight_entry.getKey();
+     *    Integer weight_entry = date_weight_entry.getValue();
+     * }
+     * @param exercise_name the exercise to retrieve entries for
+     * @return a map of Dates to weights. one entry in the map corresponds to
+     *  the date and wieght used for one entry in the log for the given exercise_name.
+     */
+    public TreeMap<Date, Integer> get_weight_logs_for_exer(String exercise_name) {
+
+
+        TreeMap<Date, Integer> set_logs = new TreeMap<>();
+        Date date_entry = new Date();
+        String date_str = "";
+        String weight_str = "";
+        Integer weight_entry;
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        if (!is_taken_exer_name(exercise_name)) {
+            throw new IllegalArgumentException("Exercise "+exercise_name+" does not exist!");
+        }
+
+        //query segments to retrieve weight log for the given exercise
+        String select_cols[] = {WORK_LOG_COL_TIMESTAMP, WORK_LOG_COL_WEIGHT};
+        String where_clause = WORK_LOG_COL_EXER_NAME + " =? ";
+        String where_args [] = {exercise_name};
+        //query the DB
+        Cursor res = db.query(WORK_LOG_TABLE_NAME,
+                select_cols, where_clause, where_args,
+                null,null,WORK_LOG_COL_TIMESTAMP);
+
+        //populate HashMap with database data
+        res.moveToFirst();
+        while (!res.isAfterLast()) {
+            date_str = res.getString(res.getColumnIndex(WORK_LOG_COL_TIMESTAMP));
+            date_entry = string_ISO8601_to_Date(date_str);
+
+            weight_str = res.getString(res.getColumnIndex(WORK_LOG_COL_WEIGHT));
+            weight_entry = Integer.parseInt(weight_str);
+            set_logs.put(date_entry, weight_entry);
+            if (DEBUG)            {
+                System.out.println(date_entry + ", " + weight_entry + " entered into set_logs.");
+            }
+            res.moveToNext();
+        }
+        if (DEBUG)        {
+            System.out.println("all entries for exercise \""+exercise_name+"\" entered into set_logs.");
+            System.out.println("The entries are: ");
+            System.out.println(set_logs);
+        }
+        return set_logs;
+    }
+
+    /**
+     * creates a new exercise in exer_index with the name passed to the function.
+     * Precondition: Exercise name must not match an already existing exercise.
+     *
+     * @param exercise_name must not match the name of any existing exercise.
+     *                     Cannot be null.
+     * @return exer_id of inserted exercise, or -1 if an error occurred
+     * @throws #IllegalArgumentException if the exercise name is empty or the
+     *      name is already taken.
+     * @see #is_taken_exer_name(String) to check precondition.
+     * note: defaults "never" for last_used field.
+     */
+    public int create_exercise(String exercise_name) {
+        long inserted_id = -1;
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        //invariant: exercise name must not be empty
+        if (exercise_name == null || exercise_name.length() == 0) {
+            throw new IllegalArgumentException("Error creating exercise: "
+                    + "no exercise name has been specified.");
+        }
+
+        if (is_taken_exer_name(exercise_name))        {
+            throw new IllegalArgumentException("Error creating exercise: "
+                    + exercise_name+ " : an exercise with this name already exists.");
+        }
+        contentValues.put(EXER_INDEX_COL_EXER_NAME, exercise_name);
+        contentValues.put(EXER_INDEX_COL_CREATED_ON, current_time_ISO8601());
+        contentValues.put(EXER_INDEX_COL_LAST_USED, "never");
+
+        inserted_id = db.insert(EXER_INDEX_TABLE_NAME, null, contentValues);
+
+        db.close();
+        return (int) inserted_id;
+    }
 }
