@@ -45,8 +45,14 @@ public class meal_viewAllMeals extends AppCompatActivity {
             Calendar calendar = Calendar.getInstance();
             int dayyear = calendar.get(Calendar.DAY_OF_YEAR);
             int year = calendar.get(Calendar.YEAR);
+            System.out.println("date: " + calendar.get(Calendar.DATE));
+            System.out.println("month:" + calendar.get(Calendar.MONTH));
+
             System.out.println("dayyear is: " + dayyear);
             System.out.println("year is: " + year);
+            String date = Integer.toString(calendar.get(Calendar.MONTH)) + '/' + Integer.toString(calendar.get(Calendar.DATE)) + '/' + Integer.toString(calendar.get(Calendar.YEAR));
+            System.out.println("testing date is: " + date);
+            System.out.println("length of date is: " + date.length());
         }
 
         //======================================================================================
