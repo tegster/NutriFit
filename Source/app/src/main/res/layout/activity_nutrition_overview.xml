@@ -70,4 +70,12 @@
         android:layout_below="@+id/edit_meal"
         android:layout_centerHorizontal="true" />
 
+    <Button
+        android:text="Eaten"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/barCode"
+        android:id="@+id/eaten" />
+
 </RelativeLayout>

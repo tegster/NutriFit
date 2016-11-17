@@ -41,11 +41,14 @@ public class meal_viewAllMeals extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.meals);
         listView.setLongClickable(true);
 
-        Calendar calendar = Calendar.getInstance();
-        int dayyear = calendar.get(Calendar.DAY_OF_YEAR);
-        int year = calendar.get(Calendar.YEAR);
-        System.out.println("dayyear is: " + dayyear);
-        System.out.println("year is: " + year);
+        if (DEBUG) {
+            Calendar calendar = Calendar.getInstance();
+            int dayyear = calendar.get(Calendar.DAY_OF_YEAR);
+            int year = calendar.get(Calendar.YEAR);
+            System.out.println("dayyear is: " + dayyear);
+            System.out.println("year is: " + year);
+        }
+
         //======================================================================================
         //  Dialog Boxes
         //======================================================================================
@@ -137,7 +140,7 @@ public class meal_viewAllMeals extends AppCompatActivity {
                 programOptionMenu.show();
                 selectedTable = arrTblNames.get(position);
                 if (DEBUG) {
-                    //    Toast.makeText(getApplicationContext(), "long click: " + position + " " + arrTblNames.get(position), Toast.LENGTH_LONG).show();
+                    //    Toast.makeText(getApplicationContext(), "long click: " + position + " " + mealNames.get(position), Toast.LENGTH_LONG).show();
                     Toast.makeText(getApplicationContext(), "long click: " + position + " " + arrTblNames.get(position) + ", " + selectedTable, Toast.LENGTH_LONG).show();
                 }
                 return true;

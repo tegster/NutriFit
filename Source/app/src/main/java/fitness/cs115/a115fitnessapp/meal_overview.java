@@ -25,6 +25,15 @@ public class meal_overview extends AppCompatActivity {
             }
         });
 
+        Button eaten = (Button) findViewById(R.id.eaten);
+        eaten.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(meal_overview.this, meal_viewAllEatenMeals.class);
+                startActivity(intent);
+            }
+        });
+
         Button addFood = (Button) findViewById(R.id.addFood);
         addFood.setOnClickListener(new Button.OnClickListener() {
             @Override

@@ -18,12 +18,14 @@ import android.database.sqlite.SQLiteDatabase;
 
 import static android.R.attr.id;
 
+import android.database.sqlite.SQLiteDatabase;
+
 public class meal_eatFoodDBHelper extends SQLiteOpenHelper {
     private static final Boolean DEBUG = true;
 
     //initializing the database
     private static final String DATABASE_NAME = "foods.db";
-    private String TABLE_NAME = "food";
+    private String TABLE_NAME;
 
     //declaring variables for the columns of our database
     public static final String Col_1 = "ID";
@@ -49,13 +51,12 @@ public class meal_eatFoodDBHelper extends SQLiteOpenHelper {
         if (DEBUG) {
             System.out.println("1337 onCreate " + TABLE_NAME);
         }
-
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         if (DEBUG) {
-            System.out.println("1337 onCreate");
+            System.out.println("1337 onCreate called");
         }
         db.execSQL(
                 "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " " +
