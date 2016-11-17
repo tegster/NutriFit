@@ -16,12 +16,12 @@ import android.widget.TextView;
 
 
 
-public class work_programList_adapter extends ArrayAdapter<String>{
+public class work_tracker_adapter extends ArrayAdapter<String>{
 
     private final Activity context;
 
     //Temporary constructor
-    work_programList_adapter(Activity context, String[] programs){
+    work_tracker_adapter(Activity context, String[] programs){
         super(context, R.layout.list_work_single, programs);
         this.context = context;
     }

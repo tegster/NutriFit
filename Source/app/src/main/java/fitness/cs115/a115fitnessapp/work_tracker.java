@@ -47,7 +47,7 @@ public class work_tracker extends AppCompatActivity{
         //======================================================================================
         //Create the list.
         //TODO: use the custom adapter to display exercise name, weight, and sets
-        //ListAdapter programListAdapter = new work_programList_adapter(this, programs);
+        //ListAdapter programListAdapter = new work_tracker_adapter(this, programs);
         ListAdapter exerciseListAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, exercises);
         ListView exerciseListView = (ListView) findViewById(R.id.lv_exerList);
         exerciseListView.setAdapter(exerciseListAdapter);
