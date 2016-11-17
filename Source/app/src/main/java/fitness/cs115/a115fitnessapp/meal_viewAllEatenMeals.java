@@ -1,5 +1,6 @@
 package fitness.cs115.a115fitnessapp;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -11,16 +12,16 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 /**
  * Created by Matthew on 11/17/16.
  */
-
+//this class shows all of the days that have meals eaten on them
 //overall flow
 //1. get all tables from eaten meals database
 //2. convert table name to human readable date
-//3. display human readable dates in listview
-//4. when a user clicks on a meal they are taken to another page that shows the total amount of stuff eaten for that meal
+//3. when a user clicks on a meal they are taken to another page that shows the total amount of stuff eaten for that meal
 public class meal_viewAllEatenMeals extends AppCompatActivity {
     private static final boolean DEBUG = true;
     ListView listView;
@@ -34,18 +35,35 @@ public class meal_viewAllEatenMeals extends AppCompatActivity {
         listView.setLongClickable(true);
         if (DEBUG) {
             SQLiteDatabase mDatabase = openOrCreateDatabase("foods.db", SQLiteDatabase.CREATE_IF_NECESSARY, null);
-            String TABLE_NAME = "car";
+            String TABLE_NAME = "[10/17/2016]";
+
             mDatabase.execSQL(
                     "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " " +
                             "(id INTEGER PRIMARY KEY, foodname text, calories DECIMAL(5,1), totalfat DECIMAL(5,1), transfat DECIMAL(5,1)," +
                             "satfat DECIMAL(5,1), cholesterol DECIMAL(5,1), sodium DECIMAL(5,1), carbs DECIMAL(5,1)," +
                             "fiber DECIMAL(5,1), sugar DECIMAL(5,1), protein DECIMAL(5,1));"
             );
+
+            Calendar calendar = Calendar.getInstance();
+            //surround date with '[' ']' like in create meal to avoid weird issues. This is the actual name for each table
+            String date = "[" + Integer.toString(calendar.get(Calendar.MONTH)) + "/" + Integer.toString(calendar.get(Calendar.DATE)) + "/" + Integer.toString(calendar.get(Calendar.YEAR)) + "]";
+/*
+            mDatabase.execSQL(
+                    "CREATE TABLE IF NOT EXISTS " + date + " " +
+                            "(id INTEGER PRIMARY KEY, foodname text, calories DECIMAL(5,1), totalfat DECIMAL(5,1), transfat DECIMAL(5,1)," +
+                            "satfat DECIMAL(5,1), cholesterol DECIMAL(5,1), sodium DECIMAL(5,1), carbs DECIMAL(5,1)," +
+                            "fiber DECIMAL(5,1), sugar DECIMAL(5,1), protein DECIMAL(5,1));"
+            );
+  */
             meal_eatFoodDBHelper mydb;
+            //  meal_eatFoodDBHelper mydb2;
 
             mydb = new meal_eatFoodDBHelper(this, TABLE_NAME);
 
             mydb.insertFood("bacon", 200.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+
+            //mydb2 = new meal_eatFoodDBHelper(this, date);
+            // mydb2.insertFood("burrito", 999.999, 10.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 15.0);
         }
         viewMealsInDatabase();
 
@@ -56,8 +74,8 @@ public class meal_viewAllEatenMeals extends AppCompatActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
                                            final int position, long arg3) {
+                //we don't need a long click here
                 /*
-                selectedTable = mealNames.get(position);
                 if (DEBUG) {
                     //    Toast.makeText(getApplicationContext(), "long click: " + position + " " + mealNames.get(position), Toast.LENGTH_LONG).show();
                     Toast.makeText(getApplicationContext(), "long click: " + position + " " + mealNames.get(position) + ", " + selectedTable, Toast.LENGTH_LONG).show();
@@ -76,6 +94,10 @@ public class meal_viewAllEatenMeals extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "click: " + position + " " + mealNames.get(position), Toast.LENGTH_LONG).show();
                 }
                 //goto the meal here
+                //send table name to view individual eaten meal activity
+                Intent intent = new Intent(meal_viewAllEatenMeals.this, meal_viewEatenMeal.class);
+                intent.putExtra("TABLE", mealNames.get(position)); //send the meal name to edit_Meal as "TABLE"
+                startActivity(intent);
 
 
             }
@@ -106,7 +128,6 @@ public class meal_viewAllEatenMeals extends AppCompatActivity {
                 mealNames);
 
         //puts the data into the listview
-        //convertIntoHumanReadable();
         listView.setAdapter(arrayAdapter);
         setUpClickListener();
 

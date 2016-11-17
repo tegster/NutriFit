@@ -110,9 +110,16 @@
         <activity
             android:name=".meal_viewAllEatenMeals"
             android:configChanges="orientation"
-            android:label="Workout Tracker"
+            android:label="Meals Eaten"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
+        <activity
+            android:name=".meal_viewEatenMeal"
+            android:configChanges="orientation"
+            android:label="Meal Overview"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+
 
         <meta-data
             android:name="com.google.android.gms.version"
