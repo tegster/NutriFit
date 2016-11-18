@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:text="Weight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_entryName"
+        android:layout_alignParentStart="true"
+        android:id="@+id/tv_weight"
+        android:padding="3dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:id="@+id/tv_entryName"
+        android:text="Placeholder Exercise Name"
+        android:textSize="16sp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_toStartOf="@+id/tv_setsText"
+        android:padding="3dp" />
+
+    <TextView
+        android:text="Sets "
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toStartOf="@+id/tv_setsDone"
+        android:id="@+id/tv_setsText"
+        android:padding="3dp"
+        android:textSize="16sp" />
+
+    <TextView
+        android:text="99"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_setsDone"
+        android:layout_alignParentTop="true"
+        android:layout_toStartOf="@+id/tv_divider"
+        android:padding="3dp"
+        android:textSize="16sp" />
+
+    <TextView
+        android:text=" / "
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_divider"
+        android:layout_alignParentTop="true"
+        android:layout_toStartOf="@+id/tv_targetSets"
+        android:padding="3dp"
+        android:textSize="16sp" />
+
+    <TextView
+        android:text="10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_targetSets"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:padding="3dp"
+        android:textSize="16sp" />
+
+    <TextView
+        android:text="Not Started"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_setsDone"
+        android:layout_alignParentEnd="true"
+        android:padding="3dp"
+        android:textColor="@android:color/holo_red_dark"
+        android:id="@+id/tv_status" />
+
+    <TextView
+        android:text="lbs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="3dp"
+        android:id="@+id/tv_weightUnit"
+        android:layout_alignBaseline="@+id/tv_weight"
+        android:layout_alignBottom="@+id/tv_weight"
+        android:layout_toEndOf="@+id/tv_weight" />
+
+</RelativeLayout>

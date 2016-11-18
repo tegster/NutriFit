@@ -12,9 +12,6 @@ import android.widget.TextView;
  */
 
 
-//Currently not needed. Keep in case; it will be used later as a template.
-
-
 
 public class work_tracker_adapter extends ArrayAdapter<String>{
 
@@ -22,7 +19,7 @@ public class work_tracker_adapter extends ArrayAdapter<String>{
 
     //Temporary constructor
     work_tracker_adapter(Activity context, String[] programs){
-        super(context, R.layout.list_work_single, programs);
+        super(context, R.layout.list_tracker_exer_single, programs);
         this.context = context;
     }
 
@@ -31,7 +28,7 @@ public class work_tracker_adapter extends ArrayAdapter<String>{
     public View getView(int position, View convertView, ViewGroup parent){
         //Create the list view.
         LayoutInflater programListInflator = context.getLayoutInflater();
-        View rowView = programListInflator.inflate(R.layout.list_work_single, null, true);
+        View rowView = programListInflator.inflate(R.layout.list_tracker_exer_single, null, true);
 
         //Set program names.
         String programName = getItem(position);
