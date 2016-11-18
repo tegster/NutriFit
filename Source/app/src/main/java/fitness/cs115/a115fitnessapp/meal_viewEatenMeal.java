@@ -1,9 +1,15 @@
 package fitness.cs115.a115fitnessapp;
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 
 /**
  * Created by Matthew on 11/17/16.
@@ -12,14 +18,19 @@ import android.widget.Toast;
 //1.get the table name passed into the intent
 //2. set up database helper
 //3. call database helper getMacronutrients functions for each nutrient
+//4. populate list view with each item in it
 public class meal_viewEatenMeal extends AppCompatActivity {
     private String TABLE_NAME;
     private meal_eatFoodDBHelper mydb;
     private static final boolean DEBUG = true;
+    ListView listView;
+
+    ArrayList<String> foodNames = new ArrayList<String>();
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meal_view_eaten_meal); //can reuse barcode scan result xml file since it has all of the same info on it
+        listView = (ListView) findViewById(R.id.foodList);
         try {
             Bundle extras = getIntent().getExtras();    //meal name coming in to be edited
             TABLE_NAME = extras.getString("TABLE"); //this is the name of the [meal] table that is being edited.
@@ -28,7 +39,11 @@ public class meal_viewEatenMeal extends AppCompatActivity {
         }
         TABLE_NAME = "[" + TABLE_NAME + "]";
         mydb = new meal_eatFoodDBHelper(this, TABLE_NAME);
+        //remove [ and ] from table name
+        Bundle extras = getIntent().getExtras();    //meal name coming in to be edited
+        TABLE_NAME = extras.getString("TABLE");
         getData();
+        viewItemsInMeal();
     }
 
     private void getData() {
@@ -57,5 +72,19 @@ public class meal_viewEatenMeal extends AppCompatActivity {
         if (DEBUG) {
             System.out.println(mydb.getAllmacrosInfo());
         }
+    }
+
+    //displays food names along with some nutrients
+    private void viewItemsInMeal() {
+        foodNames.clear();
+        foodNames = mydb.getAllmacrosInfo();
+        System.out.println("food names: " + foodNames);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
+                this,
+                android.R.layout.simple_list_item_1,
+                foodNames);
+
+        //puts the data into the listview
+        listView.setAdapter(arrayAdapter);
     }
 }

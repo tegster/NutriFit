@@ -60,7 +60,8 @@ public class meal_viewAllEatenMeals extends AppCompatActivity {
 
             mydb = new meal_eatFoodDBHelper(this, TABLE_NAME);
 
-            mydb.insertFood("bacon", 200.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+            mydb.insertFood("bacon", 200.0, 0.0, 0.0, 550.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+            mydb.insertFood("pie", 100.0, 0.0, 0.0, 0.0, 090.0, 0.0, 0.0, 0.0, 0.0, 0.0);
 
             //mydb2 = new meal_eatFoodDBHelper(this, date);
             // mydb2.insertFood("burrito", 999.999, 10.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 15.0);
