@@ -44,10 +44,10 @@ public class work_tracker extends AppCompatActivity{
         //TODO: grab information from session
 
         String[] exercises = {"Squat", "Bench", "Deadlift"};
-        String[] currSets = {"0", "0", "0"};
+        String[] currSets = {"5", "3", "0"};
         String[] targetSets = {"5","5","5"};
         String[] weights = {"200","250","300"};
-        String[] statuses = {"Not Started", "Not Started", "Not Started"};
+        String[] statuses = {"Complete", "In Progress", "Not Started"};
 
 
 

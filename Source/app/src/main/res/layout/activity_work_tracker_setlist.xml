@@ -13,6 +13,8 @@
     <Chronometer
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/chronometer2"
-        android:textSize="50sp" />
+        android:id="@+id/chronometer"
+        android:textSize="50sp"
+        android:textAlignment="center"
+        android:background="#EFEFEF" />
 </LinearLayout>

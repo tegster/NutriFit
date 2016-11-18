@@ -34,10 +34,10 @@ public class work_trackerSetList extends AppCompatActivity{
 
 
         //TODO: grab information from session
-        String[] setNumbers = {"1","2","3","4","5"};
-        String[] currReps = {"5","3","0","0","0"};
-        String[] targetReps = {"5","5","5","5","5"};
-        String[] weights = {"200","210","220","230","240"};
+        String[] setNumbers = {"1","2","3","4","5","6","7","8","9"};
+        String[] currReps = {"5","3","0","0","0","0","0","0","0"};
+        String[] targetReps = {"5","5","5","5","5","5","5","5","5"};
+        String[] weights = {"200","210","220","230","240","240","240","240","9000"};
 
 
 
