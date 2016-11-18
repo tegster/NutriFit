@@ -4,10 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * Created by Henry on 10/23/2016.
@@ -22,6 +24,7 @@ public class work_trackerSetDetail extends AppCompatActivity{
     TextView plateResult;
     EditText totalWeightInput;
     EditText barWeightInput;
+    EditText repsInput;
     Button logButton;
     Button calcPlates;
     int totalWeight;
@@ -37,10 +40,14 @@ public class work_trackerSetDetail extends AppCompatActivity{
         title = intent.getExtras().getString("setName");
         setTitle(title);
 
-
+        //Prevent keyboard from opening automatically
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
         //this is the file that handles actual set logging
 
+
+
+        repsInput = (EditText) findViewById(R.id.et_reps);
         onEachSideText = (TextView) findViewById(R.id.tv_oes);
         plateResult = (TextView) findViewById(R.id.tv_platesNeeded);
         totalWeightInput = (EditText) findViewById(R.id.et_totalWeight);
@@ -48,11 +55,13 @@ public class work_trackerSetDetail extends AppCompatActivity{
         logButton = (Button) findViewById(R.id.btn_log);
         calcPlates = (Button) findViewById(R.id.btn_calcPlate);
 
+
+
         //TODO: Grab weight and bar weight from database
         totalWeightInput.setText("300");
         barWeightInput.setText("45");
 
-        //Calculate immediately.
+        //Calculate plates immediately.
         performPlateCalculation();
 
 
@@ -67,10 +76,13 @@ public class work_trackerSetDetail extends AppCompatActivity{
             }
         });
 
-
-
-
-
+        logButton.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //TODO: Log the set and start the timer!
+                Toast.makeText(work_trackerSetDetail.this, "This would have been logged.", Toast.LENGTH_SHORT).show();
+            }
+        });
 
 
 
@@ -112,6 +124,7 @@ public class work_trackerSetDetail extends AppCompatActivity{
     }
 
     public void performPlateCalculation(){
+        //TODO: Prevent negatives
         totalWeight = Integer.parseInt(totalWeightInput.getText().toString());
         barWeight = Integer.parseInt(barWeightInput.getText().toString());
         onEachSideText.setText(eachSide(totalWeight,barWeight));
