@@ -98,7 +98,7 @@ public class work_trackerSetDetail extends AppCompatActivity{
     public String plateCalculator(int totalWeight, int barWeight) {
         final double[] plates =  {45, 35, 25, 10, 5, 2.5};
         final String[] plateStr = {"45, ", "35, ", "25, ", "10, ", "5, ", "2.5"};
-        String platesNeeded = "Put these plates on the bar: ";
+        String platesNeeded = "Put these plates on each side the bar:\n";
         double weight = (totalWeight - barWeight) / 2.0;
 
         for(int i = 0; i < plates.length; i++){
