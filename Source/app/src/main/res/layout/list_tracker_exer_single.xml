@@ -7,7 +7,7 @@
         android:text="Weight"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_entryName"
+        android:layout_below="@+id/tv_set"
         android:layout_alignParentStart="true"
         android:id="@+id/tv_weight"
         android:padding="3dp" />
@@ -16,20 +16,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:id="@+id/tv_entryName"
+        android:id="@+id/tv_set"
         android:text="Placeholder Exercise Name"
         android:textSize="16sp"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
         android:layout_toStartOf="@+id/tv_setsText"
-        android:padding="3dp" />
+        android:padding="3dp"
+        android:maxLines="1" />
 
     <TextView
         android:text="Sets "
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_toStartOf="@+id/tv_setsDone"
+        android:layout_toStartOf="@+id/tv_repsDone"
         android:id="@+id/tv_setsText"
         android:padding="3dp"
         android:textSize="16sp" />
@@ -38,7 +39,7 @@
         android:text="99"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/tv_setsDone"
+        android:id="@+id/tv_repsDone"
         android:layout_alignParentTop="true"
         android:layout_toStartOf="@+id/tv_divider"
         android:padding="3dp"
@@ -50,15 +51,15 @@
         android:layout_height="wrap_content"
         android:id="@+id/tv_divider"
         android:layout_alignParentTop="true"
-        android:layout_toStartOf="@+id/tv_targetSets"
+        android:layout_toStartOf="@+id/tv_targetReps"
         android:padding="3dp"
         android:textSize="16sp" />
 
     <TextView
-        android:text="10"
+        android:text="99"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/tv_targetSets"
+        android:id="@+id/tv_targetReps"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:padding="3dp"
@@ -68,7 +69,7 @@
         android:text="Not Started"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_setsDone"
+        android:layout_below="@+id/tv_repsDone"
         android:layout_alignParentEnd="true"
         android:padding="3dp"
         android:textColor="@android:color/holo_red_dark"

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:text="99"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_repsDone"
+        android:layout_alignParentTop="true"
+        android:layout_toStartOf="@+id/tv_divider"
+        android:padding="5dp"
+        android:textSize="34sp" />
+
+    <TextView
+        android:text=" / "
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_divider"
+        android:layout_alignParentTop="true"
+        android:layout_toStartOf="@+id/tv_targetReps"
+        android:padding="5dp"
+        android:textSize="34sp" />
+
+    <TextView
+        android:text="Set"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:textSize="16sp"
+        android:padding="3dp"
+        android:id="@+id/tv_setText" />
+
+    <Space
+        android:layout_height="30dp"
+        android:id="@+id/space"
+        android:layout_alignParentEnd="true"
+        android:layout_width="60dp" />
+
+    <TextView
+        android:text="99"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_targetReps"
+        android:padding="5dp"
+        android:textSize="34sp"
+        android:layout_alignParentTop="true"
+        android:layout_toStartOf="@+id/space" />
+
+    <TextView
+        android:text="1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_setNumber"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/tv_setText"
+        android:textSize="16sp"
+        android:padding="3dp" />
+
+    <TextView
+        android:text="Weight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_weight"
+        android:layout_below="@+id/tv_setText"
+        android:padding="3dp" />
+
+    <TextView
+        android:text="lbs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/tv_weight"
+        android:layout_toEndOf="@+id/tv_weight"
+        android:id="@+id/tv_weightUnit"
+        android:padding="3dp" />
+
+</RelativeLayout>
