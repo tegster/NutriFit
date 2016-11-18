@@ -28,21 +28,26 @@ public class work_tracker extends AppCompatActivity{
         work_db = new work_DBHelper(this);
 
         //Get parameters that are passed into the tracker.
+        /*
         Intent intent = getIntent();
         sessID = intent.getExtras().getString("sessID");
         workoutName = intent.getExtras().getString("wName");
+        */
+        workoutName = "Testing";
         setTitle(workoutName);
 
-
+/*
         //TODO: grab exercises
         ArrayList<String> userworkAL = work_db.get_exers_from_work(workoutName);
         String[] exercises = userworkAL.toArray(new String[userworkAL.size()]);
-
+*/
         //TODO: grab information from session
-        String[] currSets = {};
-        String[] targetSets = {};
-        String[] weights = {};
-        String[] statuses = {};
+
+        String[] exercises = {"Squat", "Bench", "Deadlift"};
+        String[] currSets = {"0", "0", "0"};
+        String[] targetSets = {"5","5","5"};
+        String[] weights = {"200","250","300"};
+        String[] statuses = {"Not Started", "Not Started", "Not Started"};
 
 
 

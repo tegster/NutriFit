@@ -34,10 +34,10 @@ public class work_trackerSetList extends AppCompatActivity{
 
 
         //TODO: grab information from session
-        String[] setNumbers = {};
-        String[] currReps = {};
-        String[] targetReps = {};
-        String[] weights = {};
+        String[] setNumbers = {"1","2","3","4","5"};
+        String[] currReps = {"5","3","0","0","0"};
+        String[] targetReps = {"5","5","5","5","5"};
+        String[] weights = {"200","210","220","230","240"};
 
 
 
@@ -52,9 +52,9 @@ public class work_trackerSetList extends AppCompatActivity{
         exerciseListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id){
-                exerciseName = String.valueOf(parent.getItemAtPosition(position));
+                //exerciseName = String.valueOf(parent.getItemAtPosition(position));
                 Intent setIntent = new Intent(work_trackerSetList.this, work_trackerSetDetail.class);
-                setIntent.putExtra("setName", exerciseName + " - Set " + String.valueOf(position));
+                setIntent.putExtra("setName", exerciseName + " - Set " + String.valueOf(position + 1));
                 setIntent.putExtra("sessID", sessID);
                 startActivity(setIntent);
 

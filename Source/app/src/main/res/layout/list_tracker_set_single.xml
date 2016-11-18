@@ -10,8 +10,9 @@
         android:id="@+id/tv_repsDone"
         android:layout_alignParentTop="true"
         android:layout_toStartOf="@+id/tv_divider"
-        android:padding="5dp"
-        android:textSize="34sp" />
+        android:padding="10dp"
+        android:textSize="34sp"
+        android:textColor="?android:attr/textColorPrimary" />
 
     <TextView
         android:text=" / "
@@ -20,8 +21,9 @@
         android:id="@+id/tv_divider"
         android:layout_alignParentTop="true"
         android:layout_toStartOf="@+id/tv_targetReps"
-        android:padding="5dp"
-        android:textSize="34sp" />
+        android:textSize="34sp"
+        android:textColor="?android:attr/textColorPrimary"
+        android:paddingTop="10dp" />
 
     <TextView
         android:text="Set"
@@ -30,8 +32,10 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
         android:textSize="16sp"
-        android:padding="3dp"
-        android:id="@+id/tv_setText" />
+        android:id="@+id/tv_setText"
+        android:textColor="?android:attr/textColorPrimary"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp" />
 
     <Space
         android:layout_height="30dp"
@@ -44,10 +48,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tv_targetReps"
-        android:padding="5dp"
+        android:padding="10dp"
         android:textSize="34sp"
         android:layout_alignParentTop="true"
-        android:layout_toStartOf="@+id/space" />
+        android:layout_toStartOf="@+id/space"
+        android:textColor="?android:attr/textColorPrimary" />
 
     <TextView
         android:text="1"
@@ -57,7 +62,8 @@
         android:layout_alignParentTop="true"
         android:layout_toEndOf="@+id/tv_setText"
         android:textSize="16sp"
-        android:padding="3dp" />
+        android:padding="10dp"
+        android:textColor="?android:attr/textColorPrimary" />
 
     <TextView
         android:text="Weight"
@@ -65,7 +71,10 @@
         android:layout_height="wrap_content"
         android:id="@+id/tv_weight"
         android:layout_below="@+id/tv_setText"
-        android:padding="3dp" />
+        android:textColor="?android:attr/textColorPrimary"
+        android:paddingLeft="10dp"
+        android:paddingRight="7dp"
+        android:paddingTop="10dp" />
 
     <TextView
         android:text="lbs"
@@ -74,6 +83,7 @@
         android:layout_alignTop="@+id/tv_weight"
         android:layout_toEndOf="@+id/tv_weight"
         android:id="@+id/tv_weightUnit"
-        android:padding="3dp" />
+        android:textColor="?android:attr/textColorPrimary"
+        android:paddingTop="10dp" />
 
 </RelativeLayout>

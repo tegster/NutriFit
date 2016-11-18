@@ -1,5 +1,6 @@
 package fitness.cs115.a115fitnessapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
@@ -12,10 +13,20 @@ import android.widget.TextView;
 
 public class work_trackerSetDetail extends AppCompatActivity{
 
+    String title = "";
+    String sessID = "";
+    work_DBHelper work_db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_work_tracker_setdetail);
+
+        Intent intent = getIntent();
+        sessID = intent.getExtras().getString("sessID");
+        title = intent.getExtras().getString("setName");
+        setTitle(title);
+
 
 
         //this is the file that handles actual set logging
