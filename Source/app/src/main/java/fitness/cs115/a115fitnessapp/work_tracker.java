@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
@@ -39,6 +38,12 @@ public class work_tracker extends AppCompatActivity{
         ArrayList<String> userworkAL = work_db.get_exers_from_work(workoutName);
         String[] exercises = userworkAL.toArray(new String[userworkAL.size()]);
 
+        //TODO: grab information from session
+        String[] currSets = {};
+        String[] targetSets = {};
+        String[] weights = {};
+        String[] statuses = {};
+
 
 
 
@@ -47,8 +52,7 @@ public class work_tracker extends AppCompatActivity{
         //======================================================================================
         //Create the list.
         //TODO: use the custom adapter to display exercise name, weight, and sets
-        //ListAdapter programListAdapter = new work_tracker_adapter(this, programs);
-        ListAdapter exerciseListAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, exercises);
+        ListAdapter exerciseListAdapter = new work_tracker_adapter(this, exercises, currSets, targetSets, weights, statuses);
         ListView exerciseListView = (ListView) findViewById(R.id.lv_exerList);
         exerciseListView.setAdapter(exerciseListAdapter);
         exerciseListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
