@@ -30,6 +30,7 @@ import static android.provider.AlarmClock.EXTRA_MESSAGE;
 public class meal_editMeal extends AppCompatActivity {
     private meal_mealDBHelper mydb;
     private boolean DEBUG = true;
+    private meal_foodDBHelper fooddb = new meal_foodDBHelper(this); //fooddb is the fooddatabase accessor;
     String mealtablename;
     private ListView lv; //used to display foods
   //  private static final List<String> food_names = new ArrayList<>(Set);
@@ -100,8 +101,18 @@ public class meal_editMeal extends AppCompatActivity {
         Log.v("meal_editMeal:", " table name is: " + mealtablename);
 
         //iterate through foods database and add all foods and their calories
-        //this gets all of the foods currently in this meal
-        already_existing_foods = mydb.getAllFoodsAndCaloriesfromMeal();
+        if (DEBUG) {
+            food_names.add("bacon"); //dummy data, not correctly formatted
+        }
+        try {
+            already_existing_foods = mydb.getAllmacrosInfo(); //this gets all of the foods currently in this meal
+        } catch (Exception e) {
+            mealtablename = "[" + mealtablename + "]";
+            mydb = new meal_mealDBHelper(this, mealtablename); //myDB is the name of the meal db that is being edited
+            already_existing_foods = mydb.getAllmacrosInfo(); //this gets all of the foods currently in this meal
+        }
+        Log.v("meal_editMeal:", " already_existing_foods is: " + already_existing_foods);
+        Log.v("food_names:", " food_names is: " + food_names);
 
         System.out.println("already existing foods in meal");
         System.out.println(already_existing_foods);
@@ -252,7 +263,5 @@ public class meal_editMeal extends AppCompatActivity {
         }
         return result;
     }
-
-
 
 }

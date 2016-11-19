@@ -45,7 +45,7 @@ public class meal_mealDBHelper extends SQLiteOpenHelper {
 
 
     public meal_mealDBHelper(Context context, String table_name) {
-        super(context, DATABASE_NAME, null, DATABASE_Version);
+        super(context, DATABASE_NAME, null, 1);
         this.TABLE_NAME = table_name;
         if (DEBUG) {
             System.out.println("1337 Constructor called with: " + this.TABLE_NAME);
@@ -119,6 +119,25 @@ public class meal_mealDBHelper extends SQLiteOpenHelper {
         return true;
     }
 
+    //return all foods and their respective macros. name, cals, fat, carbs, protein
+    public ArrayList<String> getAllmacrosInfo() {
+        ArrayList<String> macros_array_list = new ArrayList<String>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("select * from " + TABLE_NAME, null);
+        res.moveToFirst();
+
+        while (res.isAfterLast() == false) {
+            macros_array_list.add(res.getString(res.getColumnIndex(Col_2)) + "," +
+                    "Cal: " + res.getString(res.getColumnIndex(Col_3)) + "," +
+                    "Fat: " + res.getString(res.getColumnIndex(Col_4)) + "," +
+                    "Carbs: " + res.getString(res.getColumnIndex(Col_9)) + "," +
+                    "Protein: " + res.getString(res.getColumnIndex(Col_12)));
+
+            res.moveToNext();
+        }
+        res.close();
+        return macros_array_list;
+    }
 
     public Cursor getData(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -204,6 +223,8 @@ public class meal_mealDBHelper extends SQLiteOpenHelper {
         res.moveToFirst();
         long count = 0;
         while (res.isAfterLast() == false) {
+            //what this commented out stuff is doing, is making each field be a seperate thing in the arraylist, which maybe not be desired
+
             array_list.add("Item: " + count);
             array_list.add("name " + res.getString(res.getColumnIndex(Col_2_name)));
             array_list.add("calories " + res.getString(res.getColumnIndex(Col_3_cals)));

@@ -347,6 +347,23 @@ public class meal_foodDBHelper extends SQLiteOpenHelper {
         return false;
     }
 
+    //returns the transfar associated with the foodname
+    public double getTransFat(String foodName) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("select * from " + TABLE_NAME, null);
+        res.moveToFirst();
+        while (res.isAfterLast() == false) {
+            if (res.getString(res.getColumnIndex(Col_2)).equals(foodName)) {
+                System.out.println("value of transfat is: " + res.getDouble(res.getColumnIndex(Col_5)));
+                return res.getDouble(res.getColumnIndex(Col_5)); //means food is in database
+            }
+            res.moveToNext();
+        }
+        res.close();
+        return 0;//couldn't find it
+    }
+
+
     //deletes all data stored in table
     public boolean deleteEntireTable() {
         SQLiteDatabase db = this.getWritableDatabase();
