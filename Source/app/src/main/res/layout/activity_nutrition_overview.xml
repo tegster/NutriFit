@@ -39,12 +39,12 @@
         android:layout_centerHorizontal="true" />
 
     <Button
-        android:text="Eat Meal"
+        android:text="Create Day Log"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/barCode"
         android:layout_centerHorizontal="true"
-        android:id="@+id/eat" />
+        android:id="@+id/createdaylog" />
 
     <Button
         android:text="Edit Meal"
@@ -52,14 +52,14 @@
         android:layout_height="wrap_content"
         android:id="@+id/edit_meal"
         android:layout_below="@+id/newMeal"
-        android:layout_alignEnd="@+id/eat" />
+        android:layout_alignEnd="@+id/createdaylog" />
 
     <Button
         android:text="View Meals"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/view_meals"
-        android:layout_below="@+id/eat"
+        android:layout_below="@+id/createdaylog"
         android:layout_centerHorizontal="true" />
 
     <Button

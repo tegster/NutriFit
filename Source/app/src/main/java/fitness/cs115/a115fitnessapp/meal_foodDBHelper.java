@@ -6,8 +6,11 @@ package fitness.cs115.a115fitnessapp;
 //this was used as a starting point but modified a bunch https://www.tutorialspoint.com/android/android_sqlite_database.htm
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.Map;
+import java.util.Set;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -15,6 +18,8 @@ import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.annotation.NonNull;
+import android.util.Pair;
 
 import static android.R.attr.id;
 
@@ -220,6 +225,67 @@ public class meal_foodDBHelper extends SQLiteOpenHelper {
 
 
     //gets food and calories information
+    public HashMap<String,HashMap<String, Double>> getAllFoodInfo() {
+        HashMap<String ,HashMap<String ,Double>> Totalinfo = new HashMap<String, HashMap<String, Double>>();
+        HashMap<String,Double> Totalfoodmacros = new HashMap<>();
+      //  ArrayList<String> array_list = new ArrayList<String>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("select * from " + TABLE_NAME, null);
+        res.moveToFirst();
+        Double count = 0.0;
+       // while () {
+            while (res.isAfterLast() == false) {
+                Totalfoodmacros = new HashMap<>();
+                Totalfoodmacros.put("Item: ", count );
+                Double calories = res.getDouble(res.getColumnIndex(Col_3));
+                Double totalfat = res.getDouble(res.getColumnIndex(Col_4));
+                Double transfat = res.getDouble(res.getColumnIndex(Col_5));
+                Double satfat = res.getDouble(res.getColumnIndex(Col_6));
+                Double Cholestrol = res.getDouble(res.getColumnIndex(Col_7));
+                Double sodium = res.getDouble(res.getColumnIndex(Col_8));
+                Double carbs = res.getDouble(res.getColumnIndex(Col_9));
+                Double fiber = res.getDouble(res.getColumnIndex(Col_10));
+                Double sugar = res.getDouble(res.getColumnIndex(Col_11));
+                Double protein = res.getDouble(res.getColumnIndex(Col_12));
+                Totalfoodmacros.put("calories", calories);
+                Totalfoodmacros.put("fat", totalfat);
+                Totalfoodmacros.put("transfat", transfat);
+                Totalfoodmacros.put("satfat", satfat);
+                Totalfoodmacros.put("Cholestrol", Cholestrol);
+                Totalfoodmacros.put("sodium", sodium);
+                Totalfoodmacros.put("carbs", carbs);
+                Totalfoodmacros.put("fiber", fiber);
+                Totalfoodmacros.put("sugar", sugar);
+                Totalfoodmacros.put("protein", protein);
+                Totalinfo.put(res.getString(res.getColumnIndex(Col_2)), Totalfoodmacros);
+                System.out.println("printing totalfoodmacros.entryset from fooddbhelper");
+               System.out.println(Totalfoodmacros.entrySet());
+                //System.out.println(Totalinfo.entrySet());
+
+                //Totalfoodmacros.clear();
+               // System.out.println("After Inserting    "+Totalinfo.entrySet());
+
+                res.moveToNext();
+
+
+            }
+       // System.out.println(Totalfoodmacros.entrySet());
+
+     //   Totalfoodmacros.clear();
+        //Totalinfo.put(res.getString(res.getColumnIndex(Col_2)), Totalfoodmacros);
+        System.out.println("Printing whats leeaving getallfoodinfo");
+        System.out.println(Totalinfo.entrySet());
+            res.close();
+
+       // }
+
+
+        return Totalinfo;
+    }
+
+    //original getallfoodinfo()
+    /*
+    //gets food and calories information
     public ArrayList<String> getAllFoodInfo() {
         ArrayList<String> array_list = new ArrayList<String>();
         SQLiteDatabase db = this.getReadableDatabase();
@@ -247,6 +313,7 @@ public class meal_foodDBHelper extends SQLiteOpenHelper {
         res.close();
         return array_list;
     }
+     */
 
 
     /*
