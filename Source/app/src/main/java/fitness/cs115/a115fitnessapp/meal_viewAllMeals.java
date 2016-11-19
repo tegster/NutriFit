@@ -200,27 +200,24 @@ public class meal_viewAllMeals extends AppCompatActivity {
         meal_eatFoodDBHelper mydb;
         mydb = new meal_eatFoodDBHelper(this, date);
         while (res.isAfterLast() == false) {
+            /*
             ArrayList<String> array_list = new ArrayList<String>();
             array_list.add("foodname " + res.getString(res.getColumnIndex(mydb.Col_2)));
             array_list.add("calories " + res.getString(res.getColumnIndex(mydb.Col_3)));
             array_list.add("totalfat " + res.getString(res.getColumnIndex(mydb.Col_4)));
             array_list.add("transfat " + res.getString(res.getColumnIndex(mydb.Col_5)));
             array_list.add("satfat " + res.getString(res.getColumnIndex(mydb.Col_6)));
-            /*
             array_list.add("Cholestrol " + res.getString(res.getColumnIndex(mydb.Col_7)));
-               */
             array_list.add("sodium " + res.getString(res.getColumnIndex(mydb.Col_8)));
             array_list.add("carbs " + res.getString(res.getColumnIndex(mydb.Col_9)));
             array_list.add("fiber " + res.getString(res.getColumnIndex(mydb.Col_10)));
             array_list.add("sugar " + res.getString(res.getColumnIndex(mydb.Col_11)));
             array_list.add("protein " + res.getString(res.getColumnIndex(mydb.Col_12)));
-
-            //   res.moveToNext();
             System.out.println(array_list);
-
+*/
             mydb.insertFood(res.getString(res.getColumnIndex(mydb.Col_2)), res.getDouble(res.getColumnIndex(mydb.Col_3)),
                     res.getDouble(res.getColumnIndex(mydb.Col_4)), res.getDouble(res.getColumnIndex(mydb.Col_5)),
-                    res.getDouble(res.getColumnIndex(mydb.Col_6)), 0.0,
+                    res.getDouble(res.getColumnIndex(mydb.Col_6)), res.getDouble(res.getColumnIndex(mydb.Col_7)),
                     res.getDouble(res.getColumnIndex(mydb.Col_8)), res.getDouble(res.getColumnIndex(mydb.Col_9)),
                     res.getDouble(res.getColumnIndex(mydb.Col_10)), res.getDouble(res.getColumnIndex(mydb.Col_11)),
                     res.getDouble(res.getColumnIndex(mydb.Col_12))

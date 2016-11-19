@@ -68,7 +68,7 @@ public class meal_createMeal extends AppCompatActivity {
                 mDatabase.execSQL(
                         "CREATE TABLE IF NOT EXISTS " + input + " " +
                                 "(id INTEGER PRIMARY KEY, foodname text, calories DECIMAL(5,1), totalfat DECIMAL(5,1), transfat DECIMAL(5,1)," +
-                                "satfat DECIMAL(5,1), cholestrol DECIMAL(5,1), sodium DECIMAL(5,1), carbs DECIMAL(5,1)," +
+                                "satfat DECIMAL(5,1), cholesterol DECIMAL(5,1), sodium DECIMAL(5,1), carbs DECIMAL(5,1)," +
                                 "fiber DECIMAL(5,1), sugar DECIMAL(5,1), protein DECIMAL(5,1));"
                 );
                 //now need to make the table so that it actually exists

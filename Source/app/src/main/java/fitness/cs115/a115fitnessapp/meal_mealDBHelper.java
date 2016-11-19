@@ -30,7 +30,7 @@ public class meal_mealDBHelper extends SQLiteOpenHelper {
     public static final String Col_4 = "totalfat";
     public static final String Col_5 = "transfat";
     public static final String Col_6 = "satfat";
-    public static final String Col_7 = "cholestrol";
+    public static final String Col_7 = "cholesterol";
     public static final String Col_8 = "sodium";
     public static final String Col_9 = "carbs";
     public static final String Col_10 = "fiber";
@@ -71,7 +71,7 @@ public class meal_mealDBHelper extends SQLiteOpenHelper {
 
     //add a new food
     public boolean insertFoodinMeal(String foodname, Double calories, Double totalfat, Double transfat, Double satfat,
-                                    Double cholestrol, Double sodium, Double carbs, Double fiber, Double sugar,
+                                    Double cholesterol, Double sodium, Double carbs, Double fiber, Double sugar,
                                     Double protein) {
         if (isFoodInDataBase(foodname)) { //don't insert same item twice
 
@@ -88,7 +88,7 @@ public class meal_mealDBHelper extends SQLiteOpenHelper {
         contentValues.put(Col_4, totalfat);
         contentValues.put(Col_5, transfat);
         contentValues.put(Col_6, satfat);
-        contentValues.put(Col_7, cholestrol);
+        contentValues.put(Col_7, cholesterol);
         contentValues.put(Col_8, sodium);
         contentValues.put(Col_9, carbs);
         contentValues.put(Col_10, fiber);
