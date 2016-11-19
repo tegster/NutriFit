@@ -93,7 +93,6 @@ public class meal_editMeal extends AppCompatActivity {
             System.out.println("food names: " + food_names);
         }
 
-
         //this attaches the listview to the array list to display the food names and calories
         ArrayAdapter<String> foodArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, food_names);
 
@@ -103,13 +102,12 @@ public class meal_editMeal extends AppCompatActivity {
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                  String k = food_names.get(position);
-
+                String foodName = food_names.get(position);
                 if (DEBUG) {
                     Toast.makeText(getApplicationContext(), "position: " + position, Toast.LENGTH_SHORT).show();
                     //getApplicationContext().
                 }
-                if (k.equals("Foods in Meal:") || k.equals("Foods in Database:")) { //can't add this to meal, it's just a prompt
+                if (foodName.equals("Foods in Meal:") || foodName.equals("Foods in Database:")) { //can't add this to meal, it's just a prompt
                     return;
                 }
                 //find the the four parameters from this position and add them to mydb table
@@ -117,7 +115,7 @@ public class meal_editMeal extends AppCompatActivity {
                     //we can update the food in meal, rather than jus deleting it
                     items_add.remove(food_names.get(position));
                     Toast.makeText(getApplicationContext(), "removed: " + food_names.get(position) + " from meal", Toast.LENGTH_SHORT).show();
-                    String name = k.substring(0, k.indexOf(','));
+                    String name = foodName.substring(0, foodName.indexOf(','));
                     mydb.deleteFoodinMeal(name);
                     System.out.println("all macro after delete: " + mydb.getAllmacrosInfo());
                 } else { //means it's not already in the meal
@@ -126,8 +124,8 @@ public class meal_editMeal extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "added: " + food_names.get(position) + " to meal", Toast.LENGTH_SHORT).show();
                     Log.d("tag", "printing after adding to items" + items_add);
                     try {
-                        ArrayList<Double> item = extractIntegers(k); //extracting the double paramters from the foods
-                        String name = k.substring(0, k.indexOf(','));
+                        ArrayList<Double> item = extractIntegers(foodName); //extracting the double paramters from the foods
+                        String name = foodName.substring(0, foodName.indexOf(','));
                         Log.d("tag", "printing after decypher " + "name[" + name + "]");
                         Log.d("tag", "printing after decypher " + "Cals[" + item.get(0) + "]");
                         Log.d("tag", "printing after decypher " + "Fals[" + item.get(1) + "]");
