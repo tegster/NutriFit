@@ -6,6 +6,7 @@ package fitness.cs115.a115fitnessapp;
 //took meal_foodDBHelper.java as a starting point for this
 
 import java.util.ArrayList;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -22,14 +23,19 @@ public class meal_mealDBHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "meal.db";
     private String TABLE_NAME = "meal";
 
-//    private static final String Col_1_id = "id";
-    private static final String Col_2_name = "name";
-    private static final String Col_3_cals = "calories";
-    private static final String Col_4_fat = "fat";
-    private static final String Col_5_carbs = "carbs";
-    private static final String Col_6_protein = "protein";
-
-
+    //declaring variables for the columns of our database
+    public static final String Col_1 = "ID";
+    public static final String Col_2 = "foodname";
+    public static final String Col_3 = "calories";
+    public static final String Col_4 = "totalfat";
+    public static final String Col_5 = "transfat";
+    public static final String Col_6 = "satfat";
+    public static final String Col_7 = "cholestrol";
+    public static final String Col_8 = "sodium";
+    public static final String Col_9 = "carbs";
+    public static final String Col_10 = "fiber";
+    public static final String Col_11 = "sugar";
+    public static final String Col_12 = "protein";
 
 
     public meal_mealDBHelper(Context context, String table_name) {
@@ -62,20 +68,31 @@ public class meal_mealDBHelper extends SQLiteOpenHelper {
     }
 
     //add a new food
-    public boolean insertFoodinMeal(String name, Double calories, Double fat, Double carbs, Double protein) {
-        if (isFoodInMealtable(name)) { //don't insert same item twice
+    public boolean insertFoodinMeal(String foodname, Double calories, Double totalfat, Double transfat, Double satfat,
+                                    Double cholestrol, Double sodium, Double carbs, Double fiber, Double sugar,
+                                    Double protein) {
+        if (isFoodInDataBase(foodname)) { //don't insert same item twice
+
             if (DEBUG) {
-                System.out.println(name + " is already in database");
+                System.out.println(foodname + " is already in database");
             }
             return false;
         }
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(Col_2_name, name);
-        contentValues.put(Col_3_cals, calories);
-        contentValues.put(Col_4_fat, fat);
-        contentValues.put(Col_5_carbs, carbs);
-        contentValues.put(Col_6_protein, protein);
+
+        contentValues.put(Col_2, foodname);
+        contentValues.put(Col_3, calories);
+        contentValues.put(Col_4, totalfat);
+        contentValues.put(Col_5, transfat);
+        contentValues.put(Col_6, satfat);
+        contentValues.put(Col_7, cholestrol);
+        contentValues.put(Col_8, sodium);
+        contentValues.put(Col_9, carbs);
+        contentValues.put(Col_10, fiber);
+        contentValues.put(Col_11, sugar);
+        contentValues.put(Col_12, protein);
+
         db.insert(TABLE_NAME, null, contentValues);
         return true;
     }
@@ -94,15 +111,23 @@ public class meal_mealDBHelper extends SQLiteOpenHelper {
         return numRows;
     }
 
-    //can change the foods name and number of calories
-    public boolean updateFoodinMeal(Integer id, String name, Double calories, Double fat, Double carbs, Double protein) {
+    //can change the foods name and all macronutrients
+    public boolean updateFoodinMeal(String foodname, Double calories, Double totalfat, Double transfat, Double satfat,
+                                    Double cholestrol, Double sodium, Double carbs, Double fiber, Double sugar,
+                                    Double protein) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(Col_2_name, name);
-        contentValues.put(Col_3_cals, calories);
-        contentValues.put(Col_4_fat, fat);
-        contentValues.put(Col_5_carbs, carbs);
-        contentValues.put(Col_6_protein, protein);
+        contentValues.put(Col_2, foodname);
+        contentValues.put(Col_3, calories);
+        contentValues.put(Col_4, totalfat);
+        contentValues.put(Col_5, transfat);
+        contentValues.put(Col_6, satfat);
+        contentValues.put(Col_7, cholestrol);
+        contentValues.put(Col_8, sodium);
+        contentValues.put(Col_9, carbs);
+        contentValues.put(Col_10, fiber);
+        contentValues.put(Col_11, sugar);
+        contentValues.put(Col_12, protein);
         db.update(TABLE_NAME, contentValues, "id = ? ", new String[]{Integer.toString(id)});
         return true;
     }
@@ -124,7 +149,7 @@ public class meal_mealDBHelper extends SQLiteOpenHelper {
     //false means not successful, probably because the food doesn't exist in the database
     public boolean deleteFoodinMeal(String name) {
         SQLiteDatabase db = this.getWritableDatabase();
-        int delete = db.delete(TABLE_NAME, Col_2_name + " = ?", new String[]{name});
+        int delete = db.delete(TABLE_NAME, Col_2 + " = ?", new String[]{name});
         if (DEBUG) {
             System.out.println("deleted x value is " + delete);
         }
@@ -140,7 +165,7 @@ public class meal_mealDBHelper extends SQLiteOpenHelper {
         res.moveToFirst();
 
         while (res.isAfterLast() == false) {
-            array_list.add(res.getString(res.getColumnIndex(Col_2_name)));
+            array_list.add(res.getString(res.getColumnIndex(Col_2)));
             res.moveToNext();
         }
         res.close();
@@ -151,18 +176,24 @@ public class meal_mealDBHelper extends SQLiteOpenHelper {
     public ArrayList<String> getAllFoodInfofromMeal() {
         ArrayList<String> array_list = new ArrayList<String>();
         SQLiteDatabase db = this.getReadableDatabase();
-        //Cursor res = db.rawQuery("select * from " + TABLE_NAME, null);
-        Cursor res = db.rawQuery("select * from "+ TABLE_NAME +" WHERE id='" + id + "'",null);
+        Cursor res = db.rawQuery("select * from " + TABLE_NAME, null);
         res.moveToFirst();
         long count = 0;
         while (res.isAfterLast() == false) {
             array_list.add("Item: " + count);
-            array_list.add("name " + res.getString(res.getColumnIndex(Col_2_name)));
-            array_list.add("calories " + res.getString(res.getColumnIndex(Col_3_cals)));
-            array_list.add("fat " + res.getString(res.getColumnIndex(Col_4_fat)));
-            array_list.add("crabs " + res.getString(res.getColumnIndex(Col_5_carbs)));
-            array_list.add("protein " + res.getString(res.getColumnIndex(Col_6_protein)));
-            array_list.add("index " + res.getString(res.getColumnIndex("id")));
+            //  array_list.add("index " + res.getString(res.getColumnIndex(Col_1)));
+            array_list.add("foodname " + res.getString(res.getColumnIndex(Col_2)));
+            array_list.add("calories " + res.getString(res.getColumnIndex(Col_3)));
+            array_list.add("totalfat " + res.getString(res.getColumnIndex(Col_4)));
+            array_list.add("transfat " + res.getString(res.getColumnIndex(Col_5)));
+            array_list.add("satfat " + res.getString(res.getColumnIndex(Col_6)));
+            array_list.add("Cholestrol " + res.getString(res.getColumnIndex(Col_7)));
+            array_list.add("sodium " + res.getString(res.getColumnIndex(Col_8)));
+            array_list.add("carbs " + res.getString(res.getColumnIndex(Col_9)));
+            array_list.add("fiber " + res.getString(res.getColumnIndex(Col_10)));
+            array_list.add("sugar " + res.getString(res.getColumnIndex(Col_11)));
+            array_list.add("protein " + res.getString(res.getColumnIndex(Col_12)));
+
             res.moveToNext();
             count++;
         }
@@ -193,13 +224,14 @@ public class meal_mealDBHelper extends SQLiteOpenHelper {
         Cursor res = db.rawQuery("select * from " + TABLE_NAME, null);
         res.moveToFirst();
         while (res.isAfterLast() == false) {
-            if (res.getString(res.getColumnIndex(Col_2_name)).equals(foodName)) {
+            if (res.getString(res.getColumnIndex(Col_2)).equals(foodName)) {
                 return true; //means food is in database
             }
             res.moveToNext();
         }
         res.close();
         return false;
+
     }
 
     //returns all foods and their respective calories at the same time
@@ -210,12 +242,13 @@ public class meal_mealDBHelper extends SQLiteOpenHelper {
         res.moveToFirst();
 
         while (res.isAfterLast() == false) {
-            array_list.add(res.getString(res.getColumnIndex(Col_2_name)) + ", cal: " + res.getString(res.getColumnIndex(Col_3_cals)));
+            array_list.add(res.getString(res.getColumnIndex(Col_2)) + ", cal: " + res.getString(res.getColumnIndex(Col_3)));
             res.moveToNext();
         }
         res.close();
         return array_list;
     }
+
     //deletes all data stored in table
     public boolean deleteEntireTable() {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -233,4 +266,20 @@ public class meal_mealDBHelper extends SQLiteOpenHelper {
         return 0; //error
     }
 
+    //true means the data is in the databse
+    //true means food name is already in database
+    //false means food is not in database
+    public boolean isFoodInDataBase(String foodName) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("select * from " + TABLE_NAME, null);
+        res.moveToFirst();
+        while (res.isAfterLast() == false) {
+            if (res.getString(res.getColumnIndex(Col_2)).equals(foodName)) {
+                return true; //means food is in database
+            }
+            res.moveToNext();
+        }
+        res.close();
+        return false;
+    }
 }

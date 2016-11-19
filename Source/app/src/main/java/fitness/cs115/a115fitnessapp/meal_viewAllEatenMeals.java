@@ -50,7 +50,7 @@ public class meal_viewAllEatenMeals extends AppCompatActivity {
 /*
             mDatabase.execSQL(
                     "CREATE TABLE IF NOT EXISTS " + date + " " +
-                            "(id INTEGER PRIMARY KEY, foodname text, calories DECIMAL(5,1), totalfat DECIMAL(5,1), transfat DECIMAL(5,1)," +
+                            "(id INTEGER PRIMARY KEY, String Date, Double servings, foodname text, calories DECIMAL(5,1), totalfat DECIMAL(5,1), transfat DECIMAL(5,1)," +
                             "satfat DECIMAL(5,1), cholesterol DECIMAL(5,1), sodium DECIMAL(5,1), carbs DECIMAL(5,1)," +
                             "fiber DECIMAL(5,1), sugar DECIMAL(5,1), protein DECIMAL(5,1));"
             );

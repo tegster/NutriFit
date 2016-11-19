@@ -54,7 +54,7 @@ public class meal_editMeal extends AppCompatActivity {
         //below is just debug, start at line 84
 
         if (DEBUG) {
-            mydb.insertFoodinMeal("chicken", 200.2, 12.2, 11.2, 25.6);
+            mydb.insertFoodinMeal("chicken", 200.2, 12.2, 11.2, 25.6, 11.2, 12.2, 13.2, 14.2, 15.2, 8.9);
             System.out.println(mydb.getAllFoodInfofromMeal());
         }
 
@@ -122,7 +122,7 @@ public class meal_editMeal extends AppCompatActivity {
                         Log.d("tag", "printing after decypher " + "Fals[" + item.get(1) + "]");
                         Log.d("tag", "printing after decypher " + "Carbs[" + item.get(2) + "]");
                         Log.d("tag", "printing after decypher " + "Protein[" + item.get(3) + "]");
-                        mydb.insertFoodinMeal(name, item.get(0), item.get(1), item.get(2), item.get(3)); //inserting to meals DB
+                        mydb.insertFoodinMeal(name, item.get(0), item.get(1), item.get(2), item.get(3), 0.0, 0.0, 0.0, 0.0, 0.0, 0.0); //inserting to meals DB
                         Log.d("tag", "total cal: " + mydb.getTotalCalories());
                     } catch (Exception e) {//this is just for debugging to stop app from crashing based off of incomplete hardcoded database entries
                         //this catch will *not* get triggered with actual values
