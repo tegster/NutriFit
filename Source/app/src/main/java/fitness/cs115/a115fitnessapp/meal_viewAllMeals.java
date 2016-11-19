@@ -178,7 +178,11 @@ public class meal_viewAllMeals extends AppCompatActivity {
                         "satfat DECIMAL(5,1), cholestrol DECIMAL(5,1), sodium DECIMAL(5,1), carbs DECIMAL(5,1)," +
                         "fiber DECIMAL(5,1), sugar DECIMAL(5,1), protein DECIMAL(5,1));"
         );
-        Cursor res = mDatabase.rawQuery("select * from " + selectedTable, null);
+
+
+        //cursor needs to iterate through mealdb, not food db
+        SQLiteDatabase mealdb = openOrCreateDatabase("meal.db", SQLiteDatabase.CREATE_IF_NECESSARY, null);
+        Cursor res = mealdb.rawQuery("select * from " + selectedTable, null);
         res.moveToFirst();
 
         //set up eatFood db
@@ -195,29 +199,39 @@ public class meal_viewAllMeals extends AppCompatActivity {
         );
         meal_eatFoodDBHelper mydb;
         mydb = new meal_eatFoodDBHelper(this, date);
-
         while (res.isAfterLast() == false) {
+            ArrayList<String> array_list = new ArrayList<String>();
+            array_list.add("foodname " + res.getString(res.getColumnIndex(mydb.Col_2)));
+            array_list.add("calories " + res.getString(res.getColumnIndex(mydb.Col_3)));
+            array_list.add("totalfat " + res.getString(res.getColumnIndex(mydb.Col_4)));
+            array_list.add("transfat " + res.getString(res.getColumnIndex(mydb.Col_5)));
+            array_list.add("satfat " + res.getString(res.getColumnIndex(mydb.Col_6)));
             /*
-            array_list.add("foodname " + res.getString(res.getColumnIndex(Col_2)));
-            array_list.add("calories " + res.getString(res.getColumnIndex(Col_3)));
-            array_list.add("totalfat " + res.getString(res.getColumnIndex(Col_4)));
-            array_list.add("transfat " + res.getString(res.getColumnIndex(Col_5)));
-            array_list.add("satfat " + res.getString(res.getColumnIndex(Col_6)));
-            array_list.add("Cholestrol " + res.getString(res.getColumnIndex(Col_7)));
-            array_list.add("sodium " + res.getString(res.getColumnIndex(Col_8)));
-            array_list.add("carbs " + res.getString(res.getColumnIndex(Col_9)));
-            array_list.add("fiber " + res.getString(res.getColumnIndex(Col_10)));
-            array_list.add("sugar " + res.getString(res.getColumnIndex(Col_11)));
-            array_list.add("protein " + res.getString(res.getColumnIndex(Col_12)));
-            res.moveToNext();
-            */
+            array_list.add("Cholestrol " + res.getString(res.getColumnIndex(mydb.Col_7)));
+               */
+            array_list.add("sodium " + res.getString(res.getColumnIndex(mydb.Col_8)));
+            array_list.add("carbs " + res.getString(res.getColumnIndex(mydb.Col_9)));
+            array_list.add("fiber " + res.getString(res.getColumnIndex(mydb.Col_10)));
+            array_list.add("sugar " + res.getString(res.getColumnIndex(mydb.Col_11)));
+            array_list.add("protein " + res.getString(res.getColumnIndex(mydb.Col_12)));
+
+            //   res.moveToNext();
+            System.out.println(array_list);
+
             mydb.insertFood(res.getString(res.getColumnIndex(mydb.Col_2)), res.getDouble(res.getColumnIndex(mydb.Col_3)),
                     res.getDouble(res.getColumnIndex(mydb.Col_4)), res.getDouble(res.getColumnIndex(mydb.Col_5)),
-                    res.getDouble(res.getColumnIndex(mydb.Col_6)), res.getDouble(res.getColumnIndex(mydb.Col_7)),
+                    res.getDouble(res.getColumnIndex(mydb.Col_6)), 0.0,
                     res.getDouble(res.getColumnIndex(mydb.Col_8)), res.getDouble(res.getColumnIndex(mydb.Col_9)),
                     res.getDouble(res.getColumnIndex(mydb.Col_10)), res.getDouble(res.getColumnIndex(mydb.Col_11)),
                     res.getDouble(res.getColumnIndex(mydb.Col_12))
             );
+
+            /*
+            mydb.insertFood(res.getString(res.getColumnIndex(mydb.Col_2)), res.getDouble(res.getColumnIndex(mydb.Col_3)),
+                    res.getDouble(res.getColumnIndex(mydb.Col_4)), res.getDouble(res.getColumnIndex(mydb.Col_5)),
+                    res.getDouble(res.getColumnIndex(mydb.Col_6)), 0.0,0.0,0.0,0.0,0.0,0.0
+            );
+            */
             System.out.println("total items in table is: " + mydb.getAllmacrosInfo());
             res.moveToNext();
         }
