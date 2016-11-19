@@ -296,7 +296,85 @@ public class meal_foodDBHelper extends SQLiteOpenHelper {
         return 0;//couldn't find it
     }
 
+    //returns the satFar associated with the foodname
+    public double getSatFat(String foodName) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("select * from " + TABLE_NAME, null);
+        res.moveToFirst();
+        while (res.isAfterLast() == false) {
+            if (res.getString(res.getColumnIndex(Col_2)).equals(foodName)) {
+                System.out.println("value of satfat is: " + res.getDouble(res.getColumnIndex(Col_6)));
+                return res.getDouble(res.getColumnIndex(Col_6)); //means food is in database
+            }
+            res.moveToNext();
+        }
+        res.close();
+        return 0;//couldn't find it
+    }
 
+    //returns the cholesterol associated with the foodname
+    public double getCholesterol(String foodName) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("select * from " + TABLE_NAME, null);
+        res.moveToFirst();
+        while (res.isAfterLast() == false) {
+            if (res.getString(res.getColumnIndex(Col_2)).equals(foodName)) {
+                System.out.println("value of cholesterol is: " + res.getDouble(res.getColumnIndex(Col_7)));
+                return res.getDouble(res.getColumnIndex(Col_7)); //means food is in database
+            }
+            res.moveToNext();
+        }
+        res.close();
+        return 0;//couldn't find it
+    }
+
+    //returns the sodium associated with the foodname
+    public double getSodium(String foodName) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("select * from " + TABLE_NAME, null);
+        res.moveToFirst();
+        while (res.isAfterLast() == false) {
+            if (res.getString(res.getColumnIndex(Col_2)).equals(foodName)) {
+                System.out.println("value of sodium is: " + res.getDouble(res.getColumnIndex(Col_8)));
+                return res.getDouble(res.getColumnIndex(Col_8)); //means food is in database
+            }
+            res.moveToNext();
+        }
+        res.close();
+        return 0;//couldn't find it
+    }
+
+    //returns the fiber associated with the foodname
+    public double getFiber(String foodName) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("select * from " + TABLE_NAME, null);
+        res.moveToFirst();
+        while (res.isAfterLast() == false) {
+            if (res.getString(res.getColumnIndex(Col_2)).equals(foodName)) {
+                System.out.println("value of fiber is: " + res.getDouble(res.getColumnIndex(Col_10)));
+                return res.getDouble(res.getColumnIndex(Col_10)); //means food is in database
+            }
+            res.moveToNext();
+        }
+        res.close();
+        return 0;//couldn't find it
+    }
+
+    //returns the sugar associated with the foodname
+    public double getSugar(String foodName) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("select * from " + TABLE_NAME, null);
+        res.moveToFirst();
+        while (res.isAfterLast() == false) {
+            if (res.getString(res.getColumnIndex(Col_2)).equals(foodName)) {
+                System.out.println("value of sugar is: " + res.getDouble(res.getColumnIndex(Col_11)));
+                return res.getDouble(res.getColumnIndex(Col_11)); //means food is in database
+            }
+            res.moveToNext();
+        }
+        res.close();
+        return 0;//couldn't find it
+    }
     //deletes all data stored in table
     public boolean deleteEntireTable() {
         SQLiteDatabase db = this.getWritableDatabase();

@@ -117,8 +117,9 @@ public class meal_editMeal extends AppCompatActivity {
                     //we can update the food in meal, rather than jus deleting it
                     items_add.remove(food_names.get(position));
                     Toast.makeText(getApplicationContext(), "removed: " + food_names.get(position) + " from meal", Toast.LENGTH_SHORT).show();
-                    //remove from database
-                    mydb.deleteFoodinMeal(food_names.get(position));
+                    String name = k.substring(0, k.indexOf(','));
+                    mydb.deleteFoodinMeal(name);
+                    System.out.println("all macro after delete: " + mydb.getAllmacrosInfo());
                 } else { //means it's not already in the meal
                     items_add.add(food_names.get(position));
                     System.out.println(items_add);
@@ -132,7 +133,10 @@ public class meal_editMeal extends AppCompatActivity {
                         Log.d("tag", "printing after decypher " + "Fals[" + item.get(1) + "]");
                         Log.d("tag", "printing after decypher " + "Carbs[" + item.get(2) + "]");
                         Log.d("tag", "printing after decypher " + "Protein[" + item.get(3) + "]");
-                        mydb.insertFoodinMeal(name, item.get(0), item.get(1), item.get(2), fooddb.getTransFat(name), 0.0, 0.0, item.get(2), 0.0, 0.0, item.get(3)); //inserting to meals DB
+
+                        mydb.insertFoodinMeal(name, item.get(0), item.get(1), fooddb.getTransFat(name), fooddb.getSatFat(name),
+                                fooddb.getCholesterol(name), fooddb.getSodium(name), item.get(2), fooddb.getFiber(name), fooddb.getSugar(name),
+                                item.get(3)); //inserting to meals DB
                         Log.d("tag", "total cal: " + mydb.getTotalCalories());
                     } catch (Exception e) {//this is just for debugging to stop app from crashing based off of incomplete hardcoded database entries
                         //this catch will *not* get triggered with actual values
@@ -149,9 +153,6 @@ public class meal_editMeal extends AppCompatActivity {
         //no need to use a map instead since at absolute most a meal will probably have 20 items in it
 
         Toast.makeText(this, "Tap the items you wish to add to the meal, Tap again to remove", Toast.LENGTH_LONG).show();
-
-
-
     }
 
     //extract integers from a string and return them in Arraylist of double

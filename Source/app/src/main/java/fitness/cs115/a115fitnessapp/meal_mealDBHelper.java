@@ -169,8 +169,9 @@ public class meal_mealDBHelper extends SQLiteOpenHelper {
     //true means delete successful
     //false means not successful, probably because the food doesn't exist in the database
     public boolean deleteFoodinMeal(String name) {
+
         SQLiteDatabase db = this.getWritableDatabase();
-        int delete = db.delete(TABLE_NAME, Col_2 + " = ?", new String[]{name});
+        int delete = db.delete(TABLE_NAME, Col_2 + " = ? ", new String[]{name});
         if (DEBUG) {
             System.out.println("deleted x value is " + delete);
         }
