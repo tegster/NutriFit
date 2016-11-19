@@ -43,14 +43,6 @@ public class meal_viewAllMeals extends AppCompatActivity {
 
         if (DEBUG) {
             Calendar calendar = Calendar.getInstance();
-            /*
-            int dayyear = calendar.get(Calendar.DAY_OF_YEAR);
-            int year = calendar.get(Calendar.YEAR);
-            System.out.println("date: " + calendar.get(Calendar.DATE));
-            System.out.println("month:" + calendar.get(Calendar.MONTH));
-            System.out.println("dayyear is: " + dayyear);
-            System.out.println("year is: " + year);
-            */
             String date = Integer.toString(calendar.get(Calendar.MONTH)) + '/' + Integer.toString(calendar.get(Calendar.DATE)) + '/' + Integer.toString(calendar.get(Calendar.YEAR));
             System.out.println("testing date is: " + date);
             System.out.println("length of date is: " + date.length());
@@ -161,8 +153,6 @@ public class meal_viewAllMeals extends AppCompatActivity {
                 if (DEBUG) {
                     Toast.makeText(getApplicationContext(), "click: " + position + " " + arrTblNames.get(position), Toast.LENGTH_LONG).show();
                 }
-
-                //eat meal here
                 eatMeal();
             }
         });
@@ -180,7 +170,7 @@ public class meal_viewAllMeals extends AppCompatActivity {
         );
 
 
-        //cursor needs to iterate through mealdb, not food db
+        //cursor needs to iterate through mealdb, not food db. since the data we need is stored in meal
         SQLiteDatabase mealdb = openOrCreateDatabase("meal.db", SQLiteDatabase.CREATE_IF_NECESSARY, null);
         Cursor res = mealdb.rawQuery("select * from " + selectedTable, null);
         res.moveToFirst();
@@ -223,12 +213,6 @@ public class meal_viewAllMeals extends AppCompatActivity {
                     res.getDouble(res.getColumnIndex(mydb.Col_12))
             );
 
-            /*
-            mydb.insertFood(res.getString(res.getColumnIndex(mydb.Col_2)), res.getDouble(res.getColumnIndex(mydb.Col_3)),
-                    res.getDouble(res.getColumnIndex(mydb.Col_4)), res.getDouble(res.getColumnIndex(mydb.Col_5)),
-                    res.getDouble(res.getColumnIndex(mydb.Col_6)), 0.0,0.0,0.0,0.0,0.0,0.0
-            );
-            */
             System.out.println("total items in table is: " + mydb.getAllmacrosInfo());
             res.moveToNext();
         }
