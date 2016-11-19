@@ -138,7 +138,7 @@ public class meal_editMeal extends AppCompatActivity {
         // and display error message saying
         //no need to use a map instead since at absolute most a meal will probably have 20 items in it
 
-        Toast.makeText(this, "Tap the items you wish to add to the meal, Tap again to move", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Tap the items you wish to add to the meal, Tap again to remove", Toast.LENGTH_LONG).show();
 
 
 
