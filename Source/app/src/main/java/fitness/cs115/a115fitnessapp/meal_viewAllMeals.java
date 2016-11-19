@@ -161,9 +161,9 @@ public class meal_viewAllMeals extends AppCompatActivity {
                 if (DEBUG) {
                     Toast.makeText(getApplicationContext(), "click: " + position + " " + arrTblNames.get(position), Toast.LENGTH_LONG).show();
                 }
+
                 //eat meal here
                 eatMeal();
-
             }
         });
     }
@@ -180,6 +180,22 @@ public class meal_viewAllMeals extends AppCompatActivity {
         );
         Cursor res = mDatabase.rawQuery("select * from " + selectedTable, null);
         res.moveToFirst();
+
+        //set up eatFood db
+        Calendar calendar = Calendar.getInstance();
+        //surround date with '[' ']' like in create meal to avoid weird issues. This is the actual name for each table
+        SQLiteDatabase eatFood = openOrCreateDatabase("Eatfood.db", SQLiteDatabase.CREATE_IF_NECESSARY, null);
+        String date = "[" + Integer.toString(calendar.get(Calendar.MONTH)) + "/" + Integer.toString(calendar.get(Calendar.DATE)) + "/" + Integer.toString(calendar.get(Calendar.YEAR)) + "]";
+        //make 100% sure that the table already exists
+        eatFood.execSQL(
+                "CREATE TABLE IF NOT EXISTS " + date + " " +
+                        "(id INTEGER PRIMARY KEY, foodname text, calories DECIMAL(5,1), totalfat DECIMAL(5,1), transfat DECIMAL(5,1)," +
+                        "satfat DECIMAL(5,1), cholesterol DECIMAL(5,1), sodium DECIMAL(5,1), carbs DECIMAL(5,1)," +
+                        "fiber DECIMAL(5,1), sugar DECIMAL(5,1), protein DECIMAL(5,1));"
+        );
+        meal_eatFoodDBHelper mydb;
+        mydb = new meal_eatFoodDBHelper(this, date);
+
         while (res.isAfterLast() == false) {
             /*
             array_list.add("foodname " + res.getString(res.getColumnIndex(Col_2)));
@@ -195,6 +211,15 @@ public class meal_viewAllMeals extends AppCompatActivity {
             array_list.add("protein " + res.getString(res.getColumnIndex(Col_12)));
             res.moveToNext();
             */
+            mydb.insertFood(res.getString(res.getColumnIndex(mydb.Col_2)), res.getDouble(res.getColumnIndex(mydb.Col_3)),
+                    res.getDouble(res.getColumnIndex(mydb.Col_4)), res.getDouble(res.getColumnIndex(mydb.Col_5)),
+                    res.getDouble(res.getColumnIndex(mydb.Col_6)), res.getDouble(res.getColumnIndex(mydb.Col_7)),
+                    res.getDouble(res.getColumnIndex(mydb.Col_8)), res.getDouble(res.getColumnIndex(mydb.Col_9)),
+                    res.getDouble(res.getColumnIndex(mydb.Col_10)), res.getDouble(res.getColumnIndex(mydb.Col_11)),
+                    res.getDouble(res.getColumnIndex(mydb.Col_12))
+            );
+            System.out.println("total items in table is: " + mydb.getAllmacrosInfo());
+            res.moveToNext();
         }
         res.close();
 

@@ -44,9 +44,9 @@ public class meal_editMeal extends AppCompatActivity {
             return;
         }
         mealtablename =  extras.getString("TABLE"); //this is the name of the [meal] table that is being edited.
-        food_names = foodDB.getAllmacrosInfo(); //food_names = arraylist of all foods and their cals'
-        food_names.add("Foods in Database:");
-
+        food_names = foodDB.getAllmacrosInfo(); //food_names = arraylist of all foods in food database and their cals'
+        food_names.add(0, "Foods in Database:");
+        System.out.println("food names: " + food_names);
         mydb = new meal_mealDBHelper(this, mealtablename); //myDB is the name of the meal db that is being edited
         lv = (ListView) findViewById(R.id.meal_items);
         // this is where we need to add the data from foodnames to
@@ -69,6 +69,7 @@ public class meal_editMeal extends AppCompatActivity {
         try {
             already_existing_foods = mydb.getAllmacrosInfo(); //this gets all of the foods currently in this meal
         } catch (Exception e) {
+            already_existing_foods.clear(); //just in case there is somehow data in here
             mealtablename = "[" + mealtablename + "]";
             mydb = new meal_mealDBHelper(this, mealtablename); //myDB is the name of the meal db that is being edited
             already_existing_foods = mydb.getAllmacrosInfo(); //this gets all of the foods currently in this meal
@@ -77,8 +78,7 @@ public class meal_editMeal extends AppCompatActivity {
         Log.v("food_names:", " food_names is: " + food_names);
 
         food_names.removeAll(already_existing_foods);//in the list of all foods, get rid of elements that are already in the meal, they will be inserted at the front
-        //put both lists in lexographical order
-        Collections.sort(food_names);
+        //put  list in lexographical order
         Collections.sort(already_existing_foods);
 
         if (DEBUG) {
@@ -88,10 +88,13 @@ public class meal_editMeal extends AppCompatActivity {
         for (String temp_food : already_existing_foods) { //iterate through the list, adding each item to the beginning of the list
             food_names.add(0, temp_food);
         }
+        System.out.println("food names before header: " + food_names);
+
         food_names.add(0, "Foods in Meal:"); //explain to user what is already in meal
         if (DEBUG) {
             System.out.println("food names: " + food_names);
         }
+        System.out.println("food names after header: " + food_names);
 
         //this attaches the listview to the array list to display the food names and calories
         ArrayAdapter<String> foodArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, food_names);
@@ -120,7 +123,7 @@ public class meal_editMeal extends AppCompatActivity {
                     System.out.println("all macro after delete: " + mydb.getAllmacrosInfo());
                 } else { //means it's not already in the meal
                     items_add.add(food_names.get(position));
-                    System.out.println(items_add);
+                    System.out.println("items add:" + items_add);
                     Toast.makeText(getApplicationContext(), "added: " + food_names.get(position) + " to meal", Toast.LENGTH_SHORT).show();
                     Log.d("tag", "printing after adding to items" + items_add);
                     try {
