@@ -41,16 +41,17 @@ public class meal_viewAllMeals extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.meals);
         listView.setLongClickable(true);
 
-        Calendar calendar = Calendar.getInstance();
-        int dayyear = calendar.get(Calendar.DAY_OF_YEAR);
-        int year = calendar.get(Calendar.YEAR);
-        System.out.println("dayyear is: " + dayyear);
-        System.out.println("year is: " + year);
+        if (DEBUG) {
+            Calendar calendar = Calendar.getInstance();
+            String date = Integer.toString(calendar.get(Calendar.MONTH)) + '/' + Integer.toString(calendar.get(Calendar.DATE)) + '/' + Integer.toString(calendar.get(Calendar.YEAR));
+            System.out.println("testing date is: " + date);
+            System.out.println("length of date is: " + date.length());
+        }
+
         //======================================================================================
         //  Dialog Boxes
         //======================================================================================
-        // Program Deletion Dialog Box
-        // - A deletion confirmation dialog box.
+        // Once the list view is long clicked, the
         final AlertDialog.Builder programOptionDelete = new AlertDialog.Builder(this);
         programOptionDelete.setTitle("Delete Meal?");
         programOptionDelete.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
@@ -72,6 +73,7 @@ public class meal_viewAllMeals extends AppCompatActivity {
                 viewMealsInDatabase();
             }
         });
+        //once long clicked to delete, this cancel will abort the delete
         programOptionDelete.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int selection_id) {
@@ -118,8 +120,7 @@ public class meal_viewAllMeals extends AppCompatActivity {
             }
         }
         c.close();
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
-                this,
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1,
                 arrTblNames);
 
@@ -137,7 +138,7 @@ public class meal_viewAllMeals extends AppCompatActivity {
                 programOptionMenu.show();
                 selectedTable = arrTblNames.get(position);
                 if (DEBUG) {
-                    //    Toast.makeText(getApplicationContext(), "long click: " + position + " " + arrTblNames.get(position), Toast.LENGTH_LONG).show();
+                    //    Toast.makeText(getApplicationContext(), "long click: " + position + " " + mealNames.get(position), Toast.LENGTH_LONG).show();
                     Toast.makeText(getApplicationContext(), "long click: " + position + " " + arrTblNames.get(position) + ", " + selectedTable, Toast.LENGTH_LONG).show();
                 }
                 return true;
@@ -152,11 +153,71 @@ public class meal_viewAllMeals extends AppCompatActivity {
                 if (DEBUG) {
                     Toast.makeText(getApplicationContext(), "click: " + position + " " + arrTblNames.get(position), Toast.LENGTH_LONG).show();
                 }
-                //eat meal here
-
-
+                eatMeal();
             }
         });
+    }
+
+    //eats the meal by adding all of the meals foods into the eaten meal database under today's date
+    private void eatMeal() {
+        //selectedTable contains the name of the meal table being eaten
+        SQLiteDatabase mDatabase = openOrCreateDatabase("meal.db", SQLiteDatabase.CREATE_IF_NECESSARY, null);
+        mDatabase.execSQL(
+                "CREATE TABLE IF NOT EXISTS " + selectedTable + " " +
+                        "(id INTEGER PRIMARY KEY, foodname text, calories DECIMAL(5,1), totalfat DECIMAL(5,1), transfat DECIMAL(5,1)," +
+                        "satfat DECIMAL(5,1), cholestrol DECIMAL(5,1), sodium DECIMAL(5,1), carbs DECIMAL(5,1)," +
+                        "fiber DECIMAL(5,1), sugar DECIMAL(5,1), protein DECIMAL(5,1));"
+        );
+
+
+        //cursor needs to iterate through mealdb, not food db. since the data we need is stored in meal
+        SQLiteDatabase mealdb = openOrCreateDatabase("meal.db", SQLiteDatabase.CREATE_IF_NECESSARY, null);
+        Cursor res = mealdb.rawQuery("select * from " + selectedTable, null);
+        res.moveToFirst();
+
+        //set up eatFood db
+        Calendar calendar = Calendar.getInstance();
+        //surround date with '[' ']' like in create meal to avoid weird issues. This is the actual name for each table
+        SQLiteDatabase eatFood = openOrCreateDatabase("Eatfood.db", SQLiteDatabase.CREATE_IF_NECESSARY, null);
+        String date = "[" + Integer.toString(calendar.get(Calendar.MONTH)) + "/" + Integer.toString(calendar.get(Calendar.DATE)) + "/" + Integer.toString(calendar.get(Calendar.YEAR)) + "]";
+        //make 100% sure that the table already exists
+        eatFood.execSQL(
+                "CREATE TABLE IF NOT EXISTS " + date + " " +
+                        "(id INTEGER PRIMARY KEY, foodname text, calories DECIMAL(5,1), totalfat DECIMAL(5,1), transfat DECIMAL(5,1)," +
+                        "satfat DECIMAL(5,1), cholesterol DECIMAL(5,1), sodium DECIMAL(5,1), carbs DECIMAL(5,1)," +
+                        "fiber DECIMAL(5,1), sugar DECIMAL(5,1), protein DECIMAL(5,1));"
+        );
+        meal_eatFoodDBHelper mydb;
+        mydb = new meal_eatFoodDBHelper(this, date);
+        while (res.isAfterLast() == false) {
+            /*
+            ArrayList<String> array_list = new ArrayList<String>();
+            array_list.add("foodname " + res.getString(res.getColumnIndex(mydb.Col_2)));
+            array_list.add("calories " + res.getString(res.getColumnIndex(mydb.Col_3)));
+            array_list.add("totalfat " + res.getString(res.getColumnIndex(mydb.Col_4)));
+            array_list.add("transfat " + res.getString(res.getColumnIndex(mydb.Col_5)));
+            array_list.add("satfat " + res.getString(res.getColumnIndex(mydb.Col_6)));
+            array_list.add("Cholestrol " + res.getString(res.getColumnIndex(mydb.Col_7)));
+            array_list.add("sodium " + res.getString(res.getColumnIndex(mydb.Col_8)));
+            array_list.add("carbs " + res.getString(res.getColumnIndex(mydb.Col_9)));
+            array_list.add("fiber " + res.getString(res.getColumnIndex(mydb.Col_10)));
+            array_list.add("sugar " + res.getString(res.getColumnIndex(mydb.Col_11)));
+            array_list.add("protein " + res.getString(res.getColumnIndex(mydb.Col_12)));
+            System.out.println(array_list);
+*/
+            mydb.insertFood(res.getString(res.getColumnIndex(mydb.Col_2)), res.getDouble(res.getColumnIndex(mydb.Col_3)),
+                    res.getDouble(res.getColumnIndex(mydb.Col_4)), res.getDouble(res.getColumnIndex(mydb.Col_5)),
+                    res.getDouble(res.getColumnIndex(mydb.Col_6)), res.getDouble(res.getColumnIndex(mydb.Col_7)),
+                    res.getDouble(res.getColumnIndex(mydb.Col_8)), res.getDouble(res.getColumnIndex(mydb.Col_9)),
+                    res.getDouble(res.getColumnIndex(mydb.Col_10)), res.getDouble(res.getColumnIndex(mydb.Col_11)),
+                    res.getDouble(res.getColumnIndex(mydb.Col_12))
+            );
+
+            System.out.println("total items in table is: " + mydb.getAllmacrosInfo());
+            res.moveToNext();
+        }
+        res.close();
+
     }
 
 }

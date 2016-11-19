@@ -22,6 +22,8 @@ import static android.provider.AlarmClock.EXTRA_MESSAGE;
 
 public class meal_editMeal extends AppCompatActivity {
     private meal_mealDBHelper mydb;
+    private meal_foodDBHelper fooddb = new meal_foodDBHelper(this); //fooddb is the fooddatabase accessor
+    ;
     private boolean DEBUG = false;
     String mealtablename;
     private ListView lv; //used to display foods
@@ -41,10 +43,10 @@ public class meal_editMeal extends AppCompatActivity {
             startActivity(intent);
             return;
         }
-        mealtablename = "[" + extras.getString("TABLE") + "]"; //this is the name of the [meal] table that is being edited.
-        food_names = foodDB.getAllmacrosInfo(); //food_names = arraylist of all foods and their cals'
-        food_names.add("Foods in Database:");
-
+        mealtablename =  extras.getString("TABLE"); //this is the name of the [meal] table that is being edited.
+        food_names = foodDB.getAllmacrosInfo(); //food_names = arraylist of all foods in food database and their cals'
+        food_names.add(0, "Foods in Database:");
+        System.out.println("food names: " + food_names);
         mydb = new meal_mealDBHelper(this, mealtablename); //myDB is the name of the meal db that is being edited
         lv = (ListView) findViewById(R.id.meal_items);
         // this is where we need to add the data from foodnames to
@@ -54,7 +56,7 @@ public class meal_editMeal extends AppCompatActivity {
         //below is just debug, start at line 84
 
         if (DEBUG) {
-            mydb.insertFoodinMeal("chicken", 200.2, 12.2, 11.2, 25.6);
+            mydb.insertFoodinMeal("chicken", 200.2, 12.2, 11.2, 25.6, 11.2, 12.2, 13.2, 14.2, 15.2, 8.9);
             System.out.println(mydb.getAllFoodInfofromMeal());
         }
 
@@ -64,11 +66,19 @@ public class meal_editMeal extends AppCompatActivity {
         if (DEBUG) {
             food_names.add("bacon"); //dummy data, not correctly formatted
         }
-        already_existing_foods = mydb.getAllFoodsAndCaloriesfromMeal(); //this gets all of the foods currently in this meal
+        try {
+            already_existing_foods = mydb.getAllmacrosInfo(); //this gets all of the foods currently in this meal
+        } catch (Exception e) {
+            already_existing_foods.clear(); //just in case there is somehow data in here
+            mealtablename = "[" + mealtablename + "]";
+            mydb = new meal_mealDBHelper(this, mealtablename); //myDB is the name of the meal db that is being edited
+            already_existing_foods = mydb.getAllmacrosInfo(); //this gets all of the foods currently in this meal
+        }
+        Log.v("meal_editMeal:", " already_existing_foods is: " + already_existing_foods);
+        Log.v("food_names:", " food_names is: " + food_names);
 
         food_names.removeAll(already_existing_foods);//in the list of all foods, get rid of elements that are already in the meal, they will be inserted at the front
-        //put both lists in lexographical order
-        Collections.sort(food_names);
+        //put  list in lexographical order
         Collections.sort(already_existing_foods);
 
         if (DEBUG) {
@@ -78,11 +88,13 @@ public class meal_editMeal extends AppCompatActivity {
         for (String temp_food : already_existing_foods) { //iterate through the list, adding each item to the beginning of the list
             food_names.add(0, temp_food);
         }
+        System.out.println("food names before header: " + food_names);
+
         food_names.add(0, "Foods in Meal:"); //explain to user what is already in meal
         if (DEBUG) {
             System.out.println("food names: " + food_names);
         }
-
+        System.out.println("food names after header: " + food_names);
 
         //this attaches the listview to the array list to display the food names and calories
         ArrayAdapter<String> foodArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, food_names);
@@ -93,13 +105,12 @@ public class meal_editMeal extends AppCompatActivity {
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                  String k = food_names.get(position);
-
+                String foodName = food_names.get(position);
                 if (DEBUG) {
                     Toast.makeText(getApplicationContext(), "position: " + position, Toast.LENGTH_SHORT).show();
                     //getApplicationContext().
                 }
-                if (k.equals("Foods in Meal:") || k.equals("Foods in Database:")) { //can't add this to meal, it's just a prompt
+                if (foodName.equals("Foods in Meal:") || foodName.equals("Foods in Database:")) { //can't add this to meal, it's just a prompt
                     return;
                 }
                 //find the the four parameters from this position and add them to mydb table
@@ -107,22 +118,26 @@ public class meal_editMeal extends AppCompatActivity {
                     //we can update the food in meal, rather than jus deleting it
                     items_add.remove(food_names.get(position));
                     Toast.makeText(getApplicationContext(), "removed: " + food_names.get(position) + " from meal", Toast.LENGTH_SHORT).show();
-                    //remove from database
-                    mydb.deleteFoodinMeal(food_names.get(position));
+                    String name = foodName.substring(0, foodName.indexOf(','));
+                    mydb.deleteFoodinMeal(name);
+                    System.out.println("all macro after delete: " + mydb.getAllmacrosInfo());
                 } else { //means it's not already in the meal
                     items_add.add(food_names.get(position));
-                    System.out.println(items_add);
+                    System.out.println("items add:" + items_add);
                     Toast.makeText(getApplicationContext(), "added: " + food_names.get(position) + " to meal", Toast.LENGTH_SHORT).show();
                     Log.d("tag", "printing after adding to items" + items_add);
                     try {
-                        ArrayList<Double> item = extractIntegers(k); //extracting the double paramters from the foods
-                        String name = k.substring(0, k.indexOf(','));
+                        ArrayList<Double> item = extractIntegers(foodName); //extracting the double paramters from the foods
+                        String name = foodName.substring(0, foodName.indexOf(','));
                         Log.d("tag", "printing after decypher " + "name[" + name + "]");
                         Log.d("tag", "printing after decypher " + "Cals[" + item.get(0) + "]");
                         Log.d("tag", "printing after decypher " + "Fals[" + item.get(1) + "]");
-                        Log.d("tag", "printing after decypher " + "Carbs" + item.get(2) + "]");
+                        Log.d("tag", "printing after decypher " + "Carbs[" + item.get(2) + "]");
                         Log.d("tag", "printing after decypher " + "Protein[" + item.get(3) + "]");
-                        mydb.insertFoodinMeal(name, item.get(0), item.get(1), item.get(2), item.get(3)); //inserting to meals DB
+
+                        mydb.insertFoodinMeal(name, item.get(0), item.get(1), fooddb.getTransFat(name), fooddb.getSatFat(name),
+                                fooddb.getCholesterol(name), fooddb.getSodium(name), item.get(2), fooddb.getFiber(name), fooddb.getSugar(name),
+                                item.get(3)); //inserting to meals DB
                         Log.d("tag", "total cal: " + mydb.getTotalCalories());
                     } catch (Exception e) {//this is just for debugging to stop app from crashing based off of incomplete hardcoded database entries
                         //this catch will *not* get triggered with actual values
@@ -138,10 +153,7 @@ public class meal_editMeal extends AppCompatActivity {
         // and display error message saying
         //no need to use a map instead since at absolute most a meal will probably have 20 items in it
 
-        Toast.makeText(this, "Tap the items you wish to add to the meal, Tap again to move", Toast.LENGTH_LONG).show();
-
-
-
+        Toast.makeText(this, "Tap the items you wish to add to the meal, Tap again to remove", Toast.LENGTH_LONG).show();
     }
 
     //extract integers from a string and return them in Arraylist of double
