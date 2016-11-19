@@ -65,5 +65,16 @@ public class meal_overview extends AppCompatActivity {
             }
         });
 
+        // save meals to current day,
+        Button createDayLog = (Button) findViewById(R.id.createdaylog);
+        createDayLog.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(meal_overview.this, CalendarViewer.class);
+                startActivity(intent);
+            }
+        });
+
+
     }
 }

@@ -1,50 +1,52 @@
 package fitness.cs115.a115fitnessapp;
 
-/**
- * Created by Matthew on 10/16/16.
- */
-//took meal_foodDBHelper.java as a starting point for this
-
-import java.util.ArrayList;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+
+import java.util.ArrayList;
 
 import static android.R.attr.id;
 
-public class meal_mealDBHelper extends SQLiteOpenHelper {
+/**
+ * Created by Teg on 11/18/2016.
+ */
+
+public class meal_daylogDBHelper extends SQLiteOpenHelper {
     private static final Boolean DEBUG = true;
-  //  PRAGMA user_version = 4;
+    //  PRAGMA user_version = 4;
 
 
-    private static final String DATABASE_NAME = "meal.db";
-    private static final int DATABASE_Version = 4;
+    private static final String DATABASE_NAME = "daylog.db";
+    private static final int DATABASE_Version = 1;
 
-    private String TABLE_NAME = "meal";
+    private String TABLE_NAME = "daylog";
 
-//    private static final String Col_1_id = "id";
-    private static final String Col_2_name = "foodname";
-    private static final String Col_3_cals = "calories";
-    private static final String Col_4_fat = "totalfat";
-    private static final String Col_5_transfat = "transfat";
-    private static final String Col_6_satfat = "satfat";
-    private static final String Col_7_cholestrol = "cholestrol";
-    private static final String Col_8_sodium = "sodium";
-    private static final String Col_9_carbs = "carbs";
-    private static final String Col_10_fiber = "fiber";
-    private static final String Col_11_sugar = "sugar";
-    private static final String Col_12_protein = "protein";
-
-
-
-
+    //    private static final String Col_1_id = "id";
+    private static final String Col_2_mealname = "mealname";
+    private static final String Col_3_servings = "servings";
+    private static final String Col_4_name = "foodname";
+    private static final String Col_5_cals = "calories";
+    private static final String Col_6_fat = "totalfat";
+    private static final String Col_7_transfat = "transfat";
+    private static final String Col_8_satfat = "satfat";
+    private static final String Col_9_cholestrol = "cholestrol";
+    private static final String Col_10_sodium = "sodium";
+    private static final String Col_11_carbs = "carbs";
+    private static final String Col_12_fiber = "fiber";
+    private static final String Col_13_sugar = "sugar";
+    private static final String Col_14_protein = "protein";
 
 
 
-    public meal_mealDBHelper(Context context, String table_name) {
+
+
+
+
+    public meal_daylogDBHelper(Context context, String table_name) {
         super(context, DATABASE_NAME, null, DATABASE_Version);
         this.TABLE_NAME = table_name;
         if (DEBUG) {
@@ -63,7 +65,8 @@ public class meal_mealDBHelper extends SQLiteOpenHelper {
         }
         db.execSQL(
                 "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " " +
-                        "(id INTEGER PRIMARY KEY, foodname text, calories DECIMAL(5,1), totalfat DECIMAL(5,1), transfat DECIMAL(5,1)," +
+                        "(id INTEGER PRIMARY KEY, mealname text, servings DECIMAL(5,1), foodname text, calories DECIMAL(5,1), " +
+                        "totalfat DECIMAL(5,1), transfat DECIMAL(5,1)," +
                         "satfat DECIMAL(5,1), cholestrol DECIMAL(5,1), sodium DECIMAL(5,1), carbs DECIMAL(5,1)," +
                         "fiber DECIMAL(5,1), sugar DECIMAL(5,1), protein DECIMAL(5,1));"
         );
@@ -79,18 +82,20 @@ public class meal_mealDBHelper extends SQLiteOpenHelper {
     }
 
     //add a new food
-    public boolean insertFoodinMeal(String name, Double calories, Double fat, Double transfat, Double satfat,
+    public boolean insertMealinday(String mealname, Double servings, String name, Double calories, Double fat, Double transfat, Double satfat,
                                     Double cholestrol, Double sodium, Double carbs, Double fiber, Double sugar,
                                     Double protein) {
-        if (isFoodInMealtable(name)) { //don't insert same item twice
+        /*if (isFoodInMealtable(name)) { //don't insert same item twice
             if (DEBUG) {
                 System.out.println(name + " is already in database");
             }
             return false;
-        }
+        }*/
         SQLiteDatabase db = this.getWritableDatabase();
 
         System.out.println("Displaying data to be inserted before inserion into meal");
+        System.out.println("mealname:" + mealname);
+        System.out.println("servings:" + servings);
         System.out.println("name:" + name);
         System.out.println("cals:" + calories);
         System.out.println("fat:" + fat);
@@ -104,20 +109,23 @@ public class meal_mealDBHelper extends SQLiteOpenHelper {
         System.out.println("protein:" +protein);
 
         ContentValues contentValues = new ContentValues();
-        contentValues.put(Col_2_name, name);
-        contentValues.put(Col_3_cals, calories);
-        contentValues.put(Col_4_fat, fat);
-        contentValues.put(Col_5_transfat, transfat);
-        contentValues.put(Col_6_satfat, satfat);
-        contentValues.put(Col_7_cholestrol, cholestrol);
-        contentValues.put(Col_8_sodium, sodium);
-        contentValues.put(Col_9_carbs, carbs);
-        contentValues.put(Col_10_fiber, fiber);
-        contentValues.put(Col_11_sugar, sugar);
-        contentValues.put(Col_12_protein, protein);
+        contentValues.put(Col_2_mealname, mealname);
+        contentValues.put(Col_3_servings, servings);
+        contentValues.put(Col_4_name, name);
+        contentValues.put(Col_5_cals, calories);
+        contentValues.put(Col_6_fat, fat);
+        contentValues.put(Col_7_transfat, transfat);
+        contentValues.put(Col_8_satfat, satfat);
+        contentValues.put(Col_9_cholestrol, cholestrol);
+        contentValues.put(Col_10_sodium, sodium);
+        contentValues.put(Col_11_carbs, carbs);
+        contentValues.put(Col_12_fiber, fiber);
+        contentValues.put(Col_13_sugar, sugar);
+        contentValues.put(Col_14_protein, protein);
         db.insert(TABLE_NAME, null, contentValues);
         return true;
     }
+
 
 
     public Cursor getData(int id) {
@@ -134,26 +142,28 @@ public class meal_mealDBHelper extends SQLiteOpenHelper {
     }
 
     //can change the foods name and number of calories
-    public boolean updateFoodinMeal(Integer id, String name, Double calories, Double totalfat, Double transfat, Double satfat,
+    public boolean updateFoodinMeal(Integer id, String mealname, Double servings, String name, Double calories, Double totalfat, Double transfat, Double satfat,
                                     Double cholestrol, Double sodium, Double carbs, Double fiber, Double sugar,
                                     Double protein)
     {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(Col_2_name, name);
-        contentValues.put(Col_3_cals, calories);
-        contentValues.put(Col_4_fat, totalfat);
-        contentValues.put(Col_5_transfat, transfat);
-        contentValues.put(Col_6_satfat, satfat);
-        contentValues.put(Col_7_cholestrol, cholestrol);
-        contentValues.put(Col_8_sodium, sodium);
-        contentValues.put(Col_9_carbs, carbs);
-        contentValues.put(Col_10_fiber, fiber);
-        contentValues.put(Col_11_sugar, sugar);
-        contentValues.put(Col_12_protein, protein);
+        contentValues.put(Col_2_mealname, mealname);
+        contentValues.put(Col_3_servings, servings);
+        contentValues.put(Col_4_name, name);
+        contentValues.put(Col_5_cals, calories);
+        contentValues.put(Col_6_fat, totalfat);
+        contentValues.put(Col_7_transfat, transfat);
+        contentValues.put(Col_8_satfat, satfat);
+        contentValues.put(Col_9_cholestrol, cholestrol);
+        contentValues.put(Col_10_sodium, sodium);
+        contentValues.put(Col_11_carbs, carbs);
+        contentValues.put(Col_12_fiber, fiber);
+        contentValues.put(Col_13_sugar, sugar);
+        contentValues.put(Col_14_protein, protein);
         db.update(TABLE_NAME, contentValues, "id = ? ", new String[]{Integer.toString(id)});
         return true;
-    }
+    }/*
 
 
     //deletes the food with the given id
@@ -219,7 +229,7 @@ public class meal_mealDBHelper extends SQLiteOpenHelper {
             array_list.add("index " + res.getString(res.getColumnIndex("id")));
             res.moveToNext();
             count++;
-            
+
         }
         res.close();
         return array_list;
@@ -240,6 +250,7 @@ public class meal_mealDBHelper extends SQLiteOpenHelper {
     }
 */
 
+    /*
     //true means the data is in the databse
     //true means food name is already in database
     //false means food is not in database
@@ -288,4 +299,7 @@ public class meal_mealDBHelper extends SQLiteOpenHelper {
         return 0; //error
     }
 
+    */
 }
+
+

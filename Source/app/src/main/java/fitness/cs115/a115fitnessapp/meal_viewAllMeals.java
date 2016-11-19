@@ -49,8 +49,7 @@ public class meal_viewAllMeals extends AppCompatActivity {
         //======================================================================================
         //  Dialog Boxes
         //======================================================================================
-        // Program Deletion Dialog Box
-        // - A deletion confirmation dialog box.
+        // Once the list view is long clicked, the
         final AlertDialog.Builder programOptionDelete = new AlertDialog.Builder(this);
         programOptionDelete.setTitle("Delete Meal?");
         programOptionDelete.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
@@ -72,6 +71,7 @@ public class meal_viewAllMeals extends AppCompatActivity {
                 viewMealsInDatabase();
             }
         });
+        //once long clicked to delete, this cancel will abort the delete
         programOptionDelete.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int selection_id) {
@@ -118,8 +118,7 @@ public class meal_viewAllMeals extends AppCompatActivity {
             }
         }
         c.close();
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
-                this,
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1,
                 arrTblNames);
 

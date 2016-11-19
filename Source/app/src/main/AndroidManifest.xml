@@ -107,6 +107,18 @@
             android:name=".work_tracker"
             android:label="Workout Tracker"
             android:theme="@style/AppTheme" />
+        <activity
+            android:name=".CalendarViewer"
+            android:configChanges="orientation"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".meal_createDayLog"
+            android:configChanges="orientation"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
 
 
         <meta-data
