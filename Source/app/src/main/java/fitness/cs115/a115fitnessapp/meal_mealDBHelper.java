@@ -17,7 +17,6 @@ import static android.R.attr.id;
 
 public class meal_mealDBHelper extends SQLiteOpenHelper {
     private static final Boolean DEBUG = true;
-  //  PRAGMA user_version = 4;
 
 
     private static final String DATABASE_NAME = "meal.db";
@@ -127,11 +126,11 @@ public class meal_mealDBHelper extends SQLiteOpenHelper {
         res.moveToFirst();
 
         while (res.isAfterLast() == false) {
-            macros_array_list.add(res.getString(res.getColumnIndex(Col_2)) + "," +
-                    "Cal: " + res.getString(res.getColumnIndex(Col_3)) + "," +
-                    "Fat: " + res.getString(res.getColumnIndex(Col_4)) + "," +
-                    "Carbs: " + res.getString(res.getColumnIndex(Col_9)) + "," +
-                    "Protein: " + res.getString(res.getColumnIndex(Col_12)));
+            macros_array_list.add(res.getString(res.getColumnIndex(Col_2_name)) + "," +
+                    "Cal: " + res.getString(res.getColumnIndex(Col_3_cals)) + "," +
+                    "Fat: " + res.getString(res.getColumnIndex(Col_4_fat)) + "," +
+                    "Carbs: " + res.getString(res.getColumnIndex(Col_9_carbs)) + "," +
+                    "Protein: " + res.getString(res.getColumnIndex(Col_12_protein)));
 
             res.moveToNext();
         }
@@ -318,7 +317,7 @@ public class meal_mealDBHelper extends SQLiteOpenHelper {
         Cursor res = db.rawQuery("select * from " + TABLE_NAME, null);
         res.moveToFirst();
         while (res.isAfterLast() == false) {
-            if (res.getString(res.getColumnIndex(Col_2)).equals(foodName)) {
+            if (res.getString(res.getColumnIndex(Col_2_name)).equals(foodName)) {
                 return true; //means food is in database
             }
             res.moveToNext();
