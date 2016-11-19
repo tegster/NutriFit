@@ -3,6 +3,7 @@ package fitness.cs115.a115fitnessapp;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -174,6 +175,16 @@ public class meal_addFood extends AppCompatActivity {
                 double numberOfsugar = Double.parseDouble(sugarstring);
                 double numberOfprotein = Double.parseDouble(proteinstring);
                     //insert food to database
+
+                SQLiteDatabase mDatabase = openOrCreateDatabase("foods.db", SQLiteDatabase.CREATE_IF_NECESSARY, null);
+                String TABLE_NAME = "food";
+                mDatabase.execSQL(
+                        "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " " +
+                                "(id INTEGER PRIMARY KEY, foodname text, calories DECIMAL(5,1), totalfat DECIMAL(5,1), transfat DECIMAL(5,1)," +
+                                "satfat DECIMAL(5,1), cholestrol DECIMAL(5,1), sodium DECIMAL(5,1), carbs DECIMAL(5,1)," +
+                                "fiber DECIMAL(5,1), sugar DECIMAL(5,1), protein DECIMAL(5,1));"
+                );
+
                 mydb.insertFood(name, numberOfCalories, numberOftotalfat, numberOftransfat,
                         numberOfsatfat, numberOfCholestorl, numberOfSodium, numberOfCarbs,
                         numberOffiber, numberOfsugar, numberOfprotein);

@@ -93,6 +93,8 @@ public class meal_editMeal extends AppCompatActivity {
 
         if (DEBUG) {
            // System.out.println(mydb.getAllFoodInfofromMeal());
+            mydb.insertFoodinMeal("chicken", 200.2, 12.2, 11.2, 25.6, 11.2, 12.2, 13.2, 14.2, 15.2, 8.9);
+            System.out.println(mydb.getAllFoodInfofromMeal());
         }
 
         Log.v("meal_editMeal:", " table name is: " + mealtablename);
@@ -109,8 +111,8 @@ public class meal_editMeal extends AppCompatActivity {
         // they will be inserted at the front
      //   food_names.removeAll(already_existing_foods);
         //put both lists in lexographical order
-      //  Collections.sort(food_names);
-      //  Collections.sort(already_existing_foods);
+        Collections.sort(food_names);
+        Collections.sort(already_existing_foods);
 
         /*
 
@@ -218,7 +220,7 @@ public class meal_editMeal extends AppCompatActivity {
         // and display error message saying
         //no need to use a map instead since at absolute most a meal will probably have 20 items in it
 
-        Toast.makeText(this, "Tap the items you wish to add to the meal, Tap again to move", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Tap the items you wish to add to the meal, Tap again to remove", Toast.LENGTH_LONG).show();
 
 
 

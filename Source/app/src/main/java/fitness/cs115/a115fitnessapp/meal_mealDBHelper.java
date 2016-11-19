@@ -219,7 +219,6 @@ public class meal_mealDBHelper extends SQLiteOpenHelper {
             array_list.add("index " + res.getString(res.getColumnIndex("id")));
             res.moveToNext();
             count++;
-            
         }
         res.close();
         return array_list;
@@ -255,6 +254,7 @@ public class meal_mealDBHelper extends SQLiteOpenHelper {
         }
         res.close();
         return false;
+
     }
 
     //returns all foods and their respective calories at the same time
@@ -271,6 +271,7 @@ public class meal_mealDBHelper extends SQLiteOpenHelper {
         res.close();
         return array_list;
     }
+
     //deletes all data stored in table
     public boolean deleteEntireTable() {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -288,4 +289,20 @@ public class meal_mealDBHelper extends SQLiteOpenHelper {
         return 0; //error
     }
 
+    //true means the data is in the databse
+    //true means food name is already in database
+    //false means food is not in database
+    public boolean isFoodInDataBase(String foodName) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("select * from " + TABLE_NAME, null);
+        res.moveToFirst();
+        while (res.isAfterLast() == false) {
+            if (res.getString(res.getColumnIndex(Col_2)).equals(foodName)) {
+                return true; //means food is in database
+            }
+            res.moveToNext();
+        }
+        res.close();
+        return false;
+    }
 }
