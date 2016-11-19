@@ -22,6 +22,8 @@ import static android.provider.AlarmClock.EXTRA_MESSAGE;
 
 public class meal_editMeal extends AppCompatActivity {
     private meal_mealDBHelper mydb;
+    private meal_foodDBHelper fooddb = new meal_foodDBHelper(this); //fooddb is the fooddatabase accessor
+    ;
     private boolean DEBUG = false;
     String mealtablename;
     private ListView lv; //used to display foods
@@ -64,7 +66,15 @@ public class meal_editMeal extends AppCompatActivity {
         if (DEBUG) {
             food_names.add("bacon"); //dummy data, not correctly formatted
         }
-        already_existing_foods = mydb.getAllFoodsAndCaloriesfromMeal(); //this gets all of the foods currently in this meal
+        try {
+            already_existing_foods = mydb.getAllmacrosInfo(); //this gets all of the foods currently in this meal
+        } catch (Exception e) {
+            mealtablename = "[" + mealtablename + "]";
+            mydb = new meal_mealDBHelper(this, mealtablename); //myDB is the name of the meal db that is being edited
+            already_existing_foods = mydb.getAllmacrosInfo(); //this gets all of the foods currently in this meal
+        }
+        Log.v("meal_editMeal:", " already_existing_foods is: " + already_existing_foods);
+        Log.v("food_names:", " food_names is: " + food_names);
 
         food_names.removeAll(already_existing_foods);//in the list of all foods, get rid of elements that are already in the meal, they will be inserted at the front
         //put both lists in lexographical order
@@ -122,7 +132,7 @@ public class meal_editMeal extends AppCompatActivity {
                         Log.d("tag", "printing after decypher " + "Fals[" + item.get(1) + "]");
                         Log.d("tag", "printing after decypher " + "Carbs[" + item.get(2) + "]");
                         Log.d("tag", "printing after decypher " + "Protein[" + item.get(3) + "]");
-                        mydb.insertFoodinMeal(name, item.get(0), item.get(1), item.get(2), item.get(3), 0.0, 0.0, 0.0, 0.0, 0.0, 0.0); //inserting to meals DB
+                        mydb.insertFoodinMeal(name, item.get(0), item.get(1), item.get(2), fooddb.getTransFat(name), 0.0, 0.0, item.get(2), 0.0, 0.0, item.get(3)); //inserting to meals DB
                         Log.d("tag", "total cal: " + mydb.getTotalCalories());
                     } catch (Exception e) {//this is just for debugging to stop app from crashing based off of incomplete hardcoded database entries
                         //this catch will *not* get triggered with actual values
