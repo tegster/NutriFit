@@ -24,7 +24,7 @@ public class meal_eatFoodDBHelper extends SQLiteOpenHelper {
     private static final Boolean DEBUG = true;
 
     //initializing the database
-    private static final String DATABASE_NAME = "foods.db";
+    private static final String DATABASE_NAME = "Eatfood.db";
     private String TABLE_NAME;
 
     //declaring variables for the columns of our database

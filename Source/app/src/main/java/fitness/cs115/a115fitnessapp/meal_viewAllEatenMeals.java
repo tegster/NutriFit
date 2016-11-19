@@ -34,7 +34,7 @@ public class meal_viewAllEatenMeals extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.meals);
         listView.setLongClickable(true);
         if (DEBUG) {
-            SQLiteDatabase mDatabase = openOrCreateDatabase("foods.db", SQLiteDatabase.CREATE_IF_NECESSARY, null);
+            SQLiteDatabase mDatabase = openOrCreateDatabase("Eatfood.db", SQLiteDatabase.CREATE_IF_NECESSARY, null);
             String TABLE_NAME = "[10/17/2016]";
 
             mDatabase.execSQL(
@@ -109,7 +109,7 @@ public class meal_viewAllEatenMeals extends AppCompatActivity {
     private void viewMealsInDatabase() {
         mealNames.clear();
         readableMealNames.clear();
-        SQLiteDatabase db = openOrCreateDatabase("foods.db", SQLiteDatabase.CREATE_IF_NECESSARY, null);
+        SQLiteDatabase db = openOrCreateDatabase("Eatfood.db", SQLiteDatabase.CREATE_IF_NECESSARY, null);
 
         Cursor c = db.rawQuery("SELECT name FROM sqlite_master WHERE type='table'", null);
         if (c.moveToFirst()) {

@@ -259,7 +259,7 @@ public class meal_foodDBHelper extends SQLiteOpenHelper {
                 Totalfoodmacros.put("protein", protein);
                 Totalinfo.put(res.getString(res.getColumnIndex(Col_2)), Totalfoodmacros);
                 System.out.println("printing totalfoodmacros.entryset from fooddbhelper");
-               System.out.println(Totalfoodmacros.entrySet());
+                System.out.println(Totalfoodmacros.entrySet());
                 //System.out.println(Totalinfo.entrySet());
 
                 //Totalfoodmacros.clear();
@@ -284,17 +284,14 @@ public class meal_foodDBHelper extends SQLiteOpenHelper {
     }
 
     //original getallfoodinfo()
-    /*
+
     //gets food and calories information
-    public ArrayList<String> getAllFoodInfo() {
+    public ArrayList<String> getAllFoodInfoList() {
         ArrayList<String> array_list = new ArrayList<String>();
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.rawQuery("select * from " + TABLE_NAME, null);
         res.moveToFirst();
-        long count = 0;
         while (res.isAfterLast() == false) {
-            array_list.add("Item: " + count);
-            //  array_list.add("index " + res.getString(res.getColumnIndex(Col_1)));
             array_list.add("foodname " + res.getString(res.getColumnIndex(Col_2)));
             array_list.add("calories " + res.getString(res.getColumnIndex(Col_3)));
             array_list.add("totalfat " + res.getString(res.getColumnIndex(Col_4)));
@@ -306,29 +303,14 @@ public class meal_foodDBHelper extends SQLiteOpenHelper {
             array_list.add("fiber " + res.getString(res.getColumnIndex(Col_10)));
             array_list.add("sugar " + res.getString(res.getColumnIndex(Col_11)));
             array_list.add("protein " + res.getString(res.getColumnIndex(Col_12)));
-
             res.moveToNext();
-            count++;
         }
         res.close();
         return array_list;
     }
-     */
 
 
-    /*
-    //print out a specific item
-    public void printCursorItem(int id) {
-        SQLiteDatabase db = this.getReadableDatabase();
 
-    }
-
-    //return itemID given food name
-    public int getItemId(String name) {
-        int id = 0;
-        return id;
-    }
-*/
 
     //true means the data is in the databse
     //true means food name is already in database

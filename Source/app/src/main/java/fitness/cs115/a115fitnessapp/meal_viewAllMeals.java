@@ -162,10 +162,42 @@ public class meal_viewAllMeals extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "click: " + position + " " + arrTblNames.get(position), Toast.LENGTH_LONG).show();
                 }
                 //eat meal here
-
+                eatMeal();
 
             }
         });
+    }
+
+    //eats the meal by adding all of the meals foods into the eaten meal database under today's date
+    private void eatMeal() {
+        //selectedTable contains the name of the meal table being eaten
+        SQLiteDatabase mDatabase = openOrCreateDatabase("meal.db", SQLiteDatabase.CREATE_IF_NECESSARY, null);
+        mDatabase.execSQL(
+                "CREATE TABLE IF NOT EXISTS " + selectedTable + " " +
+                        "(id INTEGER PRIMARY KEY, foodname text, calories DECIMAL(5,1), totalfat DECIMAL(5,1), transfat DECIMAL(5,1)," +
+                        "satfat DECIMAL(5,1), cholestrol DECIMAL(5,1), sodium DECIMAL(5,1), carbs DECIMAL(5,1)," +
+                        "fiber DECIMAL(5,1), sugar DECIMAL(5,1), protein DECIMAL(5,1));"
+        );
+        Cursor res = mDatabase.rawQuery("select * from " + selectedTable, null);
+        res.moveToFirst();
+        while (res.isAfterLast() == false) {
+            /*
+            array_list.add("foodname " + res.getString(res.getColumnIndex(Col_2)));
+            array_list.add("calories " + res.getString(res.getColumnIndex(Col_3)));
+            array_list.add("totalfat " + res.getString(res.getColumnIndex(Col_4)));
+            array_list.add("transfat " + res.getString(res.getColumnIndex(Col_5)));
+            array_list.add("satfat " + res.getString(res.getColumnIndex(Col_6)));
+            array_list.add("Cholestrol " + res.getString(res.getColumnIndex(Col_7)));
+            array_list.add("sodium " + res.getString(res.getColumnIndex(Col_8)));
+            array_list.add("carbs " + res.getString(res.getColumnIndex(Col_9)));
+            array_list.add("fiber " + res.getString(res.getColumnIndex(Col_10)));
+            array_list.add("sugar " + res.getString(res.getColumnIndex(Col_11)));
+            array_list.add("protein " + res.getString(res.getColumnIndex(Col_12)));
+            res.moveToNext();
+            */
+        }
+        res.close();
+
     }
 
 }
