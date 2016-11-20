@@ -1,7 +1,6 @@
 package fitness.cs115.a115fitnessapp;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -14,10 +13,9 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import static android.provider.AlarmClock.EXTRA_MESSAGE;
-
 /**
  * Created by Matthew on 10/13/16.
+ * Teg wrote extract integers and helped with other things
  */
 
 public class meal_editMeal extends AppCompatActivity {

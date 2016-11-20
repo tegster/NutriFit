@@ -5,40 +5,6 @@
     android:layout_height="match_parent">
 
     <Button
-        android:text="Search Database"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/scan"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:id="@+id/search" />
-
-    <Button
-        android:text="Manually Add Food"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="57dp"
-        android:id="@+id/addFood"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
-
-    <Button
-        android:text="Scan Barcode"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/scan"
-        android:layout_below="@+id/addFood"
-        android:layout_centerHorizontal="true" />
-
-    <Button
-        android:text="Create New Meal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/newMeal"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
-
-    <Button
         android:text="Create Day Log"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -55,18 +21,10 @@
         android:layout_alignEnd="@+id/createdaylog" />
 
     <Button
-        android:text="View Meals"
+        android:text="Graphs"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/view_meals"
-        android:layout_below="@+id/createdaylog"
-        android:layout_centerHorizontal="true" />
-
-    <Button
-        android:text="BarCode"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/barCode"
+        android:id="@+id/graphs"
         android:layout_below="@+id/edit_meal"
         android:layout_centerHorizontal="true" />
 
@@ -74,8 +32,48 @@
         android:text="Eaten"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/barCode"
-        android:id="@+id/eaten" />
+        android:id="@+id/eaten"
+        android:layout_below="@+id/view_meals"
+        android:layout_alignStart="@+id/view_meals" />
+
+    <Button
+        android:text="Manually Add Food"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/addFood"
+        android:layout_below="@+id/createdaylog"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:text="Search Database"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/search"
+        android:layout_below="@+id/scan"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:text="Scan Barcode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/scan"
+        android:layout_below="@+id/addFood"
+        android:layout_alignStart="@+id/createdaylog" />
+
+    <Button
+        android:text="Create New Meal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/newMeal"
+        android:layout_below="@+id/search"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:text="View Meals"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/view_meals"
+        android:layout_below="@+id/graphs"
+        android:layout_alignStart="@+id/graphs" />
 
 </RelativeLayout>
