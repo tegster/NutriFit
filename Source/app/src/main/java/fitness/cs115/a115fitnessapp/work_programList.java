@@ -6,9 +6,11 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.InputType;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
@@ -29,45 +31,15 @@ public class work_programList extends AppCompatActivity{
         setContentView(R.layout.activity_work_program_list);
 
         work_db = new work_DBHelper(this);
-        //TODO: remove reset to defaults when time to ship product
-         work_db.reset_default_values();
+
         //check for user programs. If there aren't any, bring up a popup menu prompting users
         //to choose "Create New" or a pre-included beginner program. Replace with database programs.
         final CharSequence defaultPrograms[] = new CharSequence[] {"Create New Program", "Starting Strength",
                 "StrongLifts", "Greyskull LP", "PPL for Beginners", "Ice Cream Fitness"};
 
-        //TODO: some way to store database entries in a list in order to display them.
-        //temporary list. replace with user selected programs.
         ArrayList<String> userProgAL = work_db.get_user_program_list();
         String[] programs = userProgAL.toArray(new String[userProgAL.size()]);
-//        String[] programs = {"Brosplits", "Stronglifts", "Starting Strength", "Greyskull LP", "PPL for Beginners",
-//                "Ice Cream Fitness", "Arnold's Golden Six", "5/3/1", "PHUL", "Madcows", "Texas Method", "PHAT", "Bodyweight"};
 
-        //String[] programs = {};
-
-        //TODO: force user to set program name before creation
-        //TODO: make name entry updatable when create program view displays
-        /*
-        //Create dialog box for custom program name entry.
-        final AlertDialog.Builder newProgramNameEntry = new AlertDialog.Builder(this);
-        newProgramNameEntry.setTitle("Create New Program");
-        final EditText editNameEntry = new EditText(this);
-        editNameEntry.setInputType(InputType.TYPE_CLASS_TEXT);
-        newProgramNameEntry.setView(editNameEntry);
-        newProgramNameEntry.setPositiveButton("Create", new DialogInterface.OnClickListener(){
-            @Override
-            public void onClick(DialogInterface dialogInterface, int selection_id) {
-                programName = editNameEntry.getText().toString();
-                OpenProgram(programName);
-            }
-        });
-        newProgramNameEntry.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
-           @Override
-            public void onClick(DialogInterface dialogInterface, int selection_id) {
-               dialogInterface.cancel();
-           }
-        });
-        */
 
         //======================================================================================
         //  Dialog Boxes
@@ -189,8 +161,7 @@ public class work_programList extends AppCompatActivity{
     }
 
     public void NewProgram(){
-        Intent newProgram = new Intent(work_programList.this, work_createProgram.class);
-        newProgram.putExtra("pName","Create Program");
+        Intent newProgram = new Intent(work_programList.this, work_newProgramName.class);
         startActivity(newProgram);
     }
 

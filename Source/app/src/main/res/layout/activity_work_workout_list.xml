@@ -21,4 +21,17 @@
         android:layout_centerHorizontal="true"
         android:minHeight="58dip"
         android:minWidth="150dip" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        app:srcCompat="@drawable/ic_add_white_24dp"
+        android:id="@+id/fab_addWorkout"
+        app:backgroundTint="?attr/colorPrimary"
+        app:fabSize="normal"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp" />
 </RelativeLayout>

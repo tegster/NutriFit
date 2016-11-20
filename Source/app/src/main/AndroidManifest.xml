@@ -69,7 +69,7 @@
         <activity
             android:name=".work_programList"
             android:configChanges="orientation"
-            android:label="Fitness Log"
+            android:label="My Workout Programs"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
 
@@ -132,6 +132,40 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
 
+        <activity
+            android:name=".work_newProgramName"
+            android:configChanges="orientation"
+            android:label="Enter New Program Name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+
+        <activity
+            android:name=".work_newWorkoutName"
+            android:configChanges="orientation"
+            android:label="Enter New Workout Name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+
+        <activity
+            android:name=".work_createExercise"
+            android:configChanges="orientation"
+            android:label="Add Exercise"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+
+        <activity
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
+            android:name=".work_trackerSetList"
+            android:label="Workout Tracker"
+            android:theme="@style/AppTheme" />
+
+        <activity
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
+            android:name=".work_trackerSetDetail"
+            android:label="Workout Tracker"
+            android:theme="@style/AppTheme" />
 
         <meta-data
             android:name="com.google.android.gms.version"

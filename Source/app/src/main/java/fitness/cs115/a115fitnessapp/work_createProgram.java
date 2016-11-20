@@ -29,12 +29,9 @@ public class work_createProgram extends AppCompatActivity{
         workDBH= new work_DBHelper(this);
 
         //TODO: check if program name is not taken
-        //TODO: create program before adding exercises
 
         //TODO: Replace with database stuff.
-        //ArrayList<String> workouts = workDBH.get_workouts_from_prog(programName);
-
-        String[] workouts = {"Workout A", "Workout B"};
+        String[] defaultWorkouts = {"Workout A", "Workout B"};
 
         //======================================================================================
         //  Dialog Boxes
@@ -87,8 +84,7 @@ public class work_createProgram extends AppCompatActivity{
         fabAdd.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                //TODO: Call createWorkout
-                Intent newWorkout = new Intent(work_createProgram.this, work_createWorkout.class);
+                Intent newWorkout = new Intent(work_createProgram.this, work_newWorkoutName.class);
                 startActivity(newWorkout);
             }
         });
@@ -97,9 +93,9 @@ public class work_createProgram extends AppCompatActivity{
         //======================================================================================
         //  ListView
         //======================================================================================
-        //Create the list.
+        //Create the list of default workout that the user can add to their program.
         //ListAdapter programListAdapter = new work_programList_adapter(this, programs);
-        ListAdapter workoutListAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, workouts);
+        ListAdapter workoutListAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, defaultWorkouts);
         ListView workoutListView = (ListView) findViewById(R.id.lv_workoutList);
         workoutListView.setAdapter(workoutListAdapter);
         workoutListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
