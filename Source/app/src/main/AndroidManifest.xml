@@ -115,9 +115,7 @@
             android:theme="@style/AppTheme" />
         <activity
             android:name=".meal_graphs"
-            android:configChanges="orientation"
             android:label="Meals Eaten"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
 
         <activity
