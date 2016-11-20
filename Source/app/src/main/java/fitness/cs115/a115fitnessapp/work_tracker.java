@@ -9,6 +9,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by Henry on 10/23/2016.
@@ -16,11 +17,10 @@ import java.util.ArrayList;
 
 public class work_tracker extends AppCompatActivity{
     String exerciseName = "";
-    String sessID = "";
+    int sessID = -1;
     String workoutName = "";
     work_DBHelper work_db;
-
-    @Override
+    work_DBHelper.Workout_data workData;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_work_tracker);
@@ -28,27 +28,20 @@ public class work_tracker extends AppCompatActivity{
         work_db = new work_DBHelper(this);
 
         //Get parameters that are passed into the tracker.
-        /*
+
         Intent intent = getIntent();
-        sessID = intent.getExtras().getString("sessID");
+
         workoutName = intent.getExtras().getString("wName");
-        */
-        workoutName = "Testing";
+        sessID = work_db.create_session(workoutName);
         setTitle(workoutName);
 
 /*
-        //TODO: grab exercises
+        //grab exercises
         ArrayList<String> userworkAL = work_db.get_exers_from_work(workoutName);
         String[] exercises = userworkAL.toArray(new String[userworkAL.size()]);
 */
         //TODO: grab information from session
-
-        String[] exercises = {"Squat", "Bench", "Deadlift"};
-        String[] currSets = {"5", "3", "0"};
-        String[] targetSets = {"5","5","5"};
-        String[] weights = {"200","250","300"};
-        String[] statuses = {"Complete", "In Progress", "Not Started"};
-
+        workData = work_db.get_work_detail(workoutName);
 
 
 
@@ -57,7 +50,7 @@ public class work_tracker extends AppCompatActivity{
         //======================================================================================
         //Create the list.
         //TODO: use the custom adapter to display exercise name, weight, and sets
-        ListAdapter exerciseListAdapter = new work_tracker_adapter(this, exercises, currSets, targetSets, weights, statuses);
+        ListAdapter exerciseListAdapter = new work_tracker_adapter(this, workData);
         ListView exerciseListView = (ListView) findViewById(R.id.lv_exerList);
         exerciseListView.setAdapter(exerciseListAdapter);
         exerciseListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -66,7 +59,7 @@ public class work_tracker extends AppCompatActivity{
                 exerciseName = String.valueOf(parent.getItemAtPosition(position));
                 Intent setIntent = new Intent(work_tracker.this, work_trackerSetList.class);
                 setIntent.putExtra("eName", exerciseName);
-                setIntent.putExtra("sessID", sessID);
+                setIntent.putExtra("sessID", String.valueOf(sessID));
                 startActivity(setIntent);
 
             }

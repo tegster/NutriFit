@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -51,13 +52,14 @@ public class work_exerciseList extends AppCompatActivity{
         exerciseListAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, exersInWorkout);
         exerciseListView = (ListView) findViewById(R.id.lv_exerciseList);
         exerciseListView.setAdapter(exerciseListAdapter);
-        exerciseListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id){
-                String exercise = String.valueOf(parent.getItemAtPosition(position));
-                startExercise(exercise);
-            }
-        });
+        //TODO: remove the clickability of exercises in the list
+//        exerciseListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id){
+//                String exercise = String.valueOf(parent.getItemAtPosition(position));
+//                startExercise(exercise);
+//            }
+//        });
 
         //======================================================================================
         // Exercise Creation / Selection Dialog Box
@@ -89,16 +91,30 @@ public class work_exerciseList extends AppCompatActivity{
         });
 
         //======================================================================================
-        //  Floating Action Button
+        //  Buttons
         //======================================================================================
-        //Adds a new exercise to the exercise List.
-        FloatingActionButton fabAdd = (FloatingActionButton) findViewById(R.id.fab_addExercise);
-        fabAdd.setOnClickListener(new View.OnClickListener(){
+        //TODO: onClick: detect the next workout in line
+        Button startTrackerBtn = (Button) findViewById(R.id.btn_trackerStart);
+        startTrackerBtn.setOnClickListener(new Button.OnClickListener() {
             @Override
-            public void onClick(View view){
-                newExerciseSelection.show();
+            public void onClick(View view) {
+                Intent intent = new Intent(work_exerciseList.this, work_tracker.class);
+                intent.putExtra("wName", workoutName);
+                startActivity(intent);
             }
         });
+
+        //======================================================================================
+        //  Floating Action Button (TODO:DOESNT BELONG HERE)
+        //======================================================================================
+//        //Adds a new exercise to the exercise List.
+//        FloatingActionButton fabAdd = (FloatingActionButton) findViewById(R.id.fab_addExercise);
+//        fabAdd.setOnClickListener(new View.OnClickListener(){
+//            @Override
+//            public void onClick(View view){
+//                newExerciseSelection.show();
+//            }
+//        });
 
 
     }
@@ -136,11 +152,10 @@ public class work_exerciseList extends AppCompatActivity{
 
     }
 
-    public void startExercise(String exerName){
-        //// TODO: 11/14/2016 figure out where to go when an exercise is pressed
-        Intent openExercise = new Intent(work_exerciseList.this, work_trackerSetDetail.class);
+    //start workout tracker
+    public void startTracker(){
+        Intent openExercise = new Intent(work_exerciseList.this, work_tracker.class);
         openExercise.putExtra("wName", workoutName);
-        openExercise.putExtra("eName", exerName);
         startActivity(openExercise);
 
     }
