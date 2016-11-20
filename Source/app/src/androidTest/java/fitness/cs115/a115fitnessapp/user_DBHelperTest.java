@@ -13,8 +13,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 import java.util.TreeMap;
 
 import static org.junit.Assert.assertArrayEquals;
@@ -99,11 +97,11 @@ public class user_DBHelperTest {
         user_work_db.add_work_to_prog("_test; Program\"s 3","12_L3g_D4y_56");
 
         System.out.println(user_work_db);
-        System.out.println("starting work_DBHelper.get_workouts_from_prog test");
+        System.out.println("starting work_DBHelper.get_workouts_in_prog test");
 
-        //print workouts in each program using get_workouts_from_prog
+        //print workouts in each program using get_workouts_in_prog
         for (int i = 0; i < TEST_PROG_LIST.size(); ++i) {
-            TEST_WORK_LIST = user_work_db.get_workouts_from_prog(TEST_PROG_LIST.get(i));
+            TEST_WORK_LIST = user_work_db.get_workouts_in_prog(TEST_PROG_LIST.get(i));
             System.out.println(TEST_PROG_LIST.get(i) +": " + TEST_WORK_LIST.toString() );
         }
     }
@@ -144,41 +142,42 @@ public class user_DBHelperTest {
         user_work_db.add_work_to_prog("_test; Program\"s 3","12_L3g_D4y_56");
 
         System.out.println(user_work_db);
-        System.out.println("starting work_DBHelper.get_workouts_from_prog test");
+        System.out.println("starting work_DBHelper.get_workouts_in_prog test");
 
-        //print workouts in each program using get_workouts_from_prog
+        //print workouts in each program using get_workouts_in_prog
         for (int i = 0; i < TEST_PROG_LIST.size(); ++i) {
-            TEST_WORK_LIST = user_work_db.get_workouts_from_prog(TEST_PROG_LIST.get(i));
+            TEST_WORK_LIST = user_work_db.get_workouts_in_prog(TEST_PROG_LIST.get(i));
             System.out.println(TEST_PROG_LIST.get(i) +": " + TEST_WORK_LIST.toString() );
         }
 
         System.out.println(user_work_db);
         System.out.println("starting work_DBHelper.add_exer_to_work tests");
 
-        user_work_db.add_exer_to_work("Chest and Tri's","Bench Press", 3,10,100,10,90);
-        user_work_db.add_exer_to_work("Chest and Tri's","Dumbell Press", 3,10,80,10,90);
-        user_work_db.add_exer_to_work("Chest and Tri's","Pushups", 4,20,0,10,60);
-        user_work_db.add_exer_to_work("Chest and Tri's","Dumbell Tricep Extension, Overhead",
-                4,15,50,10,60);
-        user_work_db.add_exer_to_work("Back;(and Biceps!)","Pullups", 4,10,0,10,60);
-        user_work_db.add_exer_to_work("Back;(and Biceps!)","Dumbell Curls", 4,10,30,10,60);
-        user_work_db.add_exer_to_work("Back;(and Biceps!)","Planks", 4,60,0,10,60);
-        user_work_db.add_exer_to_work("12_L3g_D4y_56","Squats", 4,10,60,10,60);
-        user_work_db.add_exer_to_work("12_L3g_D4y_56","Lunges", 4,10,30,10,60);
-        user_work_db.add_exer_to_work("12_L3g_D4y_56","Planks", 4,60,0,10,60);
-        user_work_db.add_exer_to_work("12_L3g_D4y_56","Run a mile", 1,10,0,10,60);
-        user_work_db.add_exer_to_work("EXXTREEME","Bench Press", 3,10,100,10,60);
-        user_work_db.add_exer_to_work("EXXTREEME","Dumbell Press", 3,10,80,10,60);
-        user_work_db.add_exer_to_work("EXXTREEME","Pushups", 4,20,0,10,60);
-        user_work_db.add_exer_to_work("EXXTREEME","Dumbell Tricep Extension, Overhead",
-                4,15,50,10,60);
-        user_work_db.add_exer_to_work("EXXTREEME","Pullups", 4,10,0,10,60);
-        user_work_db.add_exer_to_work("EXXTREEME","Dumbell Curls", 4,10,30,10,60);
-        user_work_db.add_exer_to_work("EXXTREEME","Planks", 4,60,0,10,60);
-        user_work_db.add_exer_to_work("EXXTREEME","Squats", 4,10,60,10,60);
-        user_work_db.add_exer_to_work("EXXTREEME","Lunges", 4,10,30,10,60);
-        user_work_db.add_exer_to_work("EXXTREEME","Run a mile", 1,10,0,10,60);
-        System.out.println(user_work_db);
+        //TODO: rework this section
+//        user_work_db.add_exer_to_work("Chest and Tri's","Bench Press", 3,10,100,10,90);
+//        user_work_db.add_exer_to_work("Chest and Tri's","Dumbell Press", 3,10,80,10,90);
+//        user_work_db.add_exer_to_work("Chest and Tri's","Pushups", 4,20,0,10,60);
+//        user_work_db.add_exer_to_work("Chest and Tri's","Dumbell Tricep Extension, Overhead",
+//                4,15,50,10,60);
+//        user_work_db.add_exer_to_work("Back;(and Biceps!)","Pullups", 4,10,0,10,60);
+//        user_work_db.add_exer_to_work("Back;(and Biceps!)","Dumbell Curls", 4,10,30,10,60);
+//        user_work_db.add_exer_to_work("Back;(and Biceps!)","Planks", 4,60,0,10,60);
+//        user_work_db.add_exer_to_work("12_L3g_D4y_56","Squats", 4,10,60,10,60);
+//        user_work_db.add_exer_to_work("12_L3g_D4y_56","Lunges", 4,10,30,10,60);
+//        user_work_db.add_exer_to_work("12_L3g_D4y_56","Planks", 4,60,0,10,60);
+//        user_work_db.add_exer_to_work("12_L3g_D4y_56","Run a mile", 1,10,0,10,60);
+//        user_work_db.add_exer_to_work("EXXTREEME","Bench Press", 3,10,100,10,60);
+//        user_work_db.add_exer_to_work("EXXTREEME","Dumbell Press", 3,10,80,10,60);
+//        user_work_db.add_exer_to_work("EXXTREEME","Pushups", 4,20,0,10,60);
+//        user_work_db.add_exer_to_work("EXXTREEME","Dumbell Tricep Extension, Overhead",
+//                4,15,50,10,60);
+//        user_work_db.add_exer_to_work("EXXTREEME","Pullups", 4,10,0,10,60);
+//        user_work_db.add_exer_to_work("EXXTREEME","Dumbell Curls", 4,10,30,10,60);
+//        user_work_db.add_exer_to_work("EXXTREEME","Planks", 4,60,0,10,60);
+//        user_work_db.add_exer_to_work("EXXTREEME","Squats", 4,10,60,10,60);
+//        user_work_db.add_exer_to_work("EXXTREEME","Lunges", 4,10,30,10,60);
+//        user_work_db.add_exer_to_work("EXXTREEME","Run a mile", 1,10,0,10,60);
+//        System.out.println(user_work_db);
 
 
         System.out.println("starting work_DBHelper.create_session tests");

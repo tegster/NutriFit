@@ -210,6 +210,11 @@ public class work_DBHelper extends SQLiteOpenHelper {
     public static final String EXER_INDEX_TABLE_NAME = "exer_index";
     public static final String EXER_INDEX_COL_EXER_ID = "ei_exer_id";
     public static final String EXER_INDEX_COL_EXER_NAME = "ei_exer_name";
+    public static final String EXER_INDEX_COL_GOAL_SETS = "ei_sets";
+    public static final String EXER_INDEX_COL_REPS = "ei_reps";
+    public static final String EXER_INDEX_COL_START_WEIGHT = "ei_start_weight";
+    public static final String EXER_INDEX_COL_INC_WEIGHT = "ei_incr_weight";
+    public static final String EXER_INDEX_COL_REST_TIME = "ei_rest_time";
     public static final String EXER_INDEX_COL_CREATED_ON = "ei_created_on";
     public static final String EXER_INDEX_COL_LAST_USED = "ei_last_used";
     public static final String EXER_INDEX_COL_DISABLED = "ei_disabled";
@@ -253,11 +258,15 @@ public class work_DBHelper extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE IF NOT EXISTS " + EXER_INDEX_TABLE_NAME + " ("
                 + EXER_INDEX_COL_EXER_ID + " integer primary key, "
                 + EXER_INDEX_COL_EXER_NAME + " text, "
+                + EXER_INDEX_COL_GOAL_SETS + "integer, "
+                + EXER_INDEX_COL_REPS + "integer, "
+                + EXER_INDEX_COL_START_WEIGHT + "integer, "
+                + EXER_INDEX_COL_INC_WEIGHT + "integer, "
+                + EXER_INDEX_COL_REST_TIME + "integer, "
                 + EXER_INDEX_COL_CREATED_ON + " text, "
                 + EXER_INDEX_COL_LAST_USED + " text , "
                 + EXER_INDEX_COL_DISABLED + " integer default 0)"
         );
-
         db.execSQL("CREATE TABLE IF NOT EXISTS " + WORK_DETAIL_TABLE_NAME + " "
                         + "(" + WORK_DETAIL_COL_WORK_ID + " integer, "
                         + WORK_DETAIL_COL_EXER_ID + " integer, "
@@ -334,30 +343,51 @@ public class work_DBHelper extends SQLiteOpenHelper {
         add_work_to_prog("Default Program 2", "EXXTREEME");
         add_work_to_prog("Default Program 3", "Leg Day");
 
-        add_exer_to_work("Chest and Tri's", "Bench Press", 3, 10, 100, 10, 60);
-        add_exer_to_work("Chest and Tri's", "Dumbell Press", 3, 10, 80, 10, 60);
-        add_exer_to_work("Chest and Tri's", "Pushups", 4, 20, 0, 10, 60);
-        add_exer_to_work("Chest and Tri's", "Dumbell Tricep Extension, Overhead",
+        create_exercise("Bench Press", 3, 10, 100, 10, 60);
+        create_exercise("Dumbell Press", 3, 10, 80, 10, 60);
+        create_exercise("Pushups", 4, 20, 0, 10, 60);
+        create_exercise("Dumbell Tricep Extension, Overhead",
                 4, 15, 50, 10, 60);
-        add_exer_to_work("Back and Biceps", "Pullups", 4, 10, 0, 10, 60);
-        add_exer_to_work("Back and Biceps", "Dumbell Curls", 4, 10, 30, 10, 60);
-        add_exer_to_work("Back and Biceps", "Planks", 4, 60, 0, 10, 60);
-        add_exer_to_work("Leg Day", "Squats", 4, 10, 60, 10, 60);
-        add_exer_to_work("Leg Day", "Lunges", 4, 10, 30, 10, 60);
-        add_exer_to_work("Leg Day", "Planks", 4, 60, 0, 10, 60);
-        add_exer_to_work("Leg Day", "Run a mile", 1, 10, 0, 10, 60);
-        add_exer_to_work("EXXTREEME", "Bench Press", 3, 10, 100, 10, 60);
-        add_exer_to_work("EXXTREEME", "Dumbell Press", 3, 10, 80, 10, 60);
-        add_exer_to_work("EXXTREEME", "Pushups", 4, 20, 0, 10, 60);
-        add_exer_to_work("EXXTREEME", "Dumbell Tricep Extension, Overhead",
+        create_exercise("Pullups", 4, 10, 0, 10, 60);
+        create_exercise("Dumbell Curls", 4, 10, 30, 10, 60);
+        create_exercise("Planks", 4, 60, 0, 10, 60);
+        create_exercise("Squats", 4, 10, 60, 10, 60);
+        create_exercise("Lunges", 4, 10, 30, 10, 60);
+        create_exercise("Planks", 4, 60, 0, 10, 60);
+        create_exercise("Run a mile", 1, 10, 0, 10, 60);
+        create_exercise("Bench Press", 3, 10, 100, 10, 60);
+        create_exercise("Dumbell Press", 3, 10, 80, 10, 60);
+        create_exercise("Pushups", 4, 20, 0, 10, 60);
+        create_exercise("Dumbell Tricep Extension, Overhead",
                 4, 15, 50, 10, 60);
-        add_exer_to_work("EXXTREEME", "Pullups", 4, 10, 0, 10, 60);
-        add_exer_to_work("EXXTREEME", "Dumbell Curls", 4, 10, 30, 10, 60);
-        add_exer_to_work("EXXTREEME", "Planks", 4, 60, 0, 10, 60);
-        add_exer_to_work("EXXTREEME", "Squats", 4, 10, 60, 10, 60);
-        add_exer_to_work("EXXTREEME", "Lunges", 4, 10, 30, 10, 60);
-        add_exer_to_work("EXXTREEME", "Run a mile", 1, 10, 0, 10, 60);
+        create_exercise("Pullups", 4, 10, 0, 10, 60);
+        create_exercise("Dumbell Curls", 4, 10, 30, 10, 60);
+        create_exercise("Planks", 4, 60, 0, 10, 60);
+        create_exercise("Squats", 4, 10, 60, 10, 60);
+        create_exercise("Lunges", 4, 10, 30, 10, 60);
+        create_exercise("Run a mile", 1, 10, 0, 10, 60);
 
+        add_exer_to_work("Chest and Tri's", "Bench Press");
+        add_exer_to_work("Chest and Tri's", "Dumbell Press");
+        add_exer_to_work("Chest and Tri's", "Pushups");
+        add_exer_to_work("Chest and Tri's", "Dumbell Tricep Extension, Overhead");
+        add_exer_to_work("Back and Biceps", "Pullups");
+        add_exer_to_work("Back and Biceps", "Dumbell Curls");
+        add_exer_to_work("Back and Biceps", "Planks");
+        add_exer_to_work("Leg Day", "Squats");
+        add_exer_to_work("Leg Day", "Lunges");
+        add_exer_to_work("Leg Day", "Planks");
+        add_exer_to_work("Leg Day", "Run a mile");
+        add_exer_to_work("EXXTREEME", "Bench Press");
+        add_exer_to_work("EXXTREEME", "Dumbell Press");
+        add_exer_to_work("EXXTREEME", "Pushups");
+        add_exer_to_work("EXXTREEME", "Dumbell Tricep Extension, Overhead");
+        add_exer_to_work("EXXTREEME", "Pullups");
+        add_exer_to_work("EXXTREEME", "Dumbell Curls");
+        add_exer_to_work("EXXTREEME", "Planks");
+        add_exer_to_work("EXXTREEME", "Squats");
+        add_exer_to_work("EXXTREEME", "Lunges");
+        add_exer_to_work("EXXTREEME", "Run a mile");
         if (DEBUG) {
             //mark current line num
             System.out.println("" + new Exception().getStackTrace()[0]);
@@ -611,21 +641,15 @@ public class work_DBHelper extends SQLiteOpenHelper {
     }
 
     /**
-     * Adds an exercise to an existing workout.
+     * Adds an existing exercise to an existing workout.
      *
      * @param work_name        name of the workout to be added to.
      * @param exer_name        name of the exercise to be added.
-     * @param num_of_sets      goal. use 1 for timed exercise types.
-     * @param reps_per_set     goal. used to populate work log targets.
-     * @param start_weight     initial weight lifted, for weighted exercises.
-     * @param increment_weight weight increment to add or remove between sets.
-     * @param rest_time        time between exercise sets, in seconds.
      * @return inserted item's work_id, or -1 if insertion fails.
-     * @see #is_taken_work_name(String) to check preconditions.
+     * @see #is_taken_work_name(String) to check a precondition.
+     * @see #is_taken_exer_name(String) to check a precondition.
      */
-    public int add_exer_to_work(String work_name, String exer_name,
-                                int num_of_sets, int reps_per_set, int start_weight,
-                                int increment_weight, int rest_time) {
+    public int add_exer_to_work(String work_name, String exer_name) {
         long confirm_row_id = -1;
         int work_id = get_work_id_from_name(work_name);
         int exer_id = get_exer_id_from_name(exer_name);
@@ -641,6 +665,12 @@ public class work_DBHelper extends SQLiteOpenHelper {
                     "\" to workout \"" + work_name +
                     "\": workout does not exist.");
         }
+        //invariant: exercise already exists
+        if (!is_taken_exer_name(exer_name)) {
+            throw new IllegalArgumentException("Error adding exercise \"" + exer_name +
+                    "\" to workout \"" + work_name +
+                    "\": exercise does not exist.");
+        }
         //invariant: exercise is not already part of program
         exers_in_work = get_exers_from_work(work_name);
         if (exers_in_work.contains(exer_name)) {
@@ -648,24 +678,30 @@ public class work_DBHelper extends SQLiteOpenHelper {
                     "\" to workout \"" + work_name + "\": " +
                     "this exercise is already part of this workout.");
         }
-
-        //create exercise if it doesnt already exist
-        if ( !is_taken_exer_name(exer_name))   {
-            db.close();
-            create_exercise(exer_name);
-            db = getWritableDatabase();
-        }
+        
+        //TODO: get sets, reps, etc. from exercise table
+        String getColumns [] = {EXER_INDEX_COL_GOAL_SETS, EXER_INDEX_COL_REPS, 
+                    EXER_INDEX_COL_START_WEIGHT, EXER_INDEX_COL_INC_WEIGHT,
+                    EXER_INDEX_COL_REST_TIME};
+        
+        Cursor res = db.query(EXER_INDEX_TABLE_NAME, getColumns,
+                EXER_INDEX_COL_EXER_NAME +"=?", new String[] {exer_name},
+                null,null,null);
+        
         contentValues.put(WORK_DETAIL_COL_WORK_ID, work_id);
         contentValues.put(WORK_DETAIL_COL_EXER_ID, exer_id);
         contentValues.put(WORK_DETAIL_COL_EXER_NAME, exer_name);
         contentValues.put(WORK_DETAIL_COL_TYPE, exer_type);
-        contentValues.put(WORK_DETAIL_COL_SETS, num_of_sets);
-        contentValues.put(WORK_DETAIL_COL_REPS, reps_per_set);
-        contentValues.put(WORK_DETAIL_COL_START_WEIGHT, start_weight);
-        contentValues.put(WORK_DETAIL_COL_INC_WEIGHT, increment_weight);
-        contentValues.put(WORK_DETAIL_COL_REST_TIME, rest_time);
-
-        //TODO:amend to create exercise if it doesnt already exist
+        contentValues.put(WORK_DETAIL_COL_SETS, 
+                res.getInt(res.getColumnIndex(EXER_INDEX_COL_GOAL_SETS)));
+        contentValues.put(WORK_DETAIL_COL_REPS,
+                res.getInt(res.getColumnIndex(EXER_INDEX_COL_REPS)));
+        contentValues.put(WORK_DETAIL_COL_START_WEIGHT,
+                res.getInt(res.getColumnIndex(EXER_INDEX_COL_START_WEIGHT)));
+        contentValues.put(WORK_DETAIL_COL_INC_WEIGHT,
+                res.getInt(res.getColumnIndex(EXER_INDEX_COL_INC_WEIGHT)));
+        contentValues.put(WORK_DETAIL_COL_REST_TIME,
+                res.getInt(res.getColumnIndex(EXER_INDEX_COL_REST_TIME)));
 
         confirm_row_id = db.insert(WORK_DETAIL_TABLE_NAME, null, contentValues);
         db.close();
@@ -719,7 +755,7 @@ public class work_DBHelper extends SQLiteOpenHelper {
      * Returns an empty list if no workouts have been added yet.
      * @see is_taken_prog_name(String) to check that prog_name has been created.
      */
-    public ArrayList<String> get_workouts_from_prog(String prog_name) {
+    public ArrayList<String> get_workouts_in_prog(String prog_name) {
         ArrayList<String> w_list = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
         int prog_id = get_prog_id_from_name(prog_name);
@@ -1130,7 +1166,7 @@ public class work_DBHelper extends SQLiteOpenHelper {
      * @return the name of the next workout to perform.
      */
     public String get_next_workout(String program) {
-        ArrayList<String> workList = get_workouts_from_prog(program);
+        ArrayList<String> workList = get_workouts_in_prog(program);
 
         //TODO: change get_next_workout to intelligently choose next workout
         return workList.get(0);
@@ -1272,37 +1308,52 @@ public class work_DBHelper extends SQLiteOpenHelper {
      *
      * @param exercise_name must not match the name of any existing exercise.
      *                     Cannot be null.
+     * @param num_of_sets      goal number of sets. use 1 for timed exercise types.
+     * @param reps_per_set     goal reps per set. used to populate work log targets.
+     * @param start_weight     initial weight lifted, for weighted exercises.
+     * @param increment_weight weight increment to add or remove between sets.
+     * @param rest_time        time between exercise sets, in seconds.
      * @return exer_id of inserted exercise, or -1 if an error occurred
      * @throws #IllegalArgumentException if the exercise name is empty or the
      *      name is already taken.
      * @see #is_taken_exer_name(String) to check precondition.
      * note: defaults "never" for last_used field.
      */
-    public int create_exercise(String exercise_name) {
-        long inserted_id = -1;
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-
+    public int create_exercise(String exercise_name, int num_of_sets, int reps_per_set, int start_weight,
+        int increment_weight, int rest_time) {
+        long inserted_row_id = -1;
+        //TODO: change exer_type to retrieve exercise type if timed exercises are allowed
+        String exer_type = "reps";
+        
         //invariant: exercise name must not be empty
         if (exercise_name == null || exercise_name.length() == 0) {
             throw new IllegalArgumentException("Error creating exercise: "
                     + "no exercise name has been specified.");
         }
-
-        if (is_taken_exer_name(exercise_name))        {
-            throw new IllegalArgumentException("Error creating exercise: "
-                    + exercise_name+ " : an exercise with this name already exists.");
+        //invariant: exercise must not already exist
+        if (is_taken_exer_name(exercise_name)) {
+            throw new IllegalArgumentException("create_exercise failed: \"" + exercise_name + "\" already exists");
         }
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        
         contentValues.put(EXER_INDEX_COL_EXER_NAME, exercise_name);
         contentValues.put(EXER_INDEX_COL_CREATED_ON, current_time_ISO8601());
         contentValues.put(EXER_INDEX_COL_LAST_USED, "never");
+        contentValues.put(EXER_INDEX_COL_EXER_NAME, exercise_name);
+        contentValues.put(EXER_INDEX_COL_GOAL_SETS, num_of_sets);
+        contentValues.put(EXER_INDEX_COL_REPS, reps_per_set);
+        contentValues.put(EXER_INDEX_COL_START_WEIGHT, start_weight);
+        contentValues.put(EXER_INDEX_COL_INC_WEIGHT, increment_weight);
+        contentValues.put(EXER_INDEX_COL_REST_TIME, rest_time);
 
-        inserted_id = db.insert(EXER_INDEX_TABLE_NAME, null, contentValues);
-
+        inserted_row_id = db.insert(EXER_INDEX_TABLE_NAME, null, contentValues);
         db.close();
-        return (int) inserted_id;
-    }
 
+        return (int) inserted_row_id;
+    }
+        
     public Workout_data get_work_detail(String workout_name) {
         ArrayList<String> exer_names;
         ArrayList<Integer> goal_sets;

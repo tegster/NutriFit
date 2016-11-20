@@ -59,6 +59,7 @@
 
         <activity
             android:name=".work_workoutList"
+            android:parentActivityName=".work_programList"
             android:configChanges="orientation"
             android:label="Program Name Placeholder"
             android:screenOrientation="portrait"
@@ -66,6 +67,7 @@
 
         <activity
             android:name=".work_exerciseList"
+            android:parentActivityName=".work_workoutList"
             android:configChanges="orientation"
             android:label="Program Name Placeholder"
             android:screenOrientation="portrait"
