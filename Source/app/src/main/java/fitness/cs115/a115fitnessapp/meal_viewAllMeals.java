@@ -32,7 +32,7 @@ public class meal_viewAllMeals extends AppCompatActivity {
     ArrayList<String> arrTblNames = new ArrayList<String>();
     AlertDialog.Builder programOptionMenu;
     private String selectedTable;
-    private final boolean DEBUG = true;
+    private final boolean DEBUG = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -156,6 +156,7 @@ public class meal_viewAllMeals extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "click: " + position + " " + arrTblNames.get(position), Toast.LENGTH_LONG).show();
                 }
                 eatMeal();
+                Toast.makeText(meal_viewAllMeals.this, "You have eaten meal: " + arrTblNames.get(position), Toast.LENGTH_SHORT).show();
             }
         });
     }
