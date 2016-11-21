@@ -75,16 +75,18 @@
 
         <activity
             android:name=".work_createWorkout"
+            android:parentActivityName=".work_createProgram"
             android:configChanges="orientation"
-            android:label="New Workout"
+            android:label="Edit Workout"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
 
         <activity
             android:name=".work_createProgram"
+            android:parentActivityName=".work_programList"
             android:configChanges="orientation"
             android:screenOrientation="portrait"
-            android:label="New Program"
+            android:label="Edit Workout Program"
             android:theme="@style/AppTheme" />
 
         <activity
@@ -110,8 +112,9 @@
 
         <activity
             android:name=".work_createExercise"
+            android:parentActivityName=".work_createWorkout"
             android:configChanges="orientation"
-            android:label="Add Exercise"
+            android:label="Edit Exercise"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
 

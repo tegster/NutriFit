@@ -42,7 +42,6 @@ public class work_programList extends AppCompatActivity{
         //get program list from database
         programs = work_db.get_user_program_list();
 
-
         //======================================================================================
         //  Dialog Boxes
         //======================================================================================

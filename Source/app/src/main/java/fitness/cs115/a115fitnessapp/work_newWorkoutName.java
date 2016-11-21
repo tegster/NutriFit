@@ -105,7 +105,7 @@ public class work_newWorkoutName extends AppCompatActivity {
     //  Start Activities
     //======================================================================================
     public void OpenWorkout(String workName){
-        Intent openWorkout = new Intent(work_newWorkoutName.this, work_exerciseList.class);
+        Intent openWorkout = new Intent(work_newWorkoutName.this, work_createWorkout.class);
 
         openWorkout.putExtra("wName", workName);
         startActivity(openWorkout);

@@ -9,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
@@ -19,13 +18,13 @@ import java.util.ArrayList;
  * Created by Henry on 10/25/2016.
  * Edited by James Kennedy on 11/20/2016.
  */
-
+//TODO: KNOWN BUG: crashes when adding several exercises to workout
 public class work_createWorkout extends AppCompatActivity{
     private String workoutName;
     private ArrayList<String> exersInWorkout;
     private ArrayList<String> addExercisesList;
     private work_DBHelper workDBH;
-    private AlertDialog.Builder newExerciseMenu;
+    private AlertDialog.Builder addExerciseDialog;
     private ListAdapter exersInWorkoutAdapter;
     private ListView exersInWorkoutLV;
     private String userExercises[];
@@ -66,48 +65,53 @@ public class work_createWorkout extends AppCompatActivity{
 
         // Program Options Menu Dialog Box
         // - Shown when an item in the ListView is long-clicked.
-        final CharSequence exerciseOptionsMenuOptions[] = new CharSequence[] {"Edit", "Delete"};
-        final AlertDialog.Builder exerciseOptionMenu = new AlertDialog.Builder(this);
-        exerciseOptionMenu.setItems(exerciseOptionsMenuOptions, new DialogInterface.OnClickListener(){
-            @Override
-            public void onClick(DialogInterface dialogInterface, int selection_id) {
-                if (selection_id == 0){
-                    //TODO: Edit the selected exercise.
-                    //edit exercise
-                } else {
-                    //delete the exercise
-                    exerciseOptionDelete.show();
-                }
-            }
-        });
+//        final CharSequence exerciseOptionsMenuOptions[] = new CharSequence[] {"Edit", "Delete"};
+//        final AlertDialog.Builder exerciseOptionMenu = new AlertDialog.Builder(this);
+//        exerciseOptionMenu.setItems(exerciseOptionsMenuOptions, new DialogInterface.OnClickListener(){
+//            @Override
+//            public void onClick(DialogInterface dialogInterface, int selection_id) {
+//                if (selection_id == 0){
+//                    //editExercise();
+//                } else {
+//                    //delete the exercise
+//                    exerciseOptionDelete.show();
+//                }
+//            }
+//        });
 
         // New Exercise Dialog Box
         // - Shown when an item in the ListView is long-clicked.
-        final CharSequence newExerciseMenuOptions[] = new CharSequence[] {"Search Database", "Define New"};
-        newExerciseMenu = new AlertDialog.Builder(this);
-        newExerciseMenu.setItems(exerciseOptionsMenuOptions, new DialogInterface.OnClickListener(){
-            @Override
-            public void onClick(DialogInterface dialogInterface, int selection_id) {
-                if (selection_id == 0){
-                    //TODO: Search the database
+        //final CharSequence addExerciseMenuOptions[] = new CharSequence[] {"Search Database", "Define New"};
+//        addExerciseDialog = new AlertDialog.Builder(this);
+//        addExerciseDialog.setItems(exerciseOptionsMenuOptions, new DialogInterface.OnClickListener(){
+//            @Override
+//            public void onClick(DialogInterface dialogInterface, int selection_id) {
+//                if (selection_id == 0){
+//                    //TODO: Search the database
+//
+//                } else {
+//                    //TODO: Create new exercise
+//                }
+//            }
+//        });
 
-                } else {
-                    //TODO: Create new exercise
-                }
-            }
-        });
-        
+        //======================================================================================
+        //  Add Exercise Dialog
+        //======================================================================================
+        //Adds an exercise to the workout exercise List.
+        //available exercise items set in onResume()
+        addExerciseDialog = new AlertDialog.Builder(this);
 
 
         //======================================================================================
         //  Floating Action Button
         //======================================================================================
-        //Adds a new program to the Program List.
+        //Opens dialog to add an exercise to the workout
         FloatingActionButton fabAdd = (FloatingActionButton) findViewById(R.id.fab_addExercise);
         fabAdd.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                newExerciseMenu.show();
+                addExerciseDialog.show();
             }
         });
 
@@ -118,7 +122,6 @@ public class work_createWorkout extends AppCompatActivity{
         //Create the list of exercises currently in the program.
         //ListAdapter programListAdapter = new work_programList_adapter(this, programs);
         exersInWorkoutAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, exersInWorkout);
-        //TODO: include LV in xml file
         exersInWorkoutLV = (ListView) findViewById(R.id.lv_workExerciseList);
         exersInWorkoutLV.setAdapter(exersInWorkoutAdapter);
         exersInWorkoutLV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -128,13 +131,13 @@ public class work_createWorkout extends AppCompatActivity{
                 editExercise(exercise);
             }
         });
-        exersInWorkoutLV.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                exerciseOptionMenu.show();
-                return true;
-            }
-        });
+//        exersInWorkoutLV.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+//            @Override
+//            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+//                exerciseOptionMenu.show();
+//                return true;
+//            }
+//        });
 
         //======================================================================================
         // Exercise Creation / Selection Dialog Box
@@ -165,22 +168,24 @@ public class work_createWorkout extends AppCompatActivity{
         addExercisesList = workDBH.get_user_exercise_list();
         addExercisesList.add(0,"Create New Exercise");
         userExercises = addExercisesList.toArray(new String [addExercisesList.size()]);
+
         //remove exercises that are already a part of the workout
         exersInWorkout = workDBH.get_exers_from_work(workoutName);
         addExercisesList.removeAll(exersInWorkout);
-        addExerciseSelection.setItems(userExercises, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int selection_id) {
-                        //check which Exercise was selected.
-                        if (selection_id == 0) {
-                            newExercise();
-                        } else {
-                            //add selected exercise to the user's exercise list.
-                            String exerciseToAdd = addExercisesList.get(selection_id);
-                            addExercise(exerciseToAdd);
-                        }
-                    }
-                });
+        //bind addable exercises list to menu
+        addExerciseDialog.setItems(userExercises, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int selection_id) {
+                //check which Exercise was selected.
+                if (selection_id == 0) {
+                    newExercise();
+                } else {
+                    //add selected exercise to the user's exercise list.
+                    String exerciseToAdd = addExercisesList.get(selection_id);
+                    addExercise(exerciseToAdd);
+                }
+            }
+        });
     }
 
 
@@ -194,16 +199,15 @@ public class work_createWorkout extends AppCompatActivity{
         startActivity(editExer);
     }
 
+    private void newExercise(){
+        Intent newExercise = new Intent(work_createWorkout.this, work_createExercise.class);
+        newExercise.putExtra("wName", workoutName);
+        startActivity(newExercise);
+    }
     //adds exercise to current workout
     private void addExercise (String exerciseToAdd) {
         workDBH.add_exer_to_work(workoutName, exerciseToAdd);
-        
         updateWorkoutExercises();
         updateAddExercisesList();
-    }
-    private void newExercise(){
-        Intent newExercise = new Intent(work_createWorkout.this, work_newExerciseName.class);
-        newExercise.putExtra("pName", workoutName);
-        startActivity(newExercise);
     }
 }

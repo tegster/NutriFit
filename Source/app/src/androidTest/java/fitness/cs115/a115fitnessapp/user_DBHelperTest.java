@@ -154,7 +154,7 @@ public class user_DBHelperTest {
         System.out.println("starting work_DBHelper.add_exer_to_work tests");
 
         //TODO: rework this section
-//        user_work_db.add_exer_to_work("Chest and Tri's","Bench Press", 3,10,100,10,90);
+        //        user_work_db.add_exer_to_work("Chest and Tri's","Bench Press", 3,10,100,10,90);
 //        user_work_db.add_exer_to_work("Chest and Tri's","Dumbell Press", 3,10,80,10,90);
 //        user_work_db.add_exer_to_work("Chest and Tri's","Pushups", 4,20,0,10,60);
 //        user_work_db.add_exer_to_work("Chest and Tri's","Dumbell Tricep Extension, Overhead",
@@ -184,7 +184,7 @@ public class user_DBHelperTest {
         System.out.println("starting work_DBHelper.log_set tests");
 
         //used to verfify the work log
-        HashMap<Date,Integer> actual_map = new HashMap<Date, Integer>();
+        HashMap<Date,Integer> actual_map = new HashMap<>();
 
         int s_id = user_work_db.create_session("Chest and Tri's");
         user_work_db.log_set(s_id, "Bench Press", 1, 10, 10, 100);
@@ -229,6 +229,8 @@ public class user_DBHelperTest {
     private void delay (int delay_ms) {
         try {
             Thread.sleep(delay_ms);
-        } catch (InterruptedException e) {}
+        } catch (InterruptedException e) {
+            System.err.println(e);
+        }
     }
 }
