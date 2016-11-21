@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Chronometer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,6 +27,7 @@ public class work_trackerSetList extends AppCompatActivity{
     ArrayList<String> weights;
     ListView setListView;
     work_trackerSetList_adapter setListAdapter;
+    Chronometer timer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +44,13 @@ public class work_trackerSetList extends AppCompatActivity{
 
         //TODO: add invariants for valid exercise name
         initExerciseData();
+
+
+        //Rest Timer
+        //Currently will just start and never end.
+        //Does not persist if you go back to work_tracker!
+        timer = (Chronometer) findViewById(R.id.chronometer);
+        timer.start();
 
         //======================================================================================
         //  Sets ListView
