@@ -5,10 +5,10 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by Henry on 10/23/2016.
@@ -16,8 +16,16 @@ import java.util.ArrayList;
 
 public class work_trackerSetList extends AppCompatActivity{
     String exerciseName = "";
-    String sessID = "";
+    int sessID;
+    int currSetIndex;
     work_DBHelper work_db;
+    HashMap<String, Integer> exerciseData;
+    ArrayList<String> setNumbers;
+    ArrayList<String> currReps;
+    ArrayList<String> targetReps;
+    ArrayList<String> weights;
+    ListView setListView;
+    work_trackerSetList_adapter setListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,42 +36,81 @@ public class work_trackerSetList extends AppCompatActivity{
 
         //Get parameters that are passed into the tracker.
         Intent intent = getIntent();
-        sessID = intent.getExtras().getString("sessID");
+        sessID = intent.getExtras().getInt("sessID");
         exerciseName = intent.getExtras().getString("eName");
         setTitle(exerciseName);
 
-
-        //TODO: grab information from session
-        String[] setNumbers = {"1","2","3","4","5","6","7","8","9"};
-        String[] currReps = {"5","3","0","0","0","0","0","0","0"};
-        String[] targetReps = {"5","12","99","5","5","5","5","5","5"};
-        String[] weights = {"200","210","220","230","240","240","240","240","9000"};
-
-
+        //TODO: add invariants for valid exercise name
+        initExerciseData();
 
         //======================================================================================
-        //  ListView
+        //  Sets ListView
         //======================================================================================
         //Create the list.
         //TODO: use the custom adapter to display exercise name, weight, and sets
-        ListAdapter exerciseListAdapter = new work_trackerSetList_adapter(this, setNumbers, currReps, targetReps, weights);
-        ListView exerciseListView = (ListView) findViewById(R.id.lv_exerList);
-        exerciseListView.setAdapter(exerciseListAdapter);
-        exerciseListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        setListView = (ListView) findViewById(R.id.lv_exerList);
+        setListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id){
-                //exerciseName = String.valueOf(parent.getItemAtPosition(position));
-                Intent setIntent = new Intent(work_trackerSetList.this, work_trackerSetDetail.class);
-                setIntent.putExtra("setName", exerciseName + " - Set " + String.valueOf(position + 1));
-                setIntent.putExtra("sessID", sessID);
-                startActivity(setIntent);
-
+                trackSet(position);
             }
         });
-
-
-
     }
 
+    private void initExerciseData() {
+        exerciseData = work_db.get_exer_detail(exerciseName);
+        String repStr  = String.valueOf(exerciseData.get(work_DBHelper.EXER_INDEX_REPS));
+        int sets = exerciseData.get(work_DBHelper.EXER_INDEX_GOAL_SETS);
+        int startWeight = exerciseData.get(work_DBHelper.EXER_INDEX_START_WEIGHT);
+        int incrWeight = exerciseData.get(work_DBHelper.EXER_INDEX_INC_WEIGHT);
+        int restTime = exerciseData.get(work_DBHelper.EXER_INDEX_REST_TIME);
+
+        this.setNumbers = new ArrayList<>(sets);
+        this.currReps = new ArrayList<>(sets);
+        this.targetReps = new ArrayList<>(sets);
+        this.weights = new ArrayList<>(sets);
+        this.currSetIndex = 0;
+
+        //preload Arraylists for the each set
+        int setWeight = startWeight;
+        for (int setIdx = 0; setIdx < sets; ++setIdx) {
+            setNumbers.add(String.valueOf(setIdx));
+            currReps.add("0");
+            targetReps.add(repStr);
+            weights.add(String.valueOf(setWeight));
+            setWeight += incrWeight;
+        }
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        updateExerciseData();
+    }
+
+    private void updateExerciseData() {
+        ArrayList<Integer> loggedSetReps = work_db.get_exer_session_reps(exerciseName, sessID);
+        String currRepStr;
+        currSetIndex = loggedSetReps.size();
+
+        //update current reps with DB data for sets that have been logged
+        for (int setInd = 0; setInd < currSetIndex; ++setInd) {
+            currRepStr = String.valueOf(loggedSetReps.get(setInd));
+            currReps.set(setInd, currRepStr);
+        }
+
+        setListAdapter = new work_trackerSetList_adapter(this, setNumbers, currReps, targetReps, weights);
+        setListView.setAdapter(setListAdapter);
+    }
+
+    private void trackSet(int setIndex) {
+        Intent setIntent = new Intent(work_trackerSetList.this, work_trackerSetDetail.class);
+        setIntent.putExtra("eName", exerciseName);
+        setIntent.putExtra("sessID", sessID);
+        setIntent.putExtra("setNum", setIndex + 1);
+        setIntent.putExtra("goalWeight", weights.get(setIndex));
+        setIntent.putExtra("goalReps", targetReps.get(setIndex));
+        startActivity(setIntent);
+    }
 
 }

@@ -53,7 +53,7 @@ public class work_exerciseList extends AppCompatActivity{
         exerciseListView = (ListView) findViewById(R.id.lv_exerciseList);
         exerciseListView.setAdapter(exerciseListAdapter);
         //TODO: remove the clickability of exercises in the list
-//        exerciseListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//        setsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 //            @Override
 //            public void onItemClick(AdapterView<?> parent, View view, int position, long id){
 //                String exercise = String.valueOf(parent.getItemAtPosition(position));
@@ -126,9 +126,9 @@ public class work_exerciseList extends AppCompatActivity{
         //Create the list.
         exersInWorkout = work_dbh.get_exers_from_work(workoutName);
         exerciseListAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, exersInWorkout);
-//        exerciseListView = (ListView) findViewById(R.id.lv_exerciseList);
+//        setsListView = (ListView) findViewById(R.id.lv_exerciseList);
         exerciseListView.setAdapter(exerciseListAdapter);
-//        exerciseListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//        setsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 //            @Override
 //            public void onItemClick(AdapterView<?> parent, View view, int position, long id){
 //                Intent openExercise = new Intent(work_exerciseList.this, work_exerciseList.class);

@@ -35,12 +35,7 @@ public class work_tracker extends AppCompatActivity{
         sessID = work_db.create_session(workoutName);
         setTitle(workoutName);
 
-/*
-        //grab exercises
-        ArrayList<String> userworkAL = work_db.get_exers_from_work(workoutName);
-        String[] exercises = userworkAL.toArray(new String[userworkAL.size()]);
-*/
-        //TODO: grab information from session
+        //grab information from session
         workData = work_db.get_work_detail(workoutName);
 
 
@@ -61,7 +56,6 @@ public class work_tracker extends AppCompatActivity{
                 setIntent.putExtra("eName", exerciseName);
                 setIntent.putExtra("sessID", String.valueOf(sessID));
                 startActivity(setIntent);
-
             }
         });
 

@@ -18,36 +18,44 @@ import android.widget.Toast;
 public class work_trackerSetDetail extends AppCompatActivity{
 
     String title = "";
-    String sessID = "";
+    String exerciseName;
+    int sessID;
+    int setNum;
     work_DBHelper work_db;
     TextView onEachSideText;
     TextView plateResult;
+    TextView targetRepsText;
     EditText totalWeightInput;
     EditText barWeightInput;
-    EditText repsInput;
+    EditText actualRepsInput;
     Button logButton;
     Button calcPlates;
     int totalWeight;
     int barWeight;
+    int goalReps;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_work_tracker_setdetail);
 
-        Intent intent = getIntent();
-        sessID = intent.getExtras().getString("sessID");
-        title = intent.getExtras().getString("setName");
+        //get extras
+        Bundle intentExtras = getIntent().getExtras();
+        sessID = intentExtras.getInt("sessID");
+        setNum = intentExtras.getInt("setNum");
+        exerciseName = intentExtras.getString("eName");
+        totalWeight = Integer.parseInt(intentExtras.getString("goalWeight"));
+        goalReps = Integer.parseInt(intentExtras.getString("goalReps"));
+
+        title = exerciseName + " - Set " + String.valueOf(setNum);
         setTitle(title);
 
         //Prevent keyboard from opening automatically
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
         //this is the file that handles actual set logging
-
-
-
-        repsInput = (EditText) findViewById(R.id.et_reps);
+        actualRepsInput = (EditText) findViewById(R.id.et_reps);
+        targetRepsText = (TextView) findViewById(R.id.tv_targetReps);
         onEachSideText = (TextView) findViewById(R.id.tv_oes);
         plateResult = (TextView) findViewById(R.id.tv_platesNeeded);
         totalWeightInput = (EditText) findViewById(R.id.et_totalWeight);
@@ -55,14 +63,11 @@ public class work_trackerSetDetail extends AppCompatActivity{
         logButton = (Button) findViewById(R.id.btn_log);
         calcPlates = (Button) findViewById(R.id.btn_calcPlate);
 
-
-
-        //TODO: Grab weight and bar weight from database
-        totalWeightInput.setText("300");
+        //set values according to exercise details
+        totalWeightInput.setText(String.valueOf(totalWeight));
+        actualRepsInput.setText(String.valueOf(goalReps));
+        targetRepsText.setText(String.valueOf(goalReps));
         barWeightInput.setText("45");
-
-        //Calculate plates immediately.
-        performPlateCalculation();
 
 
         //======================================================================================
@@ -79,8 +84,11 @@ public class work_trackerSetDetail extends AppCompatActivity{
         logButton.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO: Log the set and start the timer!
-                Toast.makeText(work_trackerSetDetail.this, "This would have been logged.", Toast.LENGTH_SHORT).show();
+                int actualReps = Integer.parseInt(actualRepsInput.getText().toString());
+                int actualWeight = Integer.parseInt(totalWeightInput.getText().toString());
+                work_db.log_set(sessID, exerciseName, setNum, goalReps,actualReps, actualWeight);
+                //TODO: start the timer!
+                Toast.makeText(work_trackerSetDetail.this, "set logged. The timer would have been started.", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -88,6 +96,13 @@ public class work_trackerSetDetail extends AppCompatActivity{
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        //Calculate plates immediately.
+        performPlateCalculation();
+    }
     //Take weight from EditTexts and return a string to be used in a TextView.
     public String eachSide(int totalWeight, int barWeight){
         return "On each side: " + String.valueOf((totalWeight - barWeight) / 2.0) + " lbs";

@@ -1424,4 +1424,26 @@ public class work_DBHelper extends SQLiteOpenHelper {
         res.close();
         return returnVals;
     }
+
+
+    public ArrayList<Integer> get_exer_session_reps(String exerciseName, int session_id){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        //get logs for the current exercise and session, ordered by set number
+        Cursor res = db.query(WORK_LOG_TABLE_NAME + ", "+WORK_SESSIONS_TABLE_NAME, new String [] {WORK_LOG_ACTUAL},
+                WORK_LOG_SESSION_ID + " = ?", new String[]{String.valueOf(session_id)},
+                null, null, WORK_LOG_SET_NUM
+                );
+
+        ArrayList<Integer> logged_reps = new ArrayList<Integer>(res.getCount());
+        //load ArrayList with logged reps from the DB
+        res.moveToFirst();
+        while (!res.isAfterLast()){
+            logged_reps.add(res.getInt(res.getColumnIndex(WORK_LOG_ACTUAL)));
+            res.moveToNext();
+        }
+        res.close();
+
+        return logged_reps;
+    }
 }
