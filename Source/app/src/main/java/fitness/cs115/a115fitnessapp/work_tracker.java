@@ -38,13 +38,11 @@ public class work_tracker extends AppCompatActivity{
         //grab information from session
         workData = work_db.get_work_detail(workoutName);
 
-
-
         //======================================================================================
         //  ListView
         //======================================================================================
         //Create the list.
-        //TODO: use the custom adapter to display exercise name, weight, and sets
+        //pass custom adapter the workout data needed to track each exercise.
         ListAdapter exerciseListAdapter = new work_tracker_adapter(this, workData);
         ListView exerciseListView = (ListView) findViewById(R.id.lv_exerList);
         exerciseListView.setAdapter(exerciseListAdapter);
@@ -54,15 +52,9 @@ public class work_tracker extends AppCompatActivity{
                 exerciseName = String.valueOf(parent.getItemAtPosition(position));
                 Intent setIntent = new Intent(work_tracker.this, work_trackerSetList.class);
                 setIntent.putExtra("eName", exerciseName);
-                setIntent.putExtra("sessID", String.valueOf(sessID));
+                setIntent.putExtra("sessID", sessID);
                 startActivity(setIntent);
             }
         });
-
-
-
-
     }
-
-
 }

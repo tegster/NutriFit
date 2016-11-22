@@ -2,6 +2,7 @@ package fitness.cs115.a115fitnessapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.WindowManager;
@@ -39,6 +40,7 @@ public class work_trackerSetDetail extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_work_tracker_setdetail);
 
+        work_db = new work_DBHelper(this);
         //get extras
         Bundle intentExtras = getIntent().getExtras();
         sessID = intentExtras.getInt("sessID");
@@ -84,11 +86,14 @@ public class work_trackerSetDetail extends AppCompatActivity{
         logButton.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                //TODO: catch bug that causes crashe here
                 int actualReps = Integer.parseInt(actualRepsInput.getText().toString());
                 int actualWeight = Integer.parseInt(totalWeightInput.getText().toString());
-                work_db.log_set(sessID, exerciseName, setNum, goalReps,actualReps, actualWeight);
+                work_db.log_set(sessID, exerciseName, setNum, goalReps, actualReps, actualWeight);
                 //TODO: start the timer!
                 Toast.makeText(work_trackerSetDetail.this, "set logged. The timer would have been started.", Toast.LENGTH_SHORT).show();
+                returnToSetList();
             }
         });
 
@@ -146,5 +151,13 @@ public class work_trackerSetDetail extends AppCompatActivity{
         plateResult.setText(plateCalculator(totalWeight,barWeight));
     }
 
+    private void returnToSetList () {
+
+        Intent setListIntent = new Intent(work_trackerSetDetail.this, work_trackerSetList.class);
+        setListIntent.putExtra("eName", exerciseName);
+        setListIntent.putExtra("sessID", sessID);
+        setListIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(setListIntent);
+    }
 
 }

@@ -27,9 +27,9 @@ public class work_createWorkout extends AppCompatActivity{
     private AlertDialog.Builder addExerciseDialog;
     private ListAdapter exersInWorkoutAdapter;
     private ListView exersInWorkoutLV;
-    private String userExercises[];
+    private String addExercisesRawArray[];
     private AlertDialog.Builder addExerciseSelection;
-    
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_work_create_workout);
@@ -155,7 +155,7 @@ public class work_createWorkout extends AppCompatActivity{
         updateAddExercisesList();
     }
 
-    
+
     private void updateWorkoutExercises () {//Create the list.
         exersInWorkout = workDBH.get_exers_from_work(workoutName);
         exersInWorkoutAdapter = new ArrayAdapter<>(
@@ -167,13 +167,13 @@ public class work_createWorkout extends AppCompatActivity{
     private void updateAddExercisesList(){
         addExercisesList = workDBH.get_user_exercise_list();
         addExercisesList.add(0,"Create New Exercise");
-        userExercises = addExercisesList.toArray(new String [addExercisesList.size()]);
-
         //remove exercises that are already a part of the workout
         exersInWorkout = workDBH.get_exers_from_work(workoutName);
         addExercisesList.removeAll(exersInWorkout);
+        addExercisesRawArray = addExercisesList.toArray(new String [addExercisesList.size()]);
+
         //bind addable exercises list to menu
-        addExerciseDialog.setItems(userExercises, new DialogInterface.OnClickListener() {
+        addExerciseDialog.setItems(addExercisesRawArray, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int selection_id) {
                 //check which Exercise was selected.

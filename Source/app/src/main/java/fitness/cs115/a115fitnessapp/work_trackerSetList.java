@@ -12,6 +12,7 @@ import java.util.HashMap;
 
 /**
  * Created by Henry on 10/23/2016.
+ * Edited by James Kennedy on 11/21/2016.
  */
 
 public class work_trackerSetList extends AppCompatActivity{
@@ -64,6 +65,7 @@ public class work_trackerSetList extends AppCompatActivity{
         int startWeight = exerciseData.get(work_DBHelper.EXER_INDEX_START_WEIGHT);
         int incrWeight = exerciseData.get(work_DBHelper.EXER_INDEX_INC_WEIGHT);
         int restTime = exerciseData.get(work_DBHelper.EXER_INDEX_REST_TIME);
+        //TODO: connect restTime to timer
 
         this.setNumbers = new ArrayList<>(sets);
         this.currReps = new ArrayList<>(sets);
@@ -71,10 +73,10 @@ public class work_trackerSetList extends AppCompatActivity{
         this.weights = new ArrayList<>(sets);
         this.currSetIndex = 0;
 
-        //preload Arraylists for the each set
+        //load Arraylists for each set
         int setWeight = startWeight;
         for (int setIdx = 0; setIdx < sets; ++setIdx) {
-            setNumbers.add(String.valueOf(setIdx));
+            setNumbers.add(String.valueOf(setIdx + 1));
             currReps.add("0");
             targetReps.add(repStr);
             weights.add(String.valueOf(setWeight));

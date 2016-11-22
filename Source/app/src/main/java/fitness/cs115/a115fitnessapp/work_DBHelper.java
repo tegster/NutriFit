@@ -279,9 +279,8 @@ public class work_DBHelper extends SQLiteOpenHelper {
                         + WORK_DETAIL_INC_WEIGHT + " integer, "
                         + WORK_DETAIL_REST_TIME + " integer, "
                         + "primary key (" + WORK_DETAIL_WORK_ID + ", "
-                        + WORK_DETAIL_EXER_NAME
+                        + WORK_DETAIL_EXER_ID
                         + ") )"
-                //TODO: set primary key to EXER_ID once Exer table implemented
         );
         db.execSQL("CREATE TABLE IF NOT EXISTS " + WORK_LOG_TABLE_NAME + " "
                 + "(" + WORK_LOG_SESSION_ID + " integer, "
@@ -683,10 +682,6 @@ public class work_DBHelper extends SQLiteOpenHelper {
                     "this exercise is already part of this workout.");
         }
 
-        //TODO: remove debug print stmt
-        System.out.println(this);
-        //get sets, reps, etc. from exercise table
-
         HashMap<String, Integer> exer_details = get_exer_detail(exer_name);
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -821,6 +816,10 @@ public class work_DBHelper extends SQLiteOpenHelper {
      */
     public int log_set(int session_id, String exer_name, int set_num,
                        int goal, int actual, int weight) {
+
+        if (DEBUG) {
+            System.out.println("Starting: "+new Exception().getStackTrace()[0]);
+        }
         long log_id = -1;
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -841,6 +840,10 @@ public class work_DBHelper extends SQLiteOpenHelper {
 
         log_id = db.insert(WORK_LOG_TABLE_NAME, null, contentValues);
         db.close();
+
+        if (DEBUG) {
+            System.out.println("log: " +contentValues+ " inserted with log id: "+log_id);
+        }
         return (int) log_id;
     }
 
@@ -1403,6 +1406,10 @@ public class work_DBHelper extends SQLiteOpenHelper {
     }
 
     HashMap<String, Integer> get_exer_detail(String exercise_name){
+        if (DEBUG) {
+            System.out.println("Starting "+ new Exception().getStackTrace()[0]);
+        }
+
         SQLiteDatabase db = this.getReadableDatabase();
 
         //details are the keys returned in the hashmap. must be column names from EXER_INDEX table.
@@ -1427,10 +1434,14 @@ public class work_DBHelper extends SQLiteOpenHelper {
 
 
     public ArrayList<Integer> get_exer_session_reps(String exerciseName, int session_id){
+
+        if (DEBUG) {
+            System.out.println("starting: " + new Exception().getStackTrace()[0]);
+        }
         SQLiteDatabase db = this.getWritableDatabase();
 
         //get logs for the current exercise and session, ordered by set number
-        Cursor res = db.query(WORK_LOG_TABLE_NAME + ", "+WORK_SESSIONS_TABLE_NAME, new String [] {WORK_LOG_ACTUAL},
+        Cursor res = db.query(WORK_LOG_TABLE_NAME, new String [] {WORK_LOG_ACTUAL},
                 WORK_LOG_SESSION_ID + " = ?", new String[]{String.valueOf(session_id)},
                 null, null, WORK_LOG_SET_NUM
                 );
@@ -1443,6 +1454,10 @@ public class work_DBHelper extends SQLiteOpenHelper {
             res.moveToNext();
         }
         res.close();
+
+        if (DEBUG) {
+            System.out.println("logged_reps: " + logged_reps);
+        }
 
         return logged_reps;
     }

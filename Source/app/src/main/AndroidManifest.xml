@@ -68,6 +68,7 @@
 
         <activity
             android:name=".work_programList"
+            android:launchMode="singleTop"
             android:configChanges="orientation"
             android:label="My Workout Programs"
             android:screenOrientation="portrait"
@@ -75,7 +76,7 @@
 
         <activity
             android:name=".work_workoutList"
-            android:parentActivityName=".work_programList"
+            android:launchMode="singleTop"
             android:configChanges="orientation"
             android:label="Program Name Placeholder"
             android:screenOrientation="portrait"
@@ -83,7 +84,7 @@
 
         <activity
             android:name=".work_exerciseList"
-            android:parentActivityName=".work_workoutList"
+            android:launchMode="singleTop"
             android:configChanges="orientation"
             android:label="Program Name Placeholder"
             android:screenOrientation="portrait"
@@ -91,6 +92,7 @@
 
         <activity
             android:name=".work_createWorkout"
+            android:launchMode="singleTop"
             android:parentActivityName=".work_createProgram"
             android:configChanges="orientation"
             android:label="Edit Workout"
@@ -99,6 +101,7 @@
 
         <activity
             android:name=".work_createProgram"
+            android:launchMode="singleTop"
             android:parentActivityName=".work_programList"
             android:configChanges="orientation"
             android:label="Edit Workout Program"
@@ -107,6 +110,8 @@
 
         <activity
             android:name=".work_tracker"
+            android:launchMode="singleTop"
+            android:parentActivityName=".work_workoutList"
             android:configChanges="orientation"
             android:label="Workout Tracker"
             android:screenOrientation="portrait"
@@ -153,6 +158,7 @@
         <activity
             android:name=".work_createExercise"
             android:parentActivityName=".work_createWorkout"
+            android:launchMode="singleTop"
             android:configChanges="orientation"
             android:label="Edit Exercise"
             android:screenOrientation="portrait"
@@ -162,6 +168,8 @@
             android:configChanges="orientation"
             android:screenOrientation="portrait"
             android:name=".work_trackerSetList"
+            android:parentActivityName=".work_tracker"
+            android:launchMode="singleTop"
             android:label="Workout Tracker"
             android:theme="@style/AppTheme" />
 
