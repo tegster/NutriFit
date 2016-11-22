@@ -32,7 +32,6 @@ public class meal_Onboarding extends Activity {
             "   Add New Meal",
             "   Daily Food Log",
             "   Graphs",
-
     };
     int[] imageId = {
             R.drawable.barcodescanner48,
@@ -82,7 +81,7 @@ public class meal_Onboarding extends Activity {
                 if (selectedCategories.contains(promptUserText[+position]) == false) {//add the item if it doesn't exist
                     selectedCategories.add(promptUserText[+position]);
                     selectedPositions.add(Integer.toString(position));
-                    tv.setBackgroundColor(Color.parseColor("#FFE5CD")); //maybe remove this
+                    tv.setBackgroundColor(Color.parseColor("#FFE5CD"));
                     //now launch new activity here
                     // Toast.makeText(getApplicationContext(),selectedCategories.toString(),Toast.LENGTH_SHORT).show();
                     //  System.out.println(selectedCategories.toString());
@@ -94,17 +93,22 @@ public class meal_Onboarding extends Activity {
                         //  Toast.makeText(getApplicationContext(), "Launching Daily Food log now", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(meal_Onboarding.this, meal_viewAllEatenMeals.class);
                         startActivity(intent);
-
-                    } else if (selectedCategories.toString().equals("[   Daily Food Log]")) {
-                        Toast.makeText(getApplicationContext(), "Launching Daily Food log now", Toast.LENGTH_SHORT).show();
                     } else if (selectedCategories.toString().equals("[   Add New Meal]")) {
-                        Toast.makeText(getApplicationContext(), "Launching Add New Meal now", Toast.LENGTH_SHORT).show();
+                 //       Toast.makeText(getApplicationContext(), "Launching Add New Meal now", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(meal_Onboarding.this, meal_createMeal.class);
+                        startActivity(intent);
                     } else if (selectedCategories.toString().equals("[   Meals]")) {
-                        Toast.makeText(getApplicationContext(), "Launching Meals now", Toast.LENGTH_SHORT).show();
+                      //  Toast.makeText(getApplicationContext(), "Launching Meals now", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(meal_Onboarding.this, meal_viewAllMeals.class);
+                        startActivity(intent);
                     } else if (selectedCategories.toString().equals("[   Manually Add Food]")) {
-                        Toast.makeText(getApplicationContext(), "Launching Manually Add Food now", Toast.LENGTH_SHORT).show();
+                       // Toast.makeText(getApplicationContext(), "Launching Manually Add Food now", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(meal_Onboarding.this, meal_addFood.class);
+                        startActivity(intent);
                     } else if (selectedCategories.toString().equals("[   Scan Bar Code]")) {
-                        Toast.makeText(getApplicationContext(), "Launching Scan Bar Code now", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getApplicationContext(), "Launching Scan Bar Code now", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(meal_Onboarding.this, meal_SimpleScannerActivity.class);
+                        startActivity(intent);
                     }
                 }
             }
