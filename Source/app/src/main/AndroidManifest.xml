@@ -93,6 +93,12 @@
             android:label="New Workout"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
+        <activity
+            android:name=".meal_Onboarding"
+            android:configChanges="orientation"
+            android:label="Nutrition Overview"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
 
         <activity
             android:name=".work_createProgram"
