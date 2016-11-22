@@ -34,11 +34,13 @@
         android:layout_centerHorizontal="true" />
 
     <Button
-        android:text="test work DB"
+        android:text="Progress Graphs"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/btn_testWorkDB"
+        android:id="@+id/btn_progressGraphs"
         android:layout_below="@+id/btn_programList"
         android:layout_centerHorizontal="true" />
+
+
 
 </RelativeLayout>
