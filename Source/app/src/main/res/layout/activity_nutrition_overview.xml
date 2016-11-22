@@ -76,4 +76,12 @@
         android:layout_below="@+id/graphs"
         android:layout_alignStart="@+id/graphs" />
 
+    <Button
+        android:text="onboarding"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/onboarding"
+        android:layout_below="@+id/newMeal"
+        android:layout_toStartOf="@+id/newMeal" />
+
 </RelativeLayout>

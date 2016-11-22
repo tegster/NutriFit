@@ -84,6 +84,14 @@ public class meal_overview extends AppCompatActivity {
             }
         });
 
+        Button onboarding = (Button) findViewById(R.id.onboarding);
+        onboarding.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(meal_overview.this, meal_Onboarding.class);
+                startActivity(intent);
+            }
+        });
 
     }
 }
