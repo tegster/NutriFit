@@ -1,9 +1,8 @@
 package fitness.cs115.a115fitnessapp;
 
 import android.app.Activity;
-import android.content.pm.ActivityInfo;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -24,13 +23,13 @@ public class meal_Onboarding extends Activity {
     ArrayList selectedPositions = new ArrayList<>();//used to store actual positions that things in the grid are in
     meal_CustomGrid adapter;
     private boolean debug = false;
-    String[] genreString = {
-            "Scan Bar Code",
-            "Manually Add Food",
-            "Meals",
-            "Add new meal",
-            "Day log",
-            "Graphs",
+    String[] promptUserText = {
+            "   Scan Bar Code",
+            "   Manually Add Food",
+            "   Meals",
+            "   Add New Meal",
+            "   Daily Food Log",
+            "   Graphs",
 
     };
     int[] imageId = {
@@ -46,26 +45,15 @@ public class meal_Onboarding extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_onboarding);
+        setContentView(R.layout.activity_meal_onboarding);
         getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
         ); //makes sure keyboard is hidden on this view as it is not needed
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
-
 
         grid = (GridView) findViewById(R.id.grid);
-        //deals with settings the number of Columns
-        DisplayMetrics displayMetrics = this.getResources().getDisplayMetrics();
-        double dpWidth = displayMetrics.widthPixels / displayMetrics.density;
-        if (debug) {
-            Toast.makeText(this, "Debug: the screenwidth is " + dpWidth, Toast.LENGTH_LONG).show();
-        }
-        if (dpWidth <= 400) {
-            grid.setNumColumns(2);
-        } else {
-            grid.setNumColumns(3);
-        }
-        adapter = new meal_CustomGrid(meal_Onboarding.this, genreString, imageId);
+        grid.setNumColumns(1);
+
+        adapter = new meal_CustomGrid(meal_Onboarding.this, promptUserText, imageId);
         grid.setAdapter(adapter);
         grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -73,14 +61,14 @@ public class meal_Onboarding extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-                //    Toast.makeText(meal_Onboarding.this, "You Clicked at position"+position+" " + genreString[+position], Toast.LENGTH_SHORT).show(); //debug
+                //    Toast.makeText(meal_Onboarding.this, "You Clicked at position"+position+" " + promptUserText[+position], Toast.LENGTH_SHORT).show(); //debug
                 //the position is the actual position that is pressed. but the getChildAt returns gets the relative position, ie what's being drawn
                 //on the grid.
                 //to fix this, the first visible position is obtained and the difference is subtracted
                 int firstPos = grid.getFirstVisiblePosition();
                 View tv = grid.getChildAt(position - firstPos);
                 if (debug) {
-                    Toast.makeText(meal_Onboarding.this, "You Clicked at position" + position + " " + genreString[+position] +
+                    Toast.makeText(meal_Onboarding.this, "You Clicked at position" + position + " " + promptUserText[+position] +
                             " firstpos is " + firstPos, Toast.LENGTH_SHORT).show();
                 }
                 if (tv == null) { //this shouldn't/doesn't happen
@@ -88,12 +76,13 @@ public class meal_Onboarding extends Activity {
                             "grid is having a problem");
                     return;
                 }
-                if (selectedCategories.contains(genreString[+position]) == false) {//add the item if it doesn't exist
-                    selectedCategories.add(genreString[+position]);
+                if (selectedCategories.contains(promptUserText[+position]) == false) {//add the item if it doesn't exist
+                    selectedCategories.add(promptUserText[+position]);
                     selectedPositions.add(Integer.toString(position));
-              //      tv.setBackgroundColor(Color.parseColor("#FFE5CD"));
+                    tv.setBackgroundColor(Color.parseColor("#FFE5CD"));
+                    //now launch new activity here
                 } else { //remove the item if it already exists, as the user is removing it by touching it again
-                    selectedCategories.remove(genreString[+position]);
+                    selectedCategories.remove(promptUserText[+position]);
                     selectedPositions.remove(Integer.toString(position));
                   //  tv.setBackgroundColor(Color.parseColor("#EEEEEE"));
                 }
