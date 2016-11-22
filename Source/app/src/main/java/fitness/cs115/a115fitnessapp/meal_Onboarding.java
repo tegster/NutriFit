@@ -1,6 +1,7 @@
 package fitness.cs115.a115fitnessapp;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,6 +10,7 @@ import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -16,7 +18,7 @@ import java.util.ArrayList;
 /**
  * Created by Matthew on 11/22/16.
  */
-
+//I adopted/modified this file from some android work I did over the summer. So there may be some leftover parts of the code that didn't get refactored out
 public class meal_Onboarding extends Activity {
     GridView grid;
     ArrayList selectedCategories = new ArrayList<>();//used to store strings that contain user selected genre
@@ -49,7 +51,8 @@ public class meal_Onboarding extends Activity {
         getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
         ); //makes sure keyboard is hidden on this view as it is not needed
-
+        selectedCategories.clear();
+        selectedPositions.clear();
         grid = (GridView) findViewById(R.id.grid);
         grid.setNumColumns(1);
 
@@ -79,12 +82,30 @@ public class meal_Onboarding extends Activity {
                 if (selectedCategories.contains(promptUserText[+position]) == false) {//add the item if it doesn't exist
                     selectedCategories.add(promptUserText[+position]);
                     selectedPositions.add(Integer.toString(position));
-                    tv.setBackgroundColor(Color.parseColor("#FFE5CD"));
+                    tv.setBackgroundColor(Color.parseColor("#FFE5CD")); //maybe remove this
                     //now launch new activity here
-                } else { //remove the item if it already exists, as the user is removing it by touching it again
-                    selectedCategories.remove(promptUserText[+position]);
-                    selectedPositions.remove(Integer.toString(position));
-                  //  tv.setBackgroundColor(Color.parseColor("#EEEEEE"));
+                    // Toast.makeText(getApplicationContext(),selectedCategories.toString(),Toast.LENGTH_SHORT).show();
+                    //  System.out.println(selectedCategories.toString());
+                    if (selectedCategories.toString().equals("[   Graphs]")) {
+                        //Toast.makeText(getApplicationContext(), "Launching Graph now", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(meal_Onboarding.this, meal_graphs.class);
+                        startActivity(intent);
+                    } else if (selectedCategories.toString().equals("[   Daily Food Log]")) {
+                        //  Toast.makeText(getApplicationContext(), "Launching Daily Food log now", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(meal_Onboarding.this, meal_viewAllEatenMeals.class);
+                        startActivity(intent);
+
+                    } else if (selectedCategories.toString().equals("[   Daily Food Log]")) {
+                        Toast.makeText(getApplicationContext(), "Launching Daily Food log now", Toast.LENGTH_SHORT).show();
+                    } else if (selectedCategories.toString().equals("[   Add New Meal]")) {
+                        Toast.makeText(getApplicationContext(), "Launching Add New Meal now", Toast.LENGTH_SHORT).show();
+                    } else if (selectedCategories.toString().equals("[   Meals]")) {
+                        Toast.makeText(getApplicationContext(), "Launching Meals now", Toast.LENGTH_SHORT).show();
+                    } else if (selectedCategories.toString().equals("[   Manually Add Food]")) {
+                        Toast.makeText(getApplicationContext(), "Launching Manually Add Food now", Toast.LENGTH_SHORT).show();
+                    } else if (selectedCategories.toString().equals("[   Scan Bar Code]")) {
+                        Toast.makeText(getApplicationContext(), "Launching Scan Bar Code now", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
@@ -98,11 +119,6 @@ public class meal_Onboarding extends Activity {
                     if (tv == null) {
                         continue;
                     }
-                    if (selectedPositions.contains(Integer.toString(i))) {
-                    //    tv.setBackgroundColor(Color.parseColor("#FFE5CD"));
-                    } else {
-                    //    tv.setBackgroundColor(Color.parseColor("#EEEEEE"));
-                    }
                 }
             }
 
@@ -113,7 +129,17 @@ public class meal_Onboarding extends Activity {
         });
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();  // Always call the superclass method first
+        //System.out.println("resume");
+        selectedCategories.clear();
+        selectedPositions.clear();
+        View tv;
+        for(int i=0; i<grid.getChildCount(); i++) {
+            tv=grid.getChildAt(i);
+            tv.setBackgroundColor(Color.TRANSPARENT);
+        }
 
-
-
+    }
 }
