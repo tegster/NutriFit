@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentStart="true"
-        android:id="@+id/lv_workoutList"
+        android:id="@+id/lv_programWorkoutList"
         android:layout_below="@+id/btn_quickStart" />
 
     <Button
@@ -21,4 +21,5 @@
         android:layout_centerHorizontal="true"
         android:minHeight="58dip"
         android:minWidth="150dip" />
+
 </RelativeLayout>

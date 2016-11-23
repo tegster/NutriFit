@@ -14,10 +14,16 @@ import java.util.ArrayList;
 
 /**
  * Created by Henry on 10/17/2016.
+ * Edited by James on 11/14/2016.
  */
 
 public class work_workoutList extends AppCompatActivity{
-    private work_DBHelper work_dbh = new work_DBHelper(this);
+
+    private work_DBHelper work_dbh;
+    String programName = "";
+    ArrayList<String> workoutsInProgram;
+    ListAdapter workoutListAdapter;
+    ListView workoutListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,24 +32,19 @@ public class work_workoutList extends AppCompatActivity{
 
         //Get the name of the program and set it as the title.
         Intent intent = getIntent();
-        String programName = intent.getExtras().getString("pName");
+        programName = intent.getExtras().getString("pName");
         setTitle(programName);
 
-        //Get database entries
-        ArrayList<String> workouts = new ArrayList<>();
-        if (programName != null) {
-            if (work_dbh.is_taken_prog_name(programName))
-                workouts = work_dbh.get_workouts_from_prog(programName);
-            else
-            {
-                throw new IllegalArgumentException(
-                        "Error: "+programName+" does not exist!");
-            }
+        work_dbh = new work_DBHelper(this);
+
+        //invariant: program name must already exist in work DB
+        if (programName == null || !work_dbh.is_taken_prog_name(programName)) {
+            throw new IllegalArgumentException("Error: "+programName+" does not exist!");
         }
 
-        //temporary list.
-        //String[] workouts = {"Workout A", "Workout B"};
-
+        //Get database workout entries for the current program
+        workoutsInProgram = work_dbh.get_workouts_in_prog(programName);
+        //for Quickstart Btn: get name of the next workout in the current program
         //======================================================================================
         //  Buttons
         //======================================================================================
@@ -54,35 +55,51 @@ public class work_workoutList extends AppCompatActivity{
             public void onClick(View view) {
                 Intent intent = new Intent(work_workoutList.this, work_tracker.class);
 
-                //TODO: write function to determine what is the next workout
-               //String workName = work_DBHelper.get_next_workout();
-               // intent.putExtra("wName", workName);
+                String quickStartWorkName = work_dbh.get_next_workout(programName);
+                intent.putExtra("wName", quickStartWorkName);
 
                 startActivity(intent);
             }
         });
 
-
-
         //======================================================================================
-        //  ListView
+        //  ListView of Workouts in Program
         //======================================================================================
         //Create the list.
-        //ListAdapter programListAdapter = new work_programList_adapter(this, programs);
-        ListAdapter workoutListAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, workouts);
-        ListView workoutListView = (ListView) findViewById(R.id.lv_workoutList);
-        workoutListView.setAdapter(workoutListAdapter);
+        workoutListView = (ListView) findViewById(R.id.lv_programWorkoutList);
         workoutListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id){
-                Intent openWorkout = new Intent(work_workoutList.this, work_exerciseList.class);
-                String workoutName = String.valueOf(parent.getItemAtPosition(position));
-                openWorkout.putExtra("wName", workoutName);
-                startActivity(openWorkout);
-
+            String workoutName = String.valueOf(parent.getItemAtPosition(position));
+            OpenWorkout(workoutName);
             }
         });
 
+
     }
 
+    @Override
+    protected void onResume(){
+        super.onResume();
+        updateProgramWorkoutList();
+    }
+    //======================================================================================
+    //  update the Workouts in Program ListView and Adapter
+    //======================================================================================
+    private void updateProgramWorkoutList(){
+        //Create the list.
+        workoutsInProgram = work_dbh.get_workouts_in_prog(programName);
+        workoutListAdapter = new ArrayAdapter<>(
+                this, android.R.layout.simple_list_item_1, workoutsInProgram);
+        workoutListView.setAdapter(workoutListAdapter);
+    }
+
+    //======================================================================================
+    //  Start Activities
+    //======================================================================================
+    public void OpenWorkout(String workName){
+        Intent openWorkout = new Intent(work_workoutList.this, work_exerciseList.class);
+        openWorkout.putExtra("wName", workName);
+        startActivity(openWorkout);
+    }
 }

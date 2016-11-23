@@ -68,13 +68,15 @@
 
         <activity
             android:name=".work_programList"
+            android:launchMode="singleTop"
             android:configChanges="orientation"
-            android:label="Fitness Log"
+            android:label="My Workout Programs"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
 
         <activity
             android:name=".work_workoutList"
+            android:launchMode="singleTop"
             android:configChanges="orientation"
             android:label="Program Name Placeholder"
             android:screenOrientation="portrait"
@@ -82,6 +84,7 @@
 
         <activity
             android:name=".work_exerciseList"
+            android:launchMode="singleTop"
             android:configChanges="orientation"
             android:label="Program Name Placeholder"
             android:screenOrientation="portrait"
@@ -89,8 +92,10 @@
 
         <activity
             android:name=".work_createWorkout"
+            android:launchMode="singleTop"
+            android:parentActivityName=".work_createProgram"
             android:configChanges="orientation"
-            android:label="New Workout"
+            android:label="Edit Workout"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
@@ -102,13 +107,17 @@
 
         <activity
             android:name=".work_createProgram"
+            android:launchMode="singleTop"
+            android:parentActivityName=".work_programList"
             android:configChanges="orientation"
-            android:label="New Program"
+            android:label="Edit Workout Program"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
 
         <activity
             android:name=".work_tracker"
+            android:launchMode="singleTop"
+            android:parentActivityName=".work_workoutList"
             android:configChanges="orientation"
             android:label="Workout Tracker"
             android:screenOrientation="portrait"
@@ -143,6 +152,51 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
 
+        <activity
+            android:name=".work_newProgramName"
+            android:configChanges="orientation"
+            android:label="Enter New Program Name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+
+        <activity
+            android:name=".work_newWorkoutName"
+            android:configChanges="orientation"
+            android:label="Enter New Workout Name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+
+        <activity
+            android:name=".work_createExercise"
+            android:parentActivityName=".work_createWorkout"
+            android:launchMode="singleTop"
+            android:configChanges="orientation"
+            android:label="Edit Exercise"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+
+        <activity
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
+            android:name=".work_trackerSetList"
+            android:parentActivityName=".work_tracker"
+            android:launchMode="singleTop"
+            android:label="Workout Tracker"
+            android:theme="@style/AppTheme" />
+
+        <activity
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
+            android:name=".work_trackerSetDetail"
+            android:label="Workout Tracker"
+            android:theme="@style/AppTheme" />
+
+        <activity
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
+            android:name=".graph_maxExerciseWeight"
+            android:label="Workout Progress"
+            android:theme="@style/AppTheme" />
 
         <meta-data
             android:name="com.google.android.gms.version"

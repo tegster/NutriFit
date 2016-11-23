@@ -113,11 +113,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button work_db_test_btn = (Button) findViewById(R.id.btn_testWorkDB);
-        work_db_test_btn.setOnClickListener(new Button.OnClickListener() {
+        Button graph_btn = (Button) findViewById(R.id.btn_progressGraphs);
+        graph_btn.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, work_createWorkout.class);
+                Intent intent = new Intent(MainActivity.this, graph_maxExerciseWeight.class);
                 startActivity(intent);
             }
         });

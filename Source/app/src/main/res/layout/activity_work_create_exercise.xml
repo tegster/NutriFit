@@ -1,66 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:id="@+id/et_exerciseName"
-        android:hint="Exercise Name" />
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="number"
-        android:ems="10"
-        android:layout_below="@+id/et_exerciseName"
-        android:layout_alignParentStart="true"
-        android:id="@+id/editText3"
-        android:hint="Sets" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="number"
-        android:ems="10"
-        android:layout_below="@+id/editText3"
-        android:layout_alignEnd="@+id/editText3"
-        android:id="@+id/editText4"
-        android:hint="Reps" />
+        <EditText
+            android:id="@+id/et_exerciseName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:ems="10"
+            android:hint="Exercise Name"
+            android:inputType="textPersonName" />
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="number"
-        android:ems="10"
-        android:layout_below="@+id/editText4"
-        android:layout_alignParentStart="true"
-        android:id="@+id/editText5"
-        android:hint="Starting Weight" />
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="number"
-        android:ems="10"
-        android:layout_below="@+id/editText5"
-        android:layout_alignParentStart="true"
-        android:id="@+id/editText6"
-        android:hint="Increment Weight" />
+        <EditText
+            android:id="@+id/et_sets"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/et_exerciseName"
+            android:ems="10"
+            android:hint="Sets"
+            android:inputType="number" />
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="number"
-        android:ems="10"
-        android:layout_below="@+id/editText6"
-        android:layout_alignEnd="@+id/editText6"
-        android:id="@+id/editText7"
-        android:hint="Rest Time" />
+        <EditText
+            android:id="@+id/et_reps"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/et_sets"
+            android:ems="10"
+            android:hint="Reps per Set"
+            android:inputType="number" />
 
-</RelativeLayout>
+        <EditText
+            android:id="@+id/et_startWeight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/et_reps"
+            android:ems="10"
+            android:hint="Starting Weight"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/et_incrWeight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/et_startWeight"
+            android:ems="10"
+            android:hint="Increment Weight"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/et_restTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/et_incrWeight"
+            android:ems="10"
+            android:hint="Rest Time"
+            android:inputType="number" />
+
+
+        <Button
+            android:id="@+id/confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/et_restTime"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="21dp"
+            android:imeOptions="actionDone"
+            android:text="Confirm" />
+
+    </RelativeLayout>
+</ScrollView>

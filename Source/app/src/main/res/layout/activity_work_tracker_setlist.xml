@@ -6,9 +6,15 @@
 
     <ListView
         android:layout_width="match_parent"
+        android:layout_height="435dp"
         android:id="@+id/lv_exerList"
-        android:layout_weight="1"
-        android:layout_height="wrap_content" />
+        android:layout_weight="1.03" />
 
-
+    <Chronometer
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/chronometer"
+        android:textSize="50sp"
+        android:textAlignment="center"
+        android:background="#EFEFEF" />
 </LinearLayout>
