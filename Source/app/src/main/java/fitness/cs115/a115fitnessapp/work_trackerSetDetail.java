@@ -21,7 +21,7 @@ public class work_trackerSetDetail extends AppCompatActivity{
     String title = "";
     String exerciseName;
     int sessID;
-    int setNum;
+    int setInd;
     work_DBHelper work_db;
     TextView onEachSideText;
     TextView plateResult;
@@ -44,12 +44,12 @@ public class work_trackerSetDetail extends AppCompatActivity{
         //get extras
         Bundle intentExtras = getIntent().getExtras();
         sessID = intentExtras.getInt("sessID");
-        setNum = intentExtras.getInt("setNum");
+        setInd = intentExtras.getInt("setIndex");
         exerciseName = intentExtras.getString("eName");
-        totalWeight = Integer.parseInt(intentExtras.getString("goalWeight"));
-        goalReps = Integer.parseInt(intentExtras.getString("goalReps"));
+        totalWeight = intentExtras.getInt("goalWeight");
+        goalReps = intentExtras.getInt("goalReps");
 
-        title = exerciseName + " - Set " + String.valueOf(setNum);
+        title = exerciseName + " - Set " + String.valueOf(setInd +1);
         setTitle(title);
 
         //Prevent keyboard from opening automatically
@@ -90,7 +90,7 @@ public class work_trackerSetDetail extends AppCompatActivity{
                 //TODO: catch bug that causes crashe here
                 int actualReps = Integer.parseInt(actualRepsInput.getText().toString());
                 int actualWeight = Integer.parseInt(totalWeightInput.getText().toString());
-                work_db.log_set(sessID, exerciseName, setNum, goalReps, actualReps, actualWeight);
+                work_db.log_set(sessID, exerciseName, setInd, goalReps, actualReps, actualWeight);
                 Toast.makeText(work_trackerSetDetail.this, "Good work. Rest until the timer says \"Ready\".", Toast.LENGTH_LONG).show();
                 returnToSetList();
             }
@@ -158,6 +158,7 @@ public class work_trackerSetDetail extends AppCompatActivity{
         setListIntent.putExtra("isSetLogged", true);
         setListIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(setListIntent);
+        finish();
     }
 
 }
