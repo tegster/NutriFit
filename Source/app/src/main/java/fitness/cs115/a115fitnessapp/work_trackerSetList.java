@@ -17,9 +17,9 @@ import java.util.HashMap;
  */
 
 public class work_trackerSetList extends AppCompatActivity{
-    String exerciseName = "";
-    int sessID;
-    int currSetIndex;
+    static String exerciseName = "";
+    static int sessID;
+    static int currSetIndex;
     work_DBHelper work_db;
     HashMap<String, Integer> exerciseData;
     ArrayList<String> setNumbers;

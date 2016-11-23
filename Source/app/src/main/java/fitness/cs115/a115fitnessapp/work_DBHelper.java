@@ -43,44 +43,64 @@ public class work_DBHelper extends SQLiteOpenHelper {
         private String workout_name;
         private ArrayList<String> exercises;
         private ArrayList<Integer> goal_sets;
-        private ArrayList<Integer> current_sets;
+        private ArrayList<Integer> sets_completed;
         private ArrayList<Integer> goal_reps;
         private ArrayList<Integer> goal_weights;
         private ArrayList<Integer> goal_rest_time;
-        private int count;
+        private ArrayList<ArrayList<Integer>> reps_completed;
+        private int exer_count;
+        private int session_id;
 
         public Workout_data(){
+            session_id = -1;
             workout_name = "";
             exercises = new ArrayList<>();
             goal_sets = new ArrayList<>();
-            current_sets = new ArrayList<>();
+            sets_completed = new ArrayList<>();
             goal_reps = new ArrayList<>();
             goal_weights = new ArrayList<>();
             goal_rest_time = new ArrayList<>();
-            count = 0;
+            reps_completed = new ArrayList<>();
+            exer_count = 0;
         }
-        public Workout_data(String _workout_name){
+        public Workout_data(String _workout_name, int _session_id){
+            session_id = _session_id;
             workout_name = _workout_name;
             exercises = new ArrayList<>();
             goal_sets = new ArrayList<>();
-            current_sets = new ArrayList<>();
+            sets_completed = new ArrayList<>();
             goal_reps = new ArrayList<>();
             goal_weights = new ArrayList<>();
             goal_rest_time = new ArrayList<>();
-            count = 0;
+            reps_completed = new ArrayList<>();
+            exer_count = 0;
         }
         public void set_workout_name (String _workout_name){
             workout_name = _workout_name;
         }
+
+        public void set_session_id (int _session_id){
+            session_id = _session_id;
+        }
+
         public void add_exer_entry (String exer_name, Integer sets, Integer reps,
                               Integer weights, Integer rest_time) {
             exercises.add(exer_name);
             goal_sets.add(sets);
-            current_sets.add(0);
+            sets_completed.add(0);
             goal_reps.add(reps);
             goal_weights.add(weights);
             goal_rest_time.add(rest_time);
-            ++count;
+
+            //create new arraylist to store completed reps for the new exercise
+            ArrayList<Integer> exer_reps_done_list = new ArrayList<>(sets);
+            for (int set_num = 0; set_num < sets; ++set_num){
+                //intialize reps done to 0 for all sets for this exercise
+                exer_reps_done_list.add(0);
+            }
+            //add this exercise's rep done list to the list of reps done for all exercises
+
+            ++exer_count;
         }
 
         public void update_current_sets (String exercise, int sets_completed) {
@@ -94,8 +114,8 @@ public class work_DBHelper extends SQLiteOpenHelper {
             current_sets.set(ex_index, sets_completed);
         }
 
-        public int get_count () {
-            return count;
+        public int get_exer_count () {
+            return exer_count;
         }
         public ArrayList<String> get_exercises() {
             return exercises;
@@ -513,12 +533,11 @@ public class work_DBHelper extends SQLiteOpenHelper {
         long new_prog_id = 0;
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(PROG_INDEX_DISABLED, true);
-
-        //invariant: program_name doesn't already exist in prog_index
-        if (is_taken_prog_name(program_name)) {
-            throw new RuntimeException("Error creating program: name \"" +
-                    program_name + "\" is already taken.");
+        contentValues.put(PROG_INDEX_DISABLED, 1);
+    //invariant: program_name doesn't already exist in prog_index
+        if (!is_taken_prog_name(program_name)) {
+            throw new IllegalArgumentException("Error deleting program: program \"" +
+                    program_name + "\" is not found.");
         }
         new_prog_id = db.insert(PROG_INDEX_TABLE_NAME, null, contentValues);
 
@@ -600,9 +619,15 @@ public class work_DBHelper extends SQLiteOpenHelper {
         ArrayList<String> p_list = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
 
-        Cursor res = db.rawQuery(
-                "select " + PROG_INDEX_PROG_NAME + " from " +
-                        PROG_INDEX_TABLE_NAME, null);
+//        Cursor res = db.rawQuery(
+//                "select " + PROG_INDEX_PROG_NAME + " from " +
+//                        PROG_INDEX_TABLE_NAME, null);
+
+        //retrieve the names of all exercises in the exer index table
+        Cursor res = db.query(EXER_INDEX_TABLE_NAME,
+                new String[]{EXER_INDEX_EXER_NAME},
+                EXER_INDEX_DISABLED + "= 0",
+                null, null, null, null);
 
         res.moveToFirst();
         while (!res.isAfterLast()) {

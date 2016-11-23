@@ -16,25 +16,24 @@ import java.util.HashMap;
  */
 
 public class work_tracker extends AppCompatActivity{
-    String exerciseName = "";
-    int sessID = -1;
-    String workoutName = "";
     work_DBHelper work_db;
-    work_DBHelper.Workout_data workData;
+    static work_DBHelper.Workout_data workData;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_work_tracker);
 
         work_db = new work_DBHelper(this);
 
-        //Get parameters that are passed into the tracker.
+        //Get parameters that are passed into the tracker, if params have been passed.
+        Bundle intentExtras = getIntent().getExtras();
+         if ( !intentExtras.isEmpty()) {
+             String workoutName = intentExtras.getString("wName");
+             workData.set_workout_name(workoutName);
+             int sessID = work_db.create_session(workoutName);
+             workData.set_session_id(sessID);
+         }
 
-        Intent intent = getIntent();
-
-        workoutName = intent.getExtras().getString("wName");
-        sessID = work_db.create_session(workoutName);
         setTitle(workoutName);
-
         //grab information from session
         workData = work_db.get_work_detail(workoutName);
 
@@ -49,7 +48,7 @@ public class work_tracker extends AppCompatActivity{
         exerciseListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id){
-                exerciseName = String.valueOf(parent.getItemAtPosition(position));
+                String exerciseName = String.valueOf(parent.getItemAtPosition(position));
                 Intent setIntent = new Intent(work_tracker.this, work_trackerSetList.class);
                 setIntent.putExtra("eName", exerciseName);
                 setIntent.putExtra("sessID", sessID);
