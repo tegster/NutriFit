@@ -24,6 +24,7 @@ public class meal_addFood extends AppCompatActivity {
 
     private meal_foodDBHelper mydb;
     private double no_value = -1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,36 +49,37 @@ public class meal_addFood extends AppCompatActivity {
         if (DEBUG) {
 
             /**
-            mydb.insertFood("dummyhotdog", 176.2, 12.0, 3.0, 2.0, 7.0, 123.0, 4.0, 1235.3, 23.0, 4.0);
-            mydb.insertFood("dummycorn", 22.3, 15.3, 5.0, 2.0, 9.0, 123.0, 4.0, 1235.3, 23.0, 4.0);
-            mydb.insertFood("dummybun", 189.3, 12.0, 3.0, 2.0, 7.0, 123.0, 4.0, 1235.3, 23.0, 4.0);
-            mydb.insertFood("dummypeas", 182.4, 15.3, 5.0, 2.0, 9.0, 123.0, 4.0, 1235.3, 23.0, 4.0);
-            mydb.insertFood("dummychicken", 234.2, 12.0, 3.0, 2.0, 7.0, 123.0, 4.0, 1235.3, 23.0, 4.0);
-            mydb.insertFood("dummyrice", 15.2, 15.3, 5.0, 2.0, 9.0, 123.0, 4.0, 1235.3, 23.0, 4.0);
+             mydb.insertFood("dummyhotdog", 176.2, 12.0, 3.0, 2.0, 7.0, 123.0, 4.0, 1235.3, 23.0, 4.0);
+             mydb.insertFood("dummycorn", 22.3, 15.3, 5.0, 2.0, 9.0, 123.0, 4.0, 1235.3, 23.0, 4.0);
+             mydb.insertFood("dummybun", 189.3, 12.0, 3.0, 2.0, 7.0, 123.0, 4.0, 1235.3, 23.0, 4.0);
+             mydb.insertFood("dummypeas", 182.4, 15.3, 5.0, 2.0, 9.0, 123.0, 4.0, 1235.3, 23.0, 4.0);
+             mydb.insertFood("dummychicken", 234.2, 12.0, 3.0, 2.0, 7.0, 123.0, 4.0, 1235.3, 23.0, 4.0);
+             mydb.insertFood("dummyrice", 15.2, 15.3, 5.0, 2.0, 9.0, 123.0, 4.0, 1235.3, 23.0, 4.0);
 
-            System.out.println(mydb.getAllFoods());
-            System.out.println(mydb.getAllFoodInfo());
-            System.out.println("number of rows/items is: " + mydb.getNumberOfRows());
-            Cursor res = mydb.getData(2);
-            System.out.println(res);
+             System.out.println(mydb.getAllFoods());
+             System.out.println(mydb.getAllFoodInfo());
+             System.out.println("number of rows/items is: " + mydb.getNumberOfRows());
+             Cursor res = mydb.getData(2);
+             System.out.println(res);
 
-            Boolean x = mydb.deleteFood(1);
-            System.out.println("x is " + x);
-            Boolean y = mydb.deleteFood(0);
-            System.out.println("y is " + y);
-            Boolean z = mydb.deleteFood(1);
-            System.out.println("z is " + z);
+             Boolean x = mydb.deleteFood(1);
+             System.out.println("x is " + x);
+             Boolean y = mydb.deleteFood(0);
+             System.out.println("y is " + y);
+             Boolean z = mydb.deleteFood(1);
+             System.out.println("z is " + z);
 
-            System.out.println(mydb.getAllFoodInfo());
-            //mydb.insertFood("hotdog", 120.35);
+             System.out.println(mydb.getAllFoodInfo());
+             //mydb.insertFood("hotdog", 120.35);
 
 
 
-            mydb.deleteEntireTable();
-            System.out.println("After deleting entire table " + mydb.getAllFoodInfo());
+             mydb.deleteEntireTable();
+             System.out.println("After deleting entire table " + mydb.getAllFoodInfo());
+             */
         }
 
-             */
+
         Button confirm = (Button) findViewById(R.id.confirm);
         confirm.setOnClickListener(new Button.OnClickListener() {
             @Override
@@ -100,7 +102,6 @@ public class meal_addFood extends AppCompatActivity {
                 fiberstring = fiber.getText().toString();
                 sugarstring = sugars.getText().toString();
                 proteinstring = protein.getText().toString();
-
 
 
                 if (TextUtils.isEmpty(name)) {
@@ -149,7 +150,6 @@ public class meal_addFood extends AppCompatActivity {
                 }
 
 
-
                 //hide keyboard
                 View view1 = getCurrentFocus();
                 if (view1 != null) {
@@ -168,7 +168,7 @@ public class meal_addFood extends AppCompatActivity {
                 double numberOffiber = Double.parseDouble(fiberstring);
                 double numberOfsugar = Double.parseDouble(sugarstring);
                 double numberOfprotein = Double.parseDouble(proteinstring);
-                    //insert food to database
+                //insert food to database
 
                 SQLiteDatabase mDatabase = openOrCreateDatabase("foods.db", SQLiteDatabase.CREATE_IF_NECESSARY, null);
                 String TABLE_NAME = "food";
@@ -197,7 +197,8 @@ public class meal_addFood extends AppCompatActivity {
             }
 
 
-    });
+        });
 
-}}
+    }
 }
+
