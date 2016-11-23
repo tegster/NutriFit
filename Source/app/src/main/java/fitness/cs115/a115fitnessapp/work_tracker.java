@@ -30,9 +30,20 @@ public class work_tracker extends AppCompatActivity{
 
         //Get parameters that are passed into the tracker, if params have been passed.
         Intent intent = getIntent();
-         if ( !intent.getExtras().isEmpty()) {
+
+        //DEBUG
+        Log.d("work_tracker", "onCreate reached with intent wName: " +
+                intent.getExtras().getString("wName", "<none>") );
+
+        Log.d("work_tracker", "onCreate reached with intent sessID: " +
+                intent.getExtras().getString("sessID", "<none>") );
+
+
+        if ( !intent.getExtras().isEmpty()) {
              //if anything is passed as extra, workoutName must also be passed in as extra
-             workoutName = intent.getExtras().getString("wName");
+
+
+             workoutName = intent.getExtras().getString("wName", "<none>");
 
              //TODO: find out why work tracker isnt updating data when returning from set list
 
@@ -40,6 +51,7 @@ public class work_tracker extends AppCompatActivity{
 
              if (intent.hasExtra("sessID")){
                  sessID = intent.getExtras().getInt("sessID");
+
                  //workData has already been created
              } else {
                  //the workout does not yet have an associated session
@@ -52,8 +64,8 @@ public class work_tracker extends AppCompatActivity{
              workData.load_work_session(workoutName, sessID);
          }
 
-        Log.d("work_tracker", "session id: "+workData.get_session_id());
-        Log.d("work_tracker", "workout name: "+workData.get_workout_name());
+        Log.d("work_tracker", "workData.session_id: "+workData.get_session_id());
+        Log.d("work_tracker", "workData.workout_name: "+workData.get_workout_name());
 
         setTitle(workData.get_workout_name());
 
