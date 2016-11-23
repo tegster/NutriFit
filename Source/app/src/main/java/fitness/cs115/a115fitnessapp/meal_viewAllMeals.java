@@ -33,7 +33,7 @@ public class meal_viewAllMeals extends AppCompatActivity {
     ArrayList<String> arrTblNames = new ArrayList<String>();
     AlertDialog.Builder programOptionMenu;
     private String selectedTable;
-    private final boolean DEBUG = false;
+    private final boolean DEBUG = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
