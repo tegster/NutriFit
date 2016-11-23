@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Chronometer;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -141,6 +142,7 @@ implements Chronometer.OnChronometerTickListener{
         String restTimeStr = String.format("%02d:%02d", minutes, seconds);
 
         if (restTimeStr.equals(cm.getText())){
+            Toast.makeText(work_trackerSetList.this, "Time's up! Begin the next set!", Toast.LENGTH_LONG).show();
             cm.setText("READY");
             cm.stop();
         }
