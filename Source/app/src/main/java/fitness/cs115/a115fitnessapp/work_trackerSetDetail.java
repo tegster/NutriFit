@@ -143,11 +143,19 @@ public class work_trackerSetDetail extends AppCompatActivity{
     }
 
     public void performPlateCalculation(){
-        //TODO: Prevent negatives
         totalWeight = Integer.parseInt(totalWeightInput.getText().toString());
         barWeight = Integer.parseInt(barWeightInput.getText().toString());
-        onEachSideText.setText(eachSide(totalWeight,barWeight));
-        plateResult.setText(plateCalculator(totalWeight,barWeight));
+
+        if (barWeight > totalWeight){
+            onEachSideText.setText("Invalid weight!");
+            plateResult.setText("");
+        } else if (barWeight == totalWeight) {
+            onEachSideText.setText("Lift the empty bar.");
+            plateResult.setText("");
+        } else {
+            onEachSideText.setText(eachSide(totalWeight, barWeight));
+            plateResult.setText(plateCalculator(totalWeight, barWeight));
+        }
     }
 
     private void returnToSetList () {

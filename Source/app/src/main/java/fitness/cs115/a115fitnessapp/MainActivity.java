@@ -16,7 +16,7 @@ import android.widget.GridView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-
+//UI updated by matt on nov 22
 public class MainActivity extends AppCompatActivity {
     GridView grid;
     ArrayList selectedCategories = new ArrayList<>();//used to store strings that contain user selected genre
@@ -107,28 +107,6 @@ public class MainActivity extends AppCompatActivity {
                     //     Log.d("meal_Onboarding 7331", "onScroll: state changed "+selectedPositions.toString()); //debug
                 }
             });
-
-/*
-
-        Button work_overview_btn = (Button) findViewById(R.id.btn_programList);
-        work_overview_btn.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, work_programList.class);
-                startActivity(intent);
-            }
-        });
-
-        Button graph_btn = (Button) findViewById(R.id.btn_progressGraphs);
-        graph_btn.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, graph_maxExerciseWeight.class);
-                startActivity(intent);
-            }
-        });
-    }
-*/
         }
 
 

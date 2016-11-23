@@ -14,8 +14,7 @@ import android.widget.TextView;
  * Created by Teghpreet Singh on 10/17/2016.
  */
 
-
-
+//used to make the listviews in edit meal look nicer
 public class meal_editmeal_adapter extends ArrayAdapter<String> {
 
     private final Activity context;

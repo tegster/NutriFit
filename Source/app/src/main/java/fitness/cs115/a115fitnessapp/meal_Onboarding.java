@@ -18,6 +18,7 @@ import java.util.ArrayList;
 /**
  * Created by Matthew on 11/22/16.
  */
+//what this code does is display the UI for the nutrition portion of the app
 //I adopted/modified this file from some android work I did over the summer. So there may be some leftover parts of the code that didn't get refactored out
 public class meal_Onboarding extends Activity {
     GridView grid;
@@ -144,6 +145,13 @@ public class meal_Onboarding extends Activity {
             tv=grid.getChildAt(i);
             tv.setBackgroundColor(Color.TRANSPARENT);
         }
-
     }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(meal_Onboarding.this, MainActivity.class);
+        startActivity(intent);
+        super.onBackPressed();
+    }
+
 }

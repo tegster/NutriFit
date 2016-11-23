@@ -30,7 +30,6 @@ implements Chronometer.OnChronometerTickListener{
     ListView setListView;
     work_trackerSetList_adapter setListAdapter;
     Chronometer timer;
-    int restTime;
     boolean isSetLogged;
 
     @Override
@@ -63,12 +62,7 @@ implements Chronometer.OnChronometerTickListener{
         Log.d("work_trackerSetList", "exercise name: "+exData.get_name());
         //recreate the session data from the DB
 
-
         setTitle(exData.get_name());
-
-
-        setTitle(exData.get_name());
-
 
         //Rest Timer
         //Currently will just start and never end.
@@ -86,7 +80,6 @@ implements Chronometer.OnChronometerTickListener{
         //  Sets ListView
         //======================================================================================
         //Create the list.
-        //TODO: use the custom adapter to display exercise name, weight, and sets
         setListView = (ListView) findViewById(R.id.lv_exerList);
         setListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -126,8 +119,8 @@ implements Chronometer.OnChronometerTickListener{
     }
 
     public void onChronometerTick(Chronometer cm){
-        int seconds = restTime % 60;
-        int minutes = restTime / 60;
+        int seconds = exData.get_rest_time() % 60;
+        int minutes = exData.get_rest_time() / 60;
         String restTimeStr = String.format("%02d:%02d", minutes, seconds);
 
         if (restTimeStr.equals(cm.getText())){

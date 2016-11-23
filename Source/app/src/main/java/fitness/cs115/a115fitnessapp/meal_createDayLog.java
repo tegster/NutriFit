@@ -19,7 +19,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 /**
  * Created by Teg on 11/18/2016.
  */
-
+//for use with calendar. relates to meal consumption
 public class meal_createDayLog extends AppCompatActivity {
 
     @Override
