@@ -64,6 +64,10 @@ public class meal_createMeal extends AppCompatActivity {
                     meal_text_view.setError("There is already a meal with this name");
                     return;
                 }
+                if (checkIfTableExists("["+input+"]")) {
+                    meal_text_view.setError("There is already a meal with this name");
+                    return;
+                }
                 input = "[" + input + "]";
                 SQLiteDatabase mDatabase = openOrCreateDatabase("meal.db", SQLiteDatabase.CREATE_IF_NECESSARY, null);
                 mDatabase.execSQL(

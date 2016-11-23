@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.RequiresPermission;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -127,7 +128,11 @@ public class meal_viewAllMeals extends AppCompatActivity {
                 arrTblNames);
 
         listView.setAdapter(arrayAdapter);
-
+        if(listView.getCount()==0){ //prompt user in case they are confused
+            Toast toast = Toast.makeText(getApplicationContext(),"You need to create meals before they will show up here", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0, 0); //make toast show up in center of screen
+            toast.show();
+        }
         setUpClickListener();
 
     }
