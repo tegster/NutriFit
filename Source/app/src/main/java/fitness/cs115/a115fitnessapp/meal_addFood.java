@@ -190,7 +190,7 @@ public class meal_addFood extends AppCompatActivity {
                 }
 
                 //launch intent here
-                Intent intent = new Intent(meal_addFood.this, meal_overview.class);
+                Intent intent = new Intent(meal_addFood.this, meal_Onboarding.class);
                 startActivity(intent);
 
 
