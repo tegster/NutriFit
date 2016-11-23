@@ -24,7 +24,9 @@ import java.util.ArrayList;
 public class work_programList extends AppCompatActivity{
     String programName = "";
     work_DBHelper work_db;
-
+    private ListAdapter programListAdapter;
+    private ListView programListView;
+    private ArrayList<String> programs;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,9 +39,8 @@ public class work_programList extends AppCompatActivity{
         final CharSequence defaultPrograms[] = new CharSequence[] {"Create New Program", "Starting Strength",
                 "StrongLifts", "Greyskull LP", "PPL for Beginners", "Ice Cream Fitness"};
 
-        ArrayList<String> userProgAL = work_db.get_user_program_list();
-        String[] programs = userProgAL.toArray(new String[userProgAL.size()]);
-
+        //get program list from database
+        programs = work_db.get_user_program_list();
 
         //======================================================================================
         //  Dialog Boxes
@@ -52,7 +53,7 @@ public class work_programList extends AppCompatActivity{
             @Override
             public void onClick(DialogInterface dialogInterface, int selection_id) {
                 //TODO: Delete the program from the user's program list.
-                //delete the program
+                //work_db.delete_program();
             }
         });
         programOptionDelete.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
@@ -114,12 +115,9 @@ public class work_programList extends AppCompatActivity{
         //======================================================================================
         //  ListView
         //======================================================================================
-        //Create the list.
+        //Create the list of user's programs.
         //TODO: maybe show frequency of the program within the list.
-        //ListAdapter programListAdapter = new work_programList_adapter(this, programs);
-        ListAdapter programListAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, programs);
-        ListView programListView = (ListView) findViewById(R.id.lv_programList);
-        programListView.setAdapter(programListAdapter);
+        programListView = (ListView) findViewById(R.id.lv_programList);
         programListView.setLongClickable(true);
         programListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -150,6 +148,11 @@ public class work_programList extends AppCompatActivity{
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        reloadProgramList();
+    }
     //======================================================================================
     //  Start Activities
     //======================================================================================
@@ -165,4 +168,9 @@ public class work_programList extends AppCompatActivity{
         startActivity(newProgram);
     }
 
+    private void reloadProgramList () {
+        programs = work_db.get_user_program_list();
+        programListAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, programs);
+        programListView.setAdapter(programListAdapter);
+    }
 }

@@ -100,7 +100,7 @@ public class work_newProgramName extends AppCompatActivity {
     //  Start Activities
     //======================================================================================
     public void OpenProgram(String progName){
-        Intent openProgram = new Intent(work_newProgramName.this, work_workoutList.class);
+        Intent openProgram = new Intent(work_newProgramName.this, work_createProgram.class);
 
         openProgram.putExtra("pName", progName);
         startActivity(openProgram);
