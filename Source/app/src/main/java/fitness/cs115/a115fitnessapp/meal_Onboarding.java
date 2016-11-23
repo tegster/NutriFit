@@ -144,6 +144,5 @@ public class meal_Onboarding extends Activity {
             tv=grid.getChildAt(i);
             tv.setBackgroundColor(Color.TRANSPARENT);
         }
-
     }
 }

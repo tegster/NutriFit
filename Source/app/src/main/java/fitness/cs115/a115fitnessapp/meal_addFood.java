@@ -15,9 +15,9 @@ import android.widget.EditText;
 /**
  * Created by Matthew on 10/6/16.
  */
-
+//this class lets the user manually type in a food which is added to the database
 public class meal_addFood extends AppCompatActivity {
-    private static final boolean DEBUG = true;
+    private static final boolean DEBUG = false;
     private EditText foodName, calories, totalfat, cholestrol, sodium, carbs, protein;
     private EditText satfat, transfat, fiber, sugars;
 
@@ -40,12 +40,6 @@ public class meal_addFood extends AppCompatActivity {
         fiber = (EditText) findViewById(R.id.fiber);
         sugars = (EditText) findViewById(R.id.sugar);
         protein = (EditText) findViewById(R.id.protein);
-
-
-
-        //get data passed into intent? maybe which meal an item is being added to is passed in????
-        Intent intent = getIntent();
-        //item = intent.getStringExtra("stuffz");
 
 
         //not all meal_foodDBHelper functions tested yet
@@ -193,11 +187,6 @@ public class meal_addFood extends AppCompatActivity {
                     // System.out.println(mydb.getAllFoods());
                     System.out.println(mydb.getAllFoodInfo());
                     System.out.println("number of rows/items is: " + mydb.getNumberOfRows());
-
-/*
-                    Intent intent = new Intent(meal_addFood.this, MainActivity.class);
-                    startActivity(intent);
-*/
                 }
 
                 //launch intent here

@@ -3,41 +3,5 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.3"
-        >
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/dumbbell48"
-            android:adjustViewBounds="true"
-            />
-    </RelativeLayout>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.3"
-        >
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/restaurant48"
-            android:adjustViewBounds="true"
-            />
-    </RelativeLayout>
-
-
-    <Button
-        android:text="Progress Graphs"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/btn_progressGraphs"
-        android:layout_below="@+id/btn_programList"
-        android:layout_centerHorizontal="true" />
-
-
-
 </LinearLayout>
 
