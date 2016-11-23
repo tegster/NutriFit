@@ -91,7 +91,7 @@ public class work_trackerSetDetail extends AppCompatActivity{
                 int actualReps = Integer.parseInt(actualRepsInput.getText().toString());
                 int actualWeight = Integer.parseInt(totalWeightInput.getText().toString());
                 work_db.log_set(sessID, exerciseName, setNum, goalReps, actualReps, actualWeight);
-                Toast.makeText(work_trackerSetDetail.this, "Good work. Rest until the timer says \"Ready\".", Toast.LENGTH_SHORT).show();
+                Toast.makeText(work_trackerSetDetail.this, "Good work. Rest until the timer says \"Ready\".", Toast.LENGTH_LONG).show();
                 returnToSetList();
             }
         });
