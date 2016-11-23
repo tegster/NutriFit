@@ -2,6 +2,7 @@ package fitness.cs115.a115fitnessapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -189,6 +190,23 @@ public class meal_barCodeWebQuerry extends AppCompatActivity {
                 launchNewIntent();
             }
         });
+
+        //if a network request takes longer then 10 seconds, it is likely there is a network problem, or, more likely, our api is out of scans for the day
+        new CountDownTimer(10000, 1000) { //10 second timer
+
+            public void onTick(long millisUntilFinished) {
+                //do nothing, don't care about updates here
+            }
+
+            public void onFinish() {
+                // mTextField.setText("done!");
+                if (food_name.isEmpty()) { //means lookup hasn't finished
+                    Toast.makeText(getApplicationContext(), "Look up error. Network problems or out of scans for the day", Toast.LENGTH_SHORT).show();
+                    launchNewIntent();
+                    finish();
+                }
+            }
+        }.start();
 
     }
 
