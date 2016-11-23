@@ -1,44 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    tools:context="fitness.cs115.a115fitnessapp.MainActivity">
-
-
-    <android.support.design.widget.AppBarLayout
+    android:layout_height="match_parent">
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true">
+        android:layout_height="0dp"
+        android:layout_weight="0.3"
+        >
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/dumbbell48"
+            android:adjustViewBounds="true"
+            />
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.3"
+        >
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/restaurant48"
+            android:adjustViewBounds="true"
+            />
+    </RelativeLayout>
 
-    </android.support.design.widget.AppBarLayout>
 
-    <Button
-        android:text="Meal Log"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/btn_mealLog"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+</LinearLayout>
 
-    <Button
-        android:text="Program List"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/btn_programList"
-        android:layout_below="@+id/btn_mealLog"
-        android:layout_centerHorizontal="true" />
-
-    <Button
-        android:text="test work DB"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/btn_testWorkDB"
-        android:layout_below="@+id/btn_programList"
-        android:layout_centerHorizontal="true" />
-
-</RelativeLayout>

@@ -64,7 +64,7 @@ public class meal_editmeal_adapter extends ArrayAdapter<String> {
             mViewHolder.calories = (TextView) convertView.findViewById(R.id.tv_totalcals); // thumb image
             mViewHolder.fat = (TextView) convertView.findViewById(R.id.tv_totalfat); // title
             mViewHolder.carbs = (TextView) convertView.findViewById(R.id.tv_totalcarbs); // thumb image
-            mViewHolder.protein = (TextView) convertView.findViewById(R.id.tv_protein); // title
+         //   mViewHolder.protein = (TextView) convertView.findViewById(R.id.tv_protein); // title
 
 
             convertView.setTag(mViewHolder);
