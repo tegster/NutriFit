@@ -3,6 +3,7 @@ package fitness.cs115.a115fitnessapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -11,21 +12,18 @@ import android.widget.Chronometer;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import static fitness.cs115.a115fitnessapp.work_tracker.workData;
+
 /**
  * Created by Henry on 10/23/2016.
  * Edited by James Kennedy on 11/21/2016.
  */
 
 public class work_trackerSetList extends AppCompatActivity{
-    static String exerciseName = "";
-    static int sessID;
-    static int currSetIndex;
+    String exerciseName = "";
+    int sessID;
+    static work_DBHelper.ExerciseData exData;
     work_DBHelper work_db;
-    HashMap<String, Integer> exerciseData;
-    ArrayList<String> setNumbers;
-    ArrayList<String> currReps;
-    ArrayList<String> targetReps;
-    ArrayList<String> weights;
     ListView setListView;
     work_trackerSetList_adapter setListAdapter;
     Chronometer timer;
@@ -37,14 +35,26 @@ public class work_trackerSetList extends AppCompatActivity{
 
         work_db = new work_DBHelper(this);
 
-        //Get parameters that are passed into the tracker.
+        //Get parameters that are passed into the tracker, if params have been passed.
         Intent intent = getIntent();
-        sessID = intent.getExtras().getInt("sessID");
-        exerciseName = intent.getExtras().getString("eName");
-        setTitle(exerciseName);
+        if ( !intent.getExtras().isEmpty()) {
+            //TODO: add invariants for valid exercise name
+            exerciseName = intent.getExtras().getString("eName");
+            sessID = intent.getExtras().getInt("sessID");
+            exData.load_session_and_exer(exerciseName, sessID);
+        }
+        else {
+            //exercise has returned from trackSetDetail
+            exerciseName = exData.get_name();
+            sessID = exData.get_session_id();
+        }
 
-        //TODO: add invariants for valid exercise name
-        initExerciseData();
+        Log.d("work_trackerSetList", "session id: "+exData.get_session_id());
+        Log.d("work_trackerSetList", "exercise name: "+exData.get_name());
+        //recreate the session data from the DB
+
+
+        setTitle(exData.get_name());
 
 
         //Rest Timer
@@ -67,51 +77,11 @@ public class work_trackerSetList extends AppCompatActivity{
         });
     }
 
-    private void initExerciseData() {
-        exerciseData = work_db.get_exer_detail(exerciseName);
-        String repStr  = String.valueOf(exerciseData.get(work_DBHelper.EXER_INDEX_REPS));
-        int sets = exerciseData.get(work_DBHelper.EXER_INDEX_GOAL_SETS);
-        int startWeight = exerciseData.get(work_DBHelper.EXER_INDEX_START_WEIGHT);
-        int incrWeight = exerciseData.get(work_DBHelper.EXER_INDEX_INC_WEIGHT);
-        int restTime = exerciseData.get(work_DBHelper.EXER_INDEX_REST_TIME);
-        //TODO: connect restTime to timer
-
-        this.setNumbers = new ArrayList<>(sets);
-        this.currReps = new ArrayList<>(sets);
-        this.targetReps = new ArrayList<>(sets);
-        this.weights = new ArrayList<>(sets);
-        this.currSetIndex = 0;
-
-        //load Arraylists for each set
-        int setWeight = startWeight;
-        for (int setIdx = 0; setIdx < sets; ++setIdx) {
-            setNumbers.add(String.valueOf(setIdx + 1));
-            currReps.add("0");
-            targetReps.add(repStr);
-            weights.add(String.valueOf(setWeight));
-            setWeight += incrWeight;
-        }
-    }
-
     @Override
     protected void onResume(){
         super.onResume();
-        updateExerciseData();
-    }
 
-    private void updateExerciseData() {
-        ArrayList<Integer> loggedSetReps = work_db.get_exer_session_reps(exerciseName, sessID);
-        String currRepStr;
-        currSetIndex = loggedSetReps.size();
-
-        //update current reps with DB data for sets that have been logged
-        for (int setInd = 0; setInd < currSetIndex; ++setInd) {
-            currRepStr = String.valueOf(loggedSetReps.get(setInd));
-            currReps.set(setInd, currRepStr);
-        }
-
-        setListAdapter = new work_trackerSetList_adapter(this, setNumbers, currReps, targetReps, weights);
-        setListView.setAdapter(setListAdapter);
+        exData.update_logged_entries();
     }
 
     private void trackSet(int setIndex) {
@@ -119,8 +89,8 @@ public class work_trackerSetList extends AppCompatActivity{
         setIntent.putExtra("eName", exerciseName);
         setIntent.putExtra("sessID", sessID);
         setIntent.putExtra("setNum", setIndex + 1);
-        setIntent.putExtra("goalWeight", weights.get(setIndex));
-        setIntent.putExtra("goalReps", targetReps.get(setIndex));
+        setIntent.putExtra("goalWeight", exData.get_weights_used().get(setIndex));
+        setIntent.putExtra("goalReps", exData.get_target_reps());
         startActivity(setIntent);
     }
 

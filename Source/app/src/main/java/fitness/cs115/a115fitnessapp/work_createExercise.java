@@ -76,7 +76,7 @@ public class work_createExercise extends AppCompatActivity {
 
         //load values stored in DB if editing existing exercise
         if(isEditingExistingExer){
-            HashMap<String, Integer> existingVals = workDBH.get_exer_detail(exerName);
+            HashMap<String, Integer> existingVals = workDBH.get_exer_index_entry(exerName);
             exerNameTextView.setText(exerName);
             repsTextView.setText(existingVals.get(work_DBHelper.EXER_INDEX_REPS));
             startWeightTextView.setText(existingVals.get(work_DBHelper.EXER_INDEX_START_WEIGHT));

@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 /**
  * Created by Henry on 10/17/2016.
+ * Edited by James Kennedy on 11/20/2016.
  */
 
 
@@ -20,13 +21,22 @@ import java.util.ArrayList;
 public class work_tracker_adapter extends ArrayAdapter<String>{
 
     private final Activity context;
-    private final work_DBHelper.Workout_data work_data;
-//ArrayList<String> exercises, ArrayList<String> currSets, ArrayList<String> targetSets, ArrayList<String> weights, ArrayList<String> statuses){
+    private work_DBHelper.WorkoutData work_data;
+    ArrayList<String> strExercises;
+    ArrayList<String> strCurrSets;
+    ArrayList<String> strTargetSets;
+    ArrayList<String> strWeights;
+    ArrayList<String> strStatuses;
 
-    public work_tracker_adapter(Activity context, work_DBHelper.Workout_data workout_data){
-        super(context, R.layout.list_tracker_exer_single, workout_data.get_exercises());
+    public work_tracker_adapter(Activity context, work_DBHelper.WorkoutData workout_data){
+        super(context, R.layout.list_tracker_exer_single, workout_data.get_exer_names());
         this.context = context;
         this.work_data = workout_data;
+        strExercises = new ArrayList<String>(workout_data.get_exer_count());
+        strCurrSets= new ArrayList<String>(workout_data.get_exer_count());
+        strTargetSets= new ArrayList<String>(workout_data.get_exer_count());
+        strWeights= new ArrayList<String>(workout_data.get_exer_count());
+        strStatuses= new ArrayList<String>(workout_data.get_exer_count());
     }
 
 
@@ -43,24 +53,27 @@ public class work_tracker_adapter extends ArrayAdapter<String>{
         TextView weightText = (TextView) rowView.findViewById(R.id.tv_weight);
         TextView statusText = (TextView) rowView.findViewById(R.id.tv_status);
 
+        String exName = work_data.get_exer_names().get(position);
+        work_DBHelper.ExerciseData currentEx = work_data.get_exercise_data(exName);
+
         //Exercise Name
-        exerciseNameText.setText(work_data.get_exer_name_at(position));
+        exerciseNameText.setText(currentEx.get_name());
 
         //Current Set
-        setsDoneText.setText(work_data.get_current_set_at(position).toString());
+        setsDoneText.setText(currentEx.get_sets_completed());
 
         //Target Sets
-        setsGoalText.setText(work_data.get_goal_set_at(position).toString());
+        setsGoalText.setText(currentEx.get_target_sets());
 
         //Weight
-        weightText.setText(work_data.get_goal_weight_at(position).toString());
+        weightText.setText(currentEx.get_target_weights().get(currentEx.get_sets_completed()));
 
         //Exercise Completion Status
         //Zero sets = Not Started, (Number <= Target) = In Progress, (Number == Target) = Complete
-        if (work_data.get_current_set_at(position) == 0 ){
+        if (currentEx.get_sets_completed() == 0 ){
             statusText.setText("Not Started");
             statusText.setTextColor(Color.parseColor("#ffcc0000")); //dark red - not started
-        } else if (work_data.get_current_set_at(position) < work_data.get_goal_set_at(position)) {
+        } else if (currentEx.get_sets_completed() < currentEx.get_target_sets()) {
             statusText.setText("In Progress");
             statusText.setTextColor(Color.parseColor("#ff0099cc")); //dark blue - in progress
         } else {

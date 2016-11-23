@@ -3,6 +3,7 @@ package fitness.cs115.a115fitnessapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
@@ -13,11 +14,14 @@ import java.util.HashMap;
 
 /**
  * Created by Henry on 10/23/2016.
+ * Edited by James Kennedy on 11/23/2016
  */
 
 public class work_tracker extends AppCompatActivity{
     work_DBHelper work_db;
-    static work_DBHelper.Workout_data workData;
+    private String workoutName;
+    private int sessID;
+    static work_DBHelper.WorkoutData workData;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_work_tracker);
@@ -25,17 +29,26 @@ public class work_tracker extends AppCompatActivity{
         work_db = new work_DBHelper(this);
 
         //Get parameters that are passed into the tracker, if params have been passed.
-        Bundle intentExtras = getIntent().getExtras();
-         if ( !intentExtras.isEmpty()) {
-             String workoutName = intentExtras.getString("wName");
-             workData.set_workout_name(workoutName);
-             int sessID = work_db.create_session(workoutName);
-             workData.set_session_id(sessID);
+        Intent intent = getIntent();
+         if ( !intent.getExtras().isEmpty()) {
+             //if anything is passed as extra, workoutName must also be passed in as extra
+             workoutName = intent.getExtras().getString("wName");
+
+             if (intent.hasExtra("sessID")){
+                 sessID = intent.getExtras().getInt("sessID");
+             } else {
+                 //the workout does not yet have an associated session
+                 sessID = work_db.create_session(workoutName);
+             }
+
+             //recreate the session from the DB data
+             workData.load_work_session(workoutName, sessID);
          }
 
-        setTitle(workoutName);
-        //grab information from session
-        workData = work_db.get_work_detail(workoutName);
+        Log.d("work_tracker", "session id: "+workData.get_session_id());
+        Log.d("work_tracker", "workout name: "+workData.get_workout_name());
+
+        setTitle(workData.get_workout_name());
 
         //======================================================================================
         //  ListView

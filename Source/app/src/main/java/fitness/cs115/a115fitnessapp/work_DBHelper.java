@@ -16,6 +16,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.PriorityQueue;
+import java.util.Set;
 import java.util.TreeMap;
 
 import android.content.ContentValues;
@@ -24,6 +25,10 @@ import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
+
+import static android.R.attr.tag;
+
 /**
  * This class serves as an interface for adding, modifying and retrieving data
  * from the user workout database.
@@ -34,109 +39,239 @@ import android.database.sqlite.SQLiteDatabase;
 public class work_DBHelper extends SQLiteOpenHelper {
 
     /**
-     * inner class used to retrieve the all of the exercise names and goal information 
-     * used to initialize a workout session.
+     * This inner class contains the exercise tracker data for a single exercise.
+     *
      * @author James Kennedy
      * @version %I% %G%
      */
-    public class Workout_data {
+    public class ExerciseData {
+        private String exercise_name;
+        private int exer_id;
+        private int target_num_sets;
+        private int num_sets_completed;
+        private int target_reps;
+        private int target_rest_time;
+        private int session_id;
+        private int start_wt;
+        private int incr_wt;
+        private ArrayList<Integer> reps_completed;
+        private ArrayList<Integer> weights_used;
+
+
+        public ExerciseData() {
+            this.exercise_name = "";
+            this.exer_id = -1;
+            this.session_id = -1;
+            this.target_num_sets = -1;
+            this.num_sets_completed = -1;
+            this.target_reps = -1;
+            this.target_rest_time = -1;
+            this.start_wt = -1;
+            this.incr_wt = -1;
+            this.reps_completed = new ArrayList<>();
+            this.weights_used = new ArrayList<>();
+        }
+
+        public ExerciseData (String exer_name, int session_ID) {
+            load_session_and_exer(exer_name, session_ID);
+        }
+
+        public void load_session_and_exer(String exer_name, int session_ID){
+            //invariant: exercise name must exist
+            if (exer_name == null || !is_taken_exer_name(exer_name)){
+                Log.e("ExerciseData","Exercise does not exist: "+exer_name);
+                throw new IllegalArgumentException(exer_name);
+            }
+
+            //invariant: session must exist
+            if ( !is_taken_session_id(session_ID)) {
+                Log.e("ExerciseData","session does not exist: "+ session_id);
+                throw new IllegalArgumentException("session does not exist: "+ session_ID);
+            }
+
+            exercise_name = exer_name;
+            session_id = session_ID;
+
+
+            //load exercise details from DB
+            HashMap<String, Integer> exer_db_entry = get_exer_index_entry(exercise_name);
+            exer_id = exer_db_entry.get(EXER_INDEX_EXER_ID);
+            target_num_sets = exer_db_entry.get(EXER_INDEX_GOAL_SETS);
+            target_reps = exer_db_entry.get(EXER_INDEX_REPS);
+            target_rest_time = exer_db_entry.get(EXER_INDEX_REST_TIME);
+
+            //TODO: weight adjustment
+            start_wt= exer_db_entry.get(EXER_INDEX_START_WEIGHT);
+            incr_wt = exer_db_entry.get(EXER_INDEX_INC_WEIGHT);
+
+            //some reps and weights may already be logged. check logs first
+            update_logged_entries();
+        }
+
+        /**
+         * Updates the reps and weight for the sets that have already been logged in this session
+         *
+         */
+        public void update_logged_entries () {
+
+            //load logged set data, fill unlogged sets with 0
+            HashMap<String, ArrayList<Integer>> logged_data_lists = get_session_logs_for_exer(exercise_name,session_id);
+            ArrayList<Integer> existing_set_nums = logged_data_lists.get(WORK_LOG_SET_NUM);
+            ArrayList<Integer> existing_reps =logged_data_lists.get(WORK_LOG_ACTUAL);
+            ArrayList<Integer> existing_weights =logged_data_lists.get(WORK_LOG_WEIGHT);
+
+            //TODO: check if logging set uses the set index or set number (ind + 1)
+            //fill unlogged sets with exercise standard values
+            num_sets_completed = 0;
+            for (int set_ind = 0; set_ind < target_num_sets; ++set_ind){
+                if (existing_set_nums.contains(set_ind)) {
+                    ++num_sets_completed;
+                } else {
+                    //this set has not yet been logged. intialize reps done to 0.
+                    existing_reps.add(set_ind, 0);
+                    //increment weight for sets that havent been logged
+                    existing_weights.add(set_ind, start_wt + incr_wt * set_ind);
+                }
+            }
+            reps_completed = existing_reps;
+            weights_used = existing_weights;
+        }
+
+        public int get_session_id() {
+            return session_id;
+        }
+
+        public int get_start_wt() {
+            return start_wt;
+        }
+
+        public int get_incr_wt() {
+            return incr_wt;
+        }
+
+        public ArrayList<Integer> get_weights_used() {
+            return weights_used;
+        }
+
+        public int get_exer_id() {
+            return exer_id;
+        }
+
+        public String get_name() {
+            return exercise_name;
+        }
+
+        public int get_target_sets() {
+            return target_num_sets;
+        }
+
+        public int get_sets_completed() {
+            return num_sets_completed;
+        }
+
+        public int get_target_reps() {
+            return target_reps;
+        }
+
+        public ArrayList<Integer> get_target_weights() {
+            return weights_used;
+        }
+
+        public int get_rest_time() {
+            return target_rest_time;
+        }
+
+        public ArrayList<Integer> get_reps_completed() {
+            return reps_completed;
+        }
+
+    }
+
+    /**
+     * inner class used to retrieve the workout tracker information
+     * used to initiate a workout session.
+     * @author James Kennedy
+     * @version %I% %G%
+     */
+    public class WorkoutData {
         private String workout_name;
-        private ArrayList<String> exercises;
-        private ArrayList<Integer> goal_sets;
-        private ArrayList<Integer> sets_completed;
-        private ArrayList<Integer> goal_reps;
-        private ArrayList<Integer> goal_weights;
-        private ArrayList<Integer> goal_rest_time;
-        private ArrayList<ArrayList<Integer>> reps_completed;
+        //map of exercise names to their corresponding ExerciseData objects
+        private HashMap<String, ExerciseData> exercises;
         private int exer_count;
         private int session_id;
 
-        public Workout_data(){
+        public WorkoutData(){
             session_id = -1;
             workout_name = "";
-            exercises = new ArrayList<>();
-            goal_sets = new ArrayList<>();
-            sets_completed = new ArrayList<>();
-            goal_reps = new ArrayList<>();
-            goal_weights = new ArrayList<>();
-            goal_rest_time = new ArrayList<>();
-            reps_completed = new ArrayList<>();
+            exercises = new HashMap<String, ExerciseData>();
             exer_count = 0;
         }
-        public Workout_data(String _workout_name, int _session_id){
+
+        public void load_work_session(String _workout_name, int _session_id){
             session_id = _session_id;
             workout_name = _workout_name;
-            exercises = new ArrayList<>();
-            goal_sets = new ArrayList<>();
-            sets_completed = new ArrayList<>();
-            goal_reps = new ArrayList<>();
-            goal_weights = new ArrayList<>();
-            goal_rest_time = new ArrayList<>();
-            reps_completed = new ArrayList<>();
+            //invariant: session must exist
+            if (!is_taken_session_id(session_id)){
+                Log.e("workoutData", "bad session_id: "+session_id);
+                throw new IllegalArgumentException();
+            }
+            if (!is_taken_work_name(workout_name)){
+                Log.e("workoutData", "bad workout name: "+workout_name);
+                throw new IllegalArgumentException();
+            }
+            //retrieve exercise names for this workout
+            ArrayList<String> exers_in_work = get_exers_from_work(workout_name);
+
+            exercises = new HashMap<String, ExerciseData>();
             exer_count = 0;
+
+             for (String exname: exers_in_work){
+                exercises.put(exname, new ExerciseData(exname,session_id));
+                 ++exer_count;
+            }
+
         }
+
+        public ArrayList<String> get_exer_names(){
+            Set<String> names = exercises.keySet();
+            ArrayList<String> returnList = new ArrayList<>(names.size());
+            for (String name: names) {
+                returnList.add(name);
+            }
+            return returnList;
+        }
+
         public void set_workout_name (String _workout_name){
             workout_name = _workout_name;
+        }
+
+        public String get_workout_name() {
+            return workout_name;
+        }
+
+        public HashMap<String, ExerciseData> get_exercises() {
+            return exercises;
+        }
+
+        public int get_session_id() {
+            return session_id;
         }
 
         public void set_session_id (int _session_id){
             session_id = _session_id;
         }
 
-        public void add_exer_entry (String exer_name, Integer sets, Integer reps,
-                              Integer weights, Integer rest_time) {
-            exercises.add(exer_name);
-            goal_sets.add(sets);
-            sets_completed.add(0);
-            goal_reps.add(reps);
-            goal_weights.add(weights);
-            goal_rest_time.add(rest_time);
-
-            //create new arraylist to store completed reps for the new exercise
-            ArrayList<Integer> exer_reps_done_list = new ArrayList<>(sets);
-            for (int set_num = 0; set_num < sets; ++set_num){
-                //intialize reps done to 0 for all sets for this exercise
-                exer_reps_done_list.add(0);
-            }
-            //add this exercise's rep done list to the list of reps done for all exercises
-
+        public void add_exercise(ExerciseData exercise) {
+            exercises.put(exercise.exercise_name, exercise);
             ++exer_count;
         }
 
-        public void update_current_sets (String exercise, int sets_completed) {
-            //invariant: exercise must exist
-            if (!exercises.contains(exercise)) {
-                throw new IllegalArgumentException("Error: update_current_sets: exercise \""
-                        + exercise+"\" does not exist");
-            }
-            int ex_index = exercises.indexOf(exercise);
-
-            current_sets.set(ex_index, sets_completed);
+        public ExerciseData get_exercise_data(String exercise_name) {
+            return exercises.get(exercise_name);
         }
 
         public int get_exer_count () {
             return exer_count;
-        }
-        public ArrayList<String> get_exercises() {
-            return exercises;
-        }
-        public String get_exer_name_at(int index) {
-            return exercises.get(index);
-        }
-        public Integer get_goal_set_at(int index) {
-            return goal_sets.get(index);
-        }
-        public Integer get_current_set_at(int index) {
-            return current_sets.get(index);
-        }
-        public Integer get_goal_rep_at(int index) {
-            return goal_reps.get(index);
-        }
-        public Integer get_goal_weight_at(int index) {
-            return goal_weights.get(index);
-        }
-        public Integer get_goal_rest_time_at(int index) {
-            return goal_rest_time.get(index);
         }
     };
 
@@ -707,7 +842,7 @@ public class work_DBHelper extends SQLiteOpenHelper {
                     "this exercise is already part of this workout.");
         }
 
-        HashMap<String, Integer> exer_details = get_exer_detail(exer_name);
+        HashMap<String, Integer> exer_details =get_exer_index_entry(exer_name);
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
@@ -1378,59 +1513,29 @@ public class work_DBHelper extends SQLiteOpenHelper {
 
         return (int) inserted_row_id;
     }
-        
-    public Workout_data get_work_detail(String workout_name) {
-        ArrayList<String> exer_names;
-        ArrayList<Integer> goal_sets;
-        ArrayList<Integer> goal_reps;
-        ArrayList<Integer> goal_weights;
-        ArrayList<Integer> goal_rest_time;
-        SQLiteDatabase db = this.getReadableDatabase();
-        int work_id = -1;
-        
-        //invariant: workout must exist
-        if (!is_taken_work_name(workout_name)) {
-            throw new IllegalArgumentException("get_work_detail failed: workout \"" + workout_name + "\" not found");
-        }
-    
-        work_id = get_work_id_from_name(workout_name);
-        //query database for the details of the given workout
-        String cols[] = {WORK_DETAIL_EXER_NAME, WORK_DETAIL_SETS, WORK_DETAIL_REPS, 
-                        WORK_DETAIL_START_WEIGHT, WORK_DETAIL_INC_WEIGHT, WORK_DETAIL_REST_TIME}; 
-        
-        Cursor res = db.query(WORK_DETAIL_TABLE_NAME, cols,
-                        WORK_DETAIL_WORK_ID+" = ? ",new String[]{String.valueOf(work_id)},
-                        null,null,null
-                    );
 
-        //initialize ArrayList sizes to the number of rows returned from the query
-        int num_entries = res.getCount();
-        exer_names = new ArrayList<>(num_entries);
-        goal_sets = new ArrayList<>(num_entries);
-        goal_reps = new ArrayList<>(num_entries);
-        goal_weights = new ArrayList<>(num_entries);
-        goal_rest_time = new ArrayList<>(num_entries);
+//        String name_entry;
+//        Integer sets_entry, reps_entry, weight_entry, rest_time_entry;
+//        WorkoutData work_data = new WorkoutData();
+//        ExerciseData ex_data;
+//        //load data from database into the data object to be returned
+//        res.moveToFirst();
+//        while (!res.isAfterLast()) {
+//            name_entry = res.getString(res.getColumnIndex(WORK_DETAIL_EXER_NAME));
+//            sets_entry = res.getInt(res.getColumnIndex(WORK_DETAIL_SETS));
+//            reps_entry = res.getInt(res.getColumnIndex(WORK_DETAIL_REPS));
+//            weight_entry = res.getInt(res.getColumnIndex(WORK_DETAIL_START_WEIGHT));
+//            rest_time_entry = res.getInt(res.getColumnIndex(WORK_DETAIL_REST_TIME));
+//
+//            ex_data = new ExerciseData()
+//            work_data.add_exer_entry(name_entry,sets_entry,reps_entry,weight_entry,rest_time_entry);
+//            res.moveToNext();
+//        }
+//        res.close();
+//        return work_data;
+//    }
 
-        String name_entry;
-        Integer sets_entry, reps_entry, weight_entry, rest_time_entry;
-        Workout_data work_data = new Workout_data();
-        //load data from database into the data object to be returned
-        res.moveToFirst(); 
-        while (!res.isAfterLast()) {
-            name_entry = res.getString(res.getColumnIndex(WORK_DETAIL_EXER_NAME));
-            sets_entry = res.getInt(res.getColumnIndex(WORK_DETAIL_SETS));
-            reps_entry = res.getInt(res.getColumnIndex(WORK_DETAIL_REPS));
-            weight_entry = res.getInt(res.getColumnIndex(WORK_DETAIL_START_WEIGHT));
-            rest_time_entry = res.getInt(res.getColumnIndex(WORK_DETAIL_REST_TIME));
-            
-            work_data.add_exer_entry(name_entry,sets_entry,reps_entry,weight_entry,rest_time_entry);
-            res.moveToNext();
-        }
-        res.close();
-        return work_data;
-    }
-
-    HashMap<String, Integer> get_exer_detail(String exercise_name){
+    public HashMap<String, Integer> get_exer_index_entry(String exercise_name){
         if (DEBUG) {
             System.out.println("Starting "+ new Exception().getStackTrace()[0]);
         }
@@ -1438,7 +1543,7 @@ public class work_DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
 
         //details are the keys returned in the hashmap. must be column names from EXER_INDEX table.
-        String [] ex_details = {EXER_INDEX_GOAL_SETS, EXER_INDEX_REPS,
+        String [] ex_details = {EXER_INDEX_EXER_ID, EXER_INDEX_GOAL_SETS, EXER_INDEX_REPS,
                 EXER_INDEX_START_WEIGHT, EXER_INDEX_INC_WEIGHT, EXER_INDEX_REST_TIME};
         //fetch entry from DB
         Cursor res = db.query(EXER_INDEX_TABLE_NAME, ex_details,
@@ -1458,32 +1563,46 @@ public class work_DBHelper extends SQLiteOpenHelper {
     }
 
 
-    public ArrayList<Integer> get_exer_session_reps(String exerciseName, int session_id){
+    public HashMap<String, ArrayList<Integer>> get_session_logs_for_exer(String exerciseName, int session_id){
 
+        //these are the columns in work_log that are returned as keys in the hashmap
+        String log_cols [] = {WORK_LOG_WEIGHT, WORK_LOG_SET_NUM, WORK_LOG_ACTUAL};
         if (DEBUG) {
             System.out.println("starting: " + new Exception().getStackTrace()[0]);
         }
         SQLiteDatabase db = this.getWritableDatabase();
-
-        //get logs for the current exercise and session, ordered by set number
-        Cursor res = db.query(WORK_LOG_TABLE_NAME, new String [] {WORK_LOG_ACTUAL},
-                WORK_LOG_SESSION_ID + " = ?", new String[]{String.valueOf(session_id)},
-                null, null, WORK_LOG_SET_NUM
+        //get logs for the current exercise and session
+        Cursor res = db.query(WORK_LOG_TABLE_NAME, log_cols,
+                WORK_LOG_SESSION_ID + " = ? AND "+ WORK_LOG_EXER_NAME + " = ?"
+                , new String[]{String.valueOf(session_id), exerciseName},
+                null, null, null
                 );
 
         ArrayList<Integer> logged_reps = new ArrayList<Integer>(res.getCount());
+        ArrayList<Integer> logged_weight = new ArrayList<Integer>(res.getCount());
+        ArrayList<Integer> logged_set_num = new ArrayList<Integer>(res.getCount());
+
         //load ArrayList with logged reps from the DB
         res.moveToFirst();
         while (!res.isAfterLast()){
             logged_reps.add(res.getInt(res.getColumnIndex(WORK_LOG_ACTUAL)));
+            logged_weight.add(res.getInt(res.getColumnIndex(WORK_LOG_WEIGHT)));
+            logged_set_num.add(res.getInt(res.getColumnIndex(WORK_LOG_SET_NUM)));
             res.moveToNext();
         }
         res.close();
 
+        //insert lists into return hashmap
+        HashMap<String, ArrayList<Integer>> returnMap =
+                new HashMap<String, ArrayList<Integer>> (log_cols.length);
+        returnMap.put(WORK_LOG_SET_NUM, logged_set_num);
+        returnMap.put(WORK_LOG_ACTUAL, logged_reps);
+        returnMap.put(WORK_LOG_WEIGHT, logged_weight);
+
         if (DEBUG) {
-            System.out.println("logged_reps: " + logged_reps);
+            System.out.println("returnMap: " + returnMap);
         }
 
-        return logged_reps;
+        return returnMap;
     }
 }
