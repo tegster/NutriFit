@@ -22,7 +22,7 @@ import android.support.annotation.NonNull;
 import android.util.Pair;
 
 import static android.R.attr.id;
-
+//helper class for the food database. it can return the total amount of each macronutrient consumed each day
 public class meal_foodDBHelper extends SQLiteOpenHelper {
     private static final Boolean DEBUG = true;
 

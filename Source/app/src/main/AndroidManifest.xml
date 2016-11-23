@@ -25,37 +25,37 @@
         <activity
             android:name=".meal_addFood"
             android:configChanges="orientation"
-            android:label="@string/app_name"
+            android:label="Add Food"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".meal_SimpleScannerActivity"
             android:configChanges="orientation"
-            android:label="@string/app_name"
+            android:label="Barcode Scanner"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".meal_viewAllMeals"
             android:configChanges="orientation"
-            android:label="@string/app_name"
+            android:label="View all Meals"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".meal_createMeal"
             android:configChanges="orientation"
-            android:label="@string/app_name"
+            android:label="Create meal"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".meal_editMeal"
             android:configChanges="orientation"
-            android:label="@string/app_name"
+            android:label="Eat or Edit Meal"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".meal_barCodeWebQuerry"
             android:configChanges="orientation"
-            android:label="@string/app_name"
+            android:label="Bar Code Lookup"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
 
@@ -148,7 +148,7 @@
         <activity
             android:name=".meal_createDayLog"
             android:configChanges="orientation"
-            android:label="@string/app_name"
+            android:label="Create Day Log"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
 

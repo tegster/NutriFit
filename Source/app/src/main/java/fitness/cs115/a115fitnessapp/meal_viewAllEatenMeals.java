@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -23,7 +24,7 @@ import java.util.Calendar;
 //2. convert table name to human readable date
 //3. when a user clicks on a meal they are taken to another page that shows the total amount of stuff eaten for that meal
 public class meal_viewAllEatenMeals extends AppCompatActivity {
-    private static final boolean DEBUG = true;
+    private static final boolean DEBUG = false;
     ListView listView;
     ArrayList<String> mealNames = new ArrayList<String>();
     ArrayList<String> readableMealNames = new ArrayList<String>();
@@ -130,6 +131,11 @@ public class meal_viewAllEatenMeals extends AppCompatActivity {
 
         //puts the data into the listview
         listView.setAdapter(arrayAdapter);
+        if(listView.getCount()==0){//prompt user in case they get confused
+            Toast toast = Toast.makeText(getApplicationContext(),"You have not eaten any meals yet, go to the meals page and touch a meal to eat it", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0, 0); //make toast show up in center of screen
+            toast.show();
+        }
         setUpClickListener();
 
     }

@@ -11,7 +11,7 @@ import android.widget.TextView;
 /**
  * Created by Matthew on 11/22/16.
  */
-
+//helper class used to implement the main UI pages on main activity and nutrition overview
 public class meal_CustomGrid extends BaseAdapter {
     private Context mContext;
     private final String[] genreString;
