@@ -91,8 +91,7 @@ public class work_trackerSetDetail extends AppCompatActivity{
                 int actualReps = Integer.parseInt(actualRepsInput.getText().toString());
                 int actualWeight = Integer.parseInt(totalWeightInput.getText().toString());
                 work_db.log_set(sessID, exerciseName, setNum, goalReps, actualReps, actualWeight);
-                //TODO: start the timer!
-                Toast.makeText(work_trackerSetDetail.this, "set logged. The timer would have been started.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(work_trackerSetDetail.this, "Good work. Rest until the timer says \"Ready\".", Toast.LENGTH_LONG).show();
                 returnToSetList();
             }
         });
@@ -144,11 +143,19 @@ public class work_trackerSetDetail extends AppCompatActivity{
     }
 
     public void performPlateCalculation(){
-        //TODO: Prevent negatives
         totalWeight = Integer.parseInt(totalWeightInput.getText().toString());
         barWeight = Integer.parseInt(barWeightInput.getText().toString());
-        onEachSideText.setText(eachSide(totalWeight,barWeight));
-        plateResult.setText(plateCalculator(totalWeight,barWeight));
+
+        if (barWeight > totalWeight){
+            onEachSideText.setText("Invalid weight!");
+            plateResult.setText("");
+        } else if (barWeight == totalWeight) {
+            onEachSideText.setText("Lift the empty bar.");
+            plateResult.setText("");
+        } else {
+            onEachSideText.setText(eachSide(totalWeight, barWeight));
+            plateResult.setText(plateCalculator(totalWeight, barWeight));
+        }
     }
 
     private void returnToSetList () {
@@ -156,6 +163,7 @@ public class work_trackerSetDetail extends AppCompatActivity{
         Intent setListIntent = new Intent(work_trackerSetDetail.this, work_trackerSetList.class);
         setListIntent.putExtra("eName", exerciseName);
         setListIntent.putExtra("sessID", sessID);
+        setListIntent.putExtra("isSetLogged", true);
         setListIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(setListIntent);
     }

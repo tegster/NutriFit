@@ -53,6 +53,7 @@ public class work_tracker extends AppCompatActivity{
                 Intent setIntent = new Intent(work_tracker.this, work_trackerSetList.class);
                 setIntent.putExtra("eName", exerciseName);
                 setIntent.putExtra("sessID", sessID);
+                setIntent.putExtra("isSetLogged", false);
                 startActivity(setIntent);
             }
         });

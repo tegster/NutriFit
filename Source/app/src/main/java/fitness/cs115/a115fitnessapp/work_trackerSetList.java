@@ -2,11 +2,13 @@ package fitness.cs115.a115fitnessapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Chronometer;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,7 +18,8 @@ import java.util.HashMap;
  * Edited by James Kennedy on 11/21/2016.
  */
 
-public class work_trackerSetList extends AppCompatActivity{
+public class work_trackerSetList extends AppCompatActivity
+implements Chronometer.OnChronometerTickListener{
     String exerciseName = "";
     int sessID;
     int currSetIndex;
@@ -29,6 +32,8 @@ public class work_trackerSetList extends AppCompatActivity{
     ListView setListView;
     work_trackerSetList_adapter setListAdapter;
     Chronometer timer;
+    int restTime;
+    boolean isSetLogged;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +46,7 @@ public class work_trackerSetList extends AppCompatActivity{
         Intent intent = getIntent();
         sessID = intent.getExtras().getInt("sessID");
         exerciseName = intent.getExtras().getString("eName");
+        isSetLogged = intent.getExtras().getBoolean("isSetLogged");
         setTitle(exerciseName);
 
         //TODO: add invariants for valid exercise name
@@ -51,13 +57,18 @@ public class work_trackerSetList extends AppCompatActivity{
         //Currently will just start and never end.
         //Does not persist if you go back to work_tracker!
         timer = (Chronometer) findViewById(R.id.chronometer);
-        timer.start();
+        timer.setOnChronometerTickListener(this);
+        timer.setBase(SystemClock.elapsedRealtime());
+        //Start timer if set is logged.
+        if (isSetLogged) {timer.start();}
+        if ("00:00".equals(timer.getText())){
+            timer.setText("READY");
+        }
 
         //======================================================================================
         //  Sets ListView
         //======================================================================================
         //Create the list.
-        //TODO: use the custom adapter to display exercise name, weight, and sets
         setListView = (ListView) findViewById(R.id.lv_exerList);
         setListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -73,8 +84,7 @@ public class work_trackerSetList extends AppCompatActivity{
         int sets = exerciseData.get(work_DBHelper.EXER_INDEX_GOAL_SETS);
         int startWeight = exerciseData.get(work_DBHelper.EXER_INDEX_START_WEIGHT);
         int incrWeight = exerciseData.get(work_DBHelper.EXER_INDEX_INC_WEIGHT);
-        int restTime = exerciseData.get(work_DBHelper.EXER_INDEX_REST_TIME);
-        //TODO: connect restTime to timer
+        restTime = exerciseData.get(work_DBHelper.EXER_INDEX_REST_TIME);
 
         this.setNumbers = new ArrayList<>(sets);
         this.currReps = new ArrayList<>(sets);
@@ -122,6 +132,18 @@ public class work_trackerSetList extends AppCompatActivity{
         setIntent.putExtra("goalWeight", weights.get(setIndex));
         setIntent.putExtra("goalReps", targetReps.get(setIndex));
         startActivity(setIntent);
+    }
+
+    public void onChronometerTick(Chronometer cm){
+        int seconds = restTime % 60;
+        int minutes = restTime / 60;
+        String restTimeStr = String.format("%02d:%02d", minutes, seconds);
+
+        if (restTimeStr.equals(cm.getText())){
+            Toast.makeText(work_trackerSetList.this, "Time's up! Begin the next set!", Toast.LENGTH_LONG).show();
+            cm.setText("READY");
+            cm.stop();
+        }
     }
 
 }

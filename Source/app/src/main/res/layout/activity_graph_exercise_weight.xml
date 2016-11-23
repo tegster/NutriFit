@@ -4,8 +4,8 @@
     android:layout_height="match_parent"
     android:weightSum="1">
 
-    <EditText
-        android:id="@+id/et_graphExerciseName"
+    <AutoCompleteTextView
+        android:id="@+id/tv_graphExerciseName"
         android:layout_width="225dip"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -29,5 +29,6 @@
         android:layout_below="@+id/changeGraphExerciseBtn"
         android:layout_centerHorizontal="true"
         />
+
 
 </RelativeLayout>
