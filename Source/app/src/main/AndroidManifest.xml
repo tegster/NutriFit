@@ -129,7 +129,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".meal_graphs"
+            android:name=".meal_graph_calories"
             android:label="Meals Eaten"
             android:theme="@style/AppTheme" />
 

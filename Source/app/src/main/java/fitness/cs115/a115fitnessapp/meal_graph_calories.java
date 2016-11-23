@@ -29,12 +29,11 @@ import static fitness.cs115.a115fitnessapp.R.id.graphs;
 /**
  * Created by Matthew on 11/19/16.
  */
-
-public class meal_graphs extends AppCompatActivity {
+//this graphs the calories
+public class meal_graph_calories extends AppCompatActivity {
     public static final String DATE_FORMAT = "MM/dd/yyyy";
 
     ArrayList<String> arrTblNames = new ArrayList<String>();
-    ArrayList<Date> dates = new ArrayList<Date>();
     private TreeMap<Date, Integer> foodData = new TreeMap<>();
     GraphView graph;
 
@@ -65,7 +64,6 @@ public class meal_graphs extends AppCompatActivity {
 
 
         for (String s : arrTblNames) {
-            //dates.add(string_ISO8601_to_Date(s));
             try {
                 mydb = new meal_eatFoodDBHelper(this, s);
                 foodData.put(string_ISO8601_to_Date(s), mydb.getTotalCalories());//call function that gives calories associated with that specific day);
@@ -78,7 +76,7 @@ public class meal_graphs extends AppCompatActivity {
         }
         //foodData is the tree
 
-        ArrayList<DataPoint> graphPoints = new ArrayList<DataPoint>(dates.size());
+        ArrayList<DataPoint> graphPoints = new ArrayList<DataPoint>(arrTblNames.size());
         for (Map.Entry<Date, Integer> dataPt : foodData.entrySet()) {
             DataPoint dp = new DataPoint(dataPt.getKey(), dataPt.getValue());
             graphPoints.add(dp);
