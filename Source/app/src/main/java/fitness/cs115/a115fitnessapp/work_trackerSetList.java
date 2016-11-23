@@ -69,7 +69,6 @@ implements Chronometer.OnChronometerTickListener{
         //  Sets ListView
         //======================================================================================
         //Create the list.
-        //TODO: use the custom adapter to display exercise name, weight, and sets
         setListView = (ListView) findViewById(R.id.lv_exerList);
         setListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -86,7 +85,6 @@ implements Chronometer.OnChronometerTickListener{
         int startWeight = exerciseData.get(work_DBHelper.EXER_INDEX_START_WEIGHT);
         int incrWeight = exerciseData.get(work_DBHelper.EXER_INDEX_INC_WEIGHT);
         restTime = exerciseData.get(work_DBHelper.EXER_INDEX_REST_TIME);
-        //TODO: connect restTime to timer
 
         this.setNumbers = new ArrayList<>(sets);
         this.currReps = new ArrayList<>(sets);
