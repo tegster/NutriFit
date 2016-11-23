@@ -37,13 +37,13 @@
         <activity
             android:name=".meal_viewAllMeals"
             android:configChanges="orientation"
-            android:label="View all Meals"
+            android:label="View All Meals"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".meal_createMeal"
             android:configChanges="orientation"
-            android:label="Create meal"
+            android:label="Create Meal"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
