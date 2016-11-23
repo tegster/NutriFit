@@ -114,7 +114,7 @@
         android:inputType="number"
         android:ems="10"
         android:id="@+id/sugar"
-        android:hint="sugars"
+        android:hint="Sugars"
         android:layout_below="@+id/fiber"
         android:layout_alignParentEnd="true"
         android:layout_toEndOf="@+id/protein" />
