@@ -1,5 +1,7 @@
 package fitness.cs115.a115fitnessapp;
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.icu.text.DateFormat;
 import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
@@ -15,93 +17,100 @@ import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
 
+import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Map;
+import java.util.TreeMap;
 
-import static android.provider.Settings.System.DATE_FORMAT;
+import static fitness.cs115.a115fitnessapp.R.id.graph;
+import static fitness.cs115.a115fitnessapp.R.id.graphs;
 
 /**
  * Created by Matthew on 11/19/16.
  */
 
 public class meal_graphs extends AppCompatActivity {
+    public static final String DATE_FORMAT = "MM/dd/yyyy";
+
+    ArrayList<String> arrTblNames = new ArrayList<String>();
+    ArrayList<Date> dates = new ArrayList<Date>();
+    private TreeMap<Date, Integer> foodData = new TreeMap<>();
+    GraphView graph;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meal_graphs);
 
-        GraphView graph = (GraphView) findViewById(R.id.graph);
-
-
-        String test1 = "10/19/2016";
-        String test2 = "10/17/2016";
-        java.text.DateFormat df = new java.text.SimpleDateFormat("MM/dd/yyyy");
-        long epoch = 0;
-        long epoch2 = 0;
-        Date date;
-        try {
-            date = df.parse(test1);
-            epoch = date.getTime();
-            System.out.println("10/19/2016: " + epoch);
-
-            date = df.parse(test2);
-            epoch2 = date.getTime();
-            System.out.println("10/17/2016: " + epoch);
-
-        } catch (Exception e) {
-            System.out.println(e.toString());
+        SQLiteDatabase mDatabase = openOrCreateDatabase("Eatfood.db", SQLiteDatabase.CREATE_IF_NECESSARY, null);//the database with all of the foods by day
+        Cursor c = mDatabase.rawQuery("SELECT name FROM sqlite_master WHERE type='table'", null);
+        if (c.moveToFirst()) {
+            while (!c.isAfterLast()) {
+                if (!c.getString((c.getColumnIndex("name"))).equals("android_metadata")) {
+                    if (!arrTblNames.contains(c.getString(c.getColumnIndex("name")))) { //paranoid error checking, shouldn't be necessary
+                        arrTblNames.add(c.getString(c.getColumnIndex("name")));
+                    }
+                }
+                c.moveToNext();
+            }
         }
 
-        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[]{
-                new DataPoint(epoch, 75),
-                new DataPoint(epoch2, 80),
-                //  new DataPoint(500, 3)
-        });
+        graph = (GraphView) findViewById(R.id.graph);
+        SetUpGraph();
 
+    }
+
+    private void SetUpGraph() {
+        meal_eatFoodDBHelper mydb;
+
+
+        for (String s : arrTblNames) {
+            //dates.add(string_ISO8601_to_Date(s));
+            try {
+                mydb = new meal_eatFoodDBHelper(this, s);
+                foodData.put(string_ISO8601_to_Date(s), mydb.getTotalCalories());//call function that gives calories associated with that specific day);
+            } catch (Exception e) {
+                mydb = new meal_eatFoodDBHelper(this, "[" + s + "]");
+                System.out.println("test: " + string_ISO8601_to_Date(s));
+                System.out.println("total calroies is: " + mydb.getTotalCalories());
+                foodData.put(string_ISO8601_to_Date(s), mydb.getTotalCalories());//call function that gives calories associated with that specific day);
+            }
+        }
+        //foodData is the tree
+
+        ArrayList<DataPoint> graphPoints = new ArrayList<DataPoint>(dates.size());
+        for (Map.Entry<Date, Integer> dataPt : foodData.entrySet()) {
+            DataPoint dp = new DataPoint(dataPt.getKey(), dataPt.getValue());
+            graphPoints.add(dp);
+        }
+
+        graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(this));
+
+
+        graph.getViewport().setMinX(foodData.firstKey().getTime());
+        graph.getViewport().setMaxX(foodData.lastKey().getTime());
+        graph.getViewport().setXAxisBoundsManual(true);
+        graph.getGridLabelRenderer().setHumanRounding(false);
+
+        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(
+                graphPoints.toArray(new DataPoint[graphPoints.size()]));
 
         graph.addSeries(series);
-// set date label formatter
-        graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(this));
-        graph.getGridLabelRenderer().setNumHorizontalLabels(3); // only 4 because of the space
 
-// set manual x bounds to have nice steps
-        //    graph.getViewport().setMinX(epoch2);
-        //   graph.getViewport().setMaxX(epoch);
-        //  graph.getViewport().setXAxisBoundsManual(true);
-        graph.setTitle("Calories");
-
-
-
-
-/*Calendar calendar = Calendar.getInstance();
-Date d1 = calendar.getTime();
-calendar.add(Calendar.DATE, 1);
-Date d2 = calendar.getTime();
-calendar.add(Calendar.DATE, 1);
-Date d3 = calendar.getTime();
-
-GraphView graph = (GraphView) findViewById(R.id.graph);
-
-// you can directly pass Date objects to DataPoint-Constructor
-// this will convert the Date to double via Date#getTime()
-LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[] {
-    new DataPoint(d1, 1),
-    new DataPoint(d2, 5),
-    new DataPoint(d3, 3)
-});
-
-graph.addSeries(series);
-
-// set date label formatter
-graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getActivity()));
-graph.getGridLabelRenderer().setNumHorizontalLabels(3); // only 4 because of the space
-
-// set manual x bounds to have nice steps
-graph.getViewport().setMinX(d1.getTime());
-graph.getViewport().setMaxX(d3.getTime());
-graph.getViewport().setXAxisBoundsManual(true);
-
-// as we use dates as labels, the human rounding to nice readable numbers
-// is not necessary
-graph.getGridLabelRenderer().setHumanRounding(false);
-*/
     }
+
+    /*
+Converts ISO 8601 formatted String date representation into a Date object
+ */
+    private Date string_ISO8601_to_Date(String date_str) {
+        java.text.DateFormat df = new java.text.SimpleDateFormat(DATE_FORMAT);
+        Date date_obj;
+        try {
+            date_obj = df.parse(date_str);
+        } catch (ParseException pe) {
+            date_obj = null;
+        }
+        return date_obj;
+    }
+
 }
