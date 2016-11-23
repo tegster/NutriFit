@@ -41,12 +41,15 @@ public class work_trackerSetList extends AppCompatActivity{
             //TODO: add invariants for valid exercise name
             exerciseName = intent.getExtras().getString("eName");
             sessID = intent.getExtras().getInt("sessID");
+            //instantiate inner class
+            exData = work_db.new ExerciseData();
             exData.load_session_and_exer(exerciseName, sessID);
         }
         else {
             //exercise has returned from trackSetDetail
             exerciseName = exData.get_name();
             sessID = exData.get_session_id();
+            exData.update_logged_entries();
         }
 
         Log.d("work_trackerSetList", "session id: "+exData.get_session_id());
@@ -80,15 +83,27 @@ public class work_trackerSetList extends AppCompatActivity{
     @Override
     protected void onResume(){
         super.onResume();
+        updateExerciseData();
+    }
 
+    private void updateExerciseData() {
         exData.update_logged_entries();
+        //generate incremental numbering to label sets
+        ArrayList<String> setNumbering = new ArrayList<>(exData.get_target_sets());
+        int stopcount = exData.get_target_sets();
+        for (int idx = 0; idx < stopcount; ++idx){
+            setNumbering.add(String.valueOf(idx));
+        }
+
+        setListAdapter = new work_trackerSetList_adapter(this, exData, setNumbering);
+        setListView.setAdapter(setListAdapter);
     }
 
     private void trackSet(int setIndex) {
         Intent setIntent = new Intent(work_trackerSetList.this, work_trackerSetDetail.class);
         setIntent.putExtra("eName", exerciseName);
         setIntent.putExtra("sessID", sessID);
-        setIntent.putExtra("setNum", setIndex + 1);
+        setIntent.putExtra("setIndex", setIndex);
         setIntent.putExtra("goalWeight", exData.get_weights_used().get(setIndex));
         setIntent.putExtra("goalReps", exData.get_target_reps());
         startActivity(setIntent);

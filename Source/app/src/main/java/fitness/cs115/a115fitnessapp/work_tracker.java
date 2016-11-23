@@ -34,11 +34,18 @@ public class work_tracker extends AppCompatActivity{
              //if anything is passed as extra, workoutName must also be passed in as extra
              workoutName = intent.getExtras().getString("wName");
 
+             //TODO: find out why work tracker isnt updating data when returning from set list
+
+
+
              if (intent.hasExtra("sessID")){
                  sessID = intent.getExtras().getInt("sessID");
+                 //workData has already been created
              } else {
                  //the workout does not yet have an associated session
                  sessID = work_db.create_session(workoutName);
+                 //instantiate inner class
+                 workData = work_db.new WorkoutData();
              }
 
              //recreate the session from the DB data

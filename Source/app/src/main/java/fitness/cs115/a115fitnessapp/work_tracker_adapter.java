@@ -21,7 +21,7 @@ import java.util.ArrayList;
 public class work_tracker_adapter extends ArrayAdapter<String>{
 
     private final Activity context;
-    private work_DBHelper.WorkoutData work_data;
+    private static work_DBHelper.WorkoutData work_data;
     ArrayList<String> strExercises;
     ArrayList<String> strCurrSets;
     ArrayList<String> strTargetSets;
@@ -60,13 +60,14 @@ public class work_tracker_adapter extends ArrayAdapter<String>{
         exerciseNameText.setText(currentEx.get_name());
 
         //Current Set
-        setsDoneText.setText(currentEx.get_sets_completed());
+        setsDoneText.setText(String.valueOf(currentEx.get_sets_completed()));
 
         //Target Sets
-        setsGoalText.setText(currentEx.get_target_sets());
+        setsGoalText.setText(String.valueOf(currentEx.get_target_sets()));
 
         //Weight
-        weightText.setText(currentEx.get_target_weights().get(currentEx.get_sets_completed()));
+        weightText.setText(String.valueOf(
+                currentEx.get_weights_used().get(currentEx.get_sets_completed())) );
 
         //Exercise Completion Status
         //Zero sets = Not Started, (Number <= Target) = In Progress, (Number == Target) = Complete

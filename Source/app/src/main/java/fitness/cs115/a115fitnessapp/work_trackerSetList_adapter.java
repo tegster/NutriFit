@@ -19,22 +19,14 @@ import java.util.ArrayList;
 public class work_trackerSetList_adapter extends ArrayAdapter<String>{
 
     private final Activity context;
-    private final ArrayList<String> setNumbers;
-    private final ArrayList<String> currReps;
-    private final ArrayList<String> targetReps;
-    private final ArrayList<String> weights;
+    static work_DBHelper.ExerciseData exData;
 
-    public work_trackerSetList_adapter(Activity context, ArrayList<String> setNumbers,
-                                       ArrayList<String> currReps, ArrayList<String> targetReps,
-                                       ArrayList<String> weights){
+    public work_trackerSetList_adapter(Activity context, work_DBHelper.ExerciseData exerData,
+                                       ArrayList<String> setNumbers){
         super(context, R.layout.list_tracker_exer_single, setNumbers);
         this.context = context;
-        this.setNumbers = setNumbers;
-        this.currReps = currReps;
-        this.targetReps = targetReps;
-        this.weights = weights;
+        this.exData = exerData;
     }
-
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent){
@@ -49,18 +41,16 @@ public class work_trackerSetList_adapter extends ArrayAdapter<String>{
         TextView weightText = (TextView) rowView.findViewById(R.id.tv_weight);
 
         //Set Number
-        setsNumText.setText(setNumbers.get(position));
-
-        //Current Reps
-        repsText.setText(currReps.get(position));
+        setsNumText.setText(String.valueOf(position +1));
 
         //Target Reps
-        repsGoalText.setText(targetReps.get(position));
+        repsGoalText.setText(String.valueOf(exData.get_target_reps()) );
+
+        //Current Reps
+        repsText.setText(String.valueOf(exData.get_reps_completed().get(position)) );
 
         //Weight
-        weightText.setText(weights.get(position));
-
-
+        weightText.setText(String.valueOf(exData.get_weights_used().get(position)) );
 
         return rowView;
     }

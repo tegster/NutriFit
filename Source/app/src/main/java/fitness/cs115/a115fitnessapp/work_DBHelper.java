@@ -27,8 +27,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import static android.R.attr.tag;
-
 /**
  * This class serves as an interface for adding, modifying and retrieving data
  * from the user workout database.
@@ -171,10 +169,6 @@ public class work_DBHelper extends SQLiteOpenHelper {
 
         public int get_target_reps() {
             return target_reps;
-        }
-
-        public ArrayList<Integer> get_target_weights() {
-            return weights_used;
         }
 
         public int get_rest_time() {
@@ -758,10 +752,10 @@ public class work_DBHelper extends SQLiteOpenHelper {
 //                "select " + PROG_INDEX_PROG_NAME + " from " +
 //                        PROG_INDEX_TABLE_NAME, null);
 
-        //retrieve the names of all exercises in the exer index table
-        Cursor res = db.query(EXER_INDEX_TABLE_NAME,
-                new String[]{EXER_INDEX_EXER_NAME},
-                EXER_INDEX_DISABLED + "= 0",
+        //retrieve the names of all programs in the prog index table
+        Cursor res = db.query(PROG_INDEX_TABLE_NAME,
+                new String[]{PROG_INDEX_PROG_NAME},
+                PROG_INDEX_DISABLED + " = 0",
                 null, null, null, null);
 
         res.moveToFirst();
@@ -1285,7 +1279,6 @@ public class work_DBHelper extends SQLiteOpenHelper {
                     new Exception().getStackTrace()[0]);
         }
 
-        String exName = exer_name;
         SQLiteDatabase db = this.getReadableDatabase();
         int exer_id = -1;
 
@@ -1513,27 +1506,6 @@ public class work_DBHelper extends SQLiteOpenHelper {
 
         return (int) inserted_row_id;
     }
-
-//        String name_entry;
-//        Integer sets_entry, reps_entry, weight_entry, rest_time_entry;
-//        WorkoutData work_data = new WorkoutData();
-//        ExerciseData ex_data;
-//        //load data from database into the data object to be returned
-//        res.moveToFirst();
-//        while (!res.isAfterLast()) {
-//            name_entry = res.getString(res.getColumnIndex(WORK_DETAIL_EXER_NAME));
-//            sets_entry = res.getInt(res.getColumnIndex(WORK_DETAIL_SETS));
-//            reps_entry = res.getInt(res.getColumnIndex(WORK_DETAIL_REPS));
-//            weight_entry = res.getInt(res.getColumnIndex(WORK_DETAIL_START_WEIGHT));
-//            rest_time_entry = res.getInt(res.getColumnIndex(WORK_DETAIL_REST_TIME));
-//
-//            ex_data = new ExerciseData()
-//            work_data.add_exer_entry(name_entry,sets_entry,reps_entry,weight_entry,rest_time_entry);
-//            res.moveToNext();
-//        }
-//        res.close();
-//        return work_data;
-//    }
 
     public HashMap<String, Integer> get_exer_index_entry(String exercise_name){
         if (DEBUG) {
