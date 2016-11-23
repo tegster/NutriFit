@@ -49,7 +49,7 @@
         <activity
             android:name=".meal_editMeal"
             android:configChanges="orientation"
-            android:label="Eat or Edit Meal"
+            android:label="Edit Meal"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
