@@ -26,10 +26,13 @@ public class MainActivity extends AppCompatActivity {
     String[] promptUserText = {
             "   Nutrition",
             "   Fitness",
+            "   Graphs",
+
     };
     int[] imageId = {
             R.drawable.restaurant48,
             R.drawable.dumbbell48,
+            R.drawable.barchartfilled50,
     };
 
         @Override
@@ -78,6 +81,9 @@ public class MainActivity extends AppCompatActivity {
                         } else if (selectedCategories.toString().equals("[   Fitness]")) {
                             //  Toast.makeText(getApplicationContext(), "Launching Daily Food log now", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(MainActivity.this, work_programList.class);
+                            startActivity(intent);
+                        } else if (selectedCategories.toString().equals("[   Graphs]"))  {
+                            Intent intent = new Intent(MainActivity.this, graph_maxExerciseWeight.class);
                             startActivity(intent);
                         }
                     }
