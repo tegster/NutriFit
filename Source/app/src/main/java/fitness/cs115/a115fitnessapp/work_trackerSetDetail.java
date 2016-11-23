@@ -91,8 +91,7 @@ public class work_trackerSetDetail extends AppCompatActivity{
                 int actualReps = Integer.parseInt(actualRepsInput.getText().toString());
                 int actualWeight = Integer.parseInt(totalWeightInput.getText().toString());
                 work_db.log_set(sessID, exerciseName, setNum, goalReps, actualReps, actualWeight);
-                //TODO: start the timer!
-                Toast.makeText(work_trackerSetDetail.this, "set logged. The timer would have been started.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(work_trackerSetDetail.this, "Good work. Rest until the timer says \"Ready\".", Toast.LENGTH_SHORT).show();
                 returnToSetList();
             }
         });
@@ -156,6 +155,7 @@ public class work_trackerSetDetail extends AppCompatActivity{
         Intent setListIntent = new Intent(work_trackerSetDetail.this, work_trackerSetList.class);
         setListIntent.putExtra("eName", exerciseName);
         setListIntent.putExtra("sessID", sessID);
+        setListIntent.putExtra("isSetLogged", true);
         setListIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(setListIntent);
     }
