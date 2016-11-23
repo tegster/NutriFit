@@ -310,8 +310,6 @@ public class meal_foodDBHelper extends SQLiteOpenHelper {
     }
 
 
-
-
     //true means the data is in the databse
     //true means food name is already in database
     //false means food is not in database

@@ -29,7 +29,7 @@ public class meal_viewEatenMeal extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_meal_view_eaten_meal); //can reuse barcode scan result xml file since it has all of the same info on it
+        setContentView(R.layout.activity_meal_view_eaten_meal);
         listView = (ListView) findViewById(R.id.foodList);
         try {
             Bundle extras = getIntent().getExtras();    //meal name coming in to be edited
