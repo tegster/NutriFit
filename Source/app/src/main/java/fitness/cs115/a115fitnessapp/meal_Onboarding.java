@@ -146,4 +146,12 @@ public class meal_Onboarding extends Activity {
             tv.setBackgroundColor(Color.TRANSPARENT);
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(meal_Onboarding.this, MainActivity.class);
+        startActivity(intent);
+        super.onBackPressed();
+    }
+
 }
