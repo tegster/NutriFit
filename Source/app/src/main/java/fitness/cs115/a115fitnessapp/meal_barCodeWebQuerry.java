@@ -24,9 +24,10 @@ import java.util.Map;
 /**
  * Created by Matthew on 11/8/16.
  */
-
+//this class takes the scanned barcode and sends it to the nutritionix server using our api key
+    //the response to this contains all of the macronutrients that we need
 public class meal_barCodeWebQuerry extends AppCompatActivity {
-    private static final boolean DEBUG = true;
+    private static final boolean DEBUG = false;
     private meal_foodDBHelper mydb;
     private String food_name = "";
     private double calories = 0;

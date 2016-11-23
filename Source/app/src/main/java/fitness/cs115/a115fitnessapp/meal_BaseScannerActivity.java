@@ -8,7 +8,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-
+//this is a helper class for the barcode scanner
 public class meal_BaseScannerActivity extends AppCompatActivity {
     public void setupToolbar() {
         final ActionBar ab = getSupportActionBar();

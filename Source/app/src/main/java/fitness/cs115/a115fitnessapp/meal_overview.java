@@ -10,6 +10,8 @@ import android.widget.Button;
  * Created by Matthew on 10/9/16.
  */
 
+//old code, used for displaying all of the nutrition stuff
+    //replaced with meal_Onboarding
 public class meal_overview extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {

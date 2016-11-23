@@ -26,7 +26,7 @@ import static android.R.layout.simple_list_item_1;
  * Created by Matthew on 10/24/16.
  * dialog box stuff modified from Henry's code
  */
-
+//view all the meals that the user has created
 public class meal_viewAllMeals extends AppCompatActivity {
     ListView listView;
     ArrayList<String> arrTblNames = new ArrayList<String>();

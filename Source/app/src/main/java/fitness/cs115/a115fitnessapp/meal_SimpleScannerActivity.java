@@ -13,7 +13,7 @@ import android.widget.Toast;
 import com.google.zxing.Result;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
-
+//helper class to deal with barcode scan
 public class meal_SimpleScannerActivity extends meal_BaseScannerActivity implements ZXingScannerView.ResultHandler {
     private ZXingScannerView mScannerView;
     private final static boolean DEBUG = false;

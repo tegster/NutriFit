@@ -15,7 +15,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteDatabase;
 
 import static android.R.attr.id;
-
+//helper class for making meals
 public class meal_mealDBHelper extends SQLiteOpenHelper {
     private static final Boolean DEBUG = true;
 
