@@ -4,10 +4,19 @@ package fitness.cs115.a115fitnessapp;
  * Created by Matthew on 11/8/16.
  */
 
+import android.content.DialogInterface;
+import android.content.pm.PackageManager;
+import android.os.Build;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+
+
 //this is a helper class for the barcode scanner
 public class meal_BaseScannerActivity extends AppCompatActivity {
     public void setupToolbar() {
@@ -27,4 +36,7 @@ public class meal_BaseScannerActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+
+
 }
