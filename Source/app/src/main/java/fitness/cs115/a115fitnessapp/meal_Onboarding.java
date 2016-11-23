@@ -87,7 +87,7 @@ public class meal_Onboarding extends Activity {
                     //  System.out.println(selectedCategories.toString());
                     if (selectedCategories.toString().equals("[   Graphs]")) {
                         //Toast.makeText(getApplicationContext(), "Launching Graph now", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(meal_Onboarding.this, meal_graph_calories.class);
+                        Intent intent = new Intent(meal_Onboarding.this, meal_Graph_Overview.class);
                         startActivity(intent);
                     } else if (selectedCategories.toString().equals("[   Daily Food Log]")) {
                         //  Toast.makeText(getApplicationContext(), "Launching Daily Food log now", Toast.LENGTH_SHORT).show();

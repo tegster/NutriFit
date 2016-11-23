@@ -35,6 +35,13 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
+            android:name=".meal_Graph_Overview"
+            android:configChanges="orientation"
+            android:label="Graphing Overview"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+
+        <activity
             android:name=".meal_viewAllMeals"
             android:configChanges="orientation"
             android:label="View All Meals"
@@ -130,8 +137,21 @@
             android:theme="@style/AppTheme" />
         <activity
             android:name=".meal_graph_calories"
-            android:label="Meals Eaten"
+            android:label="Calories"
             android:theme="@style/AppTheme" />
+        <activity
+            android:name=".meal_graph_carbs"
+            android:label="Carbs"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".meal_graph_fat"
+            android:label="Fat"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".meal_graph_protein"
+            android:label="Protein"
+            android:theme="@style/AppTheme" />
+
 
         <activity
             android:name=".meal_viewEatenMeal"
