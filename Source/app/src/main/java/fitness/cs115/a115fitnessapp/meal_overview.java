@@ -65,11 +65,11 @@ public class meal_overview extends AppCompatActivity {
         });
 
         //this is the web query
-        Button barcode = (Button) findViewById(R.id.barCode);
-        barcode.setOnClickListener(new Button.OnClickListener() {
+        Button graph = (Button) findViewById(R.id.graphs);
+        graph.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(meal_overview.this, meal_barCodeWebQuerry.class);
+                Intent intent = new Intent(meal_overview.this, meal_graphs.class);
                 startActivity(intent);
             }
         });
@@ -84,6 +84,14 @@ public class meal_overview extends AppCompatActivity {
             }
         });
 
+        Button onboarding = (Button) findViewById(R.id.onboarding);
+        onboarding.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(meal_overview.this, meal_Onboarding.class);
+                startActivity(intent);
+            }
+        });
 
     }
 }

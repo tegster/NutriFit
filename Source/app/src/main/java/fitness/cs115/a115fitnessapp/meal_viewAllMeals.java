@@ -32,7 +32,7 @@ public class meal_viewAllMeals extends AppCompatActivity {
     ArrayList<String> arrTblNames = new ArrayList<String>();
     AlertDialog.Builder programOptionMenu;
     private String selectedTable;
-    private final boolean DEBUG = true;
+    private final boolean DEBUG = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,7 +114,9 @@ public class meal_viewAllMeals extends AppCompatActivity {
         if (c.moveToFirst()) {
             while (!c.isAfterLast()) {
                 if (!c.getString((c.getColumnIndex("name"))).equals("android_metadata")) {
-                    arrTblNames.add(c.getString(c.getColumnIndex("name")));
+                    if (!arrTblNames.contains(c.getString(c.getColumnIndex("name")))) { //paranoid error checking, shouldn't be necessary
+                        arrTblNames.add(c.getString(c.getColumnIndex("name")));
+                    }
                 }
                 c.moveToNext();
             }
@@ -154,6 +156,7 @@ public class meal_viewAllMeals extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "click: " + position + " " + arrTblNames.get(position), Toast.LENGTH_LONG).show();
                 }
                 eatMeal();
+                Toast.makeText(meal_viewAllMeals.this, "You have eaten meal: " + arrTblNames.get(position), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -162,13 +165,22 @@ public class meal_viewAllMeals extends AppCompatActivity {
     private void eatMeal() {
         //selectedTable contains the name of the meal table being eaten
         SQLiteDatabase mDatabase = openOrCreateDatabase("meal.db", SQLiteDatabase.CREATE_IF_NECESSARY, null);
-        mDatabase.execSQL(
-                "CREATE TABLE IF NOT EXISTS " + selectedTable + " " +
-                        "(id INTEGER PRIMARY KEY, foodname text, calories DECIMAL(5,1), totalfat DECIMAL(5,1), transfat DECIMAL(5,1)," +
-                        "satfat DECIMAL(5,1), cholestrol DECIMAL(5,1), sodium DECIMAL(5,1), carbs DECIMAL(5,1)," +
-                        "fiber DECIMAL(5,1), sugar DECIMAL(5,1), protein DECIMAL(5,1));"
-        );
-
+        try {
+            mDatabase.execSQL(
+                    "CREATE TABLE IF NOT EXISTS " + selectedTable + " " +
+                            "(id INTEGER PRIMARY KEY, foodname text, calories DECIMAL(5,1), totalfat DECIMAL(5,1), transfat DECIMAL(5,1)," +
+                            "satfat DECIMAL(5,1), cholestrol DECIMAL(5,1), sodium DECIMAL(5,1), carbs DECIMAL(5,1)," +
+                            "fiber DECIMAL(5,1), sugar DECIMAL(5,1), protein DECIMAL(5,1));"
+            );
+        } catch (Exception e) {
+            selectedTable = "[" + selectedTable + "]";
+            mDatabase.execSQL(
+                    "CREATE TABLE IF NOT EXISTS " + selectedTable + " " +
+                            "(id INTEGER PRIMARY KEY, foodname text, calories DECIMAL(5,1), totalfat DECIMAL(5,1), transfat DECIMAL(5,1)," +
+                            "satfat DECIMAL(5,1), cholestrol DECIMAL(5,1), sodium DECIMAL(5,1), carbs DECIMAL(5,1)," +
+                            "fiber DECIMAL(5,1), sugar DECIMAL(5,1), protein DECIMAL(5,1));"
+            );
+        }
 
         //cursor needs to iterate through mealdb, not food db. since the data we need is stored in meal
         SQLiteDatabase mealdb = openOrCreateDatabase("meal.db", SQLiteDatabase.CREATE_IF_NECESSARY, null);
@@ -190,6 +202,8 @@ public class meal_viewAllMeals extends AppCompatActivity {
         meal_eatFoodDBHelper mydb;
         mydb = new meal_eatFoodDBHelper(this, date);
         while (res.isAfterLast() == false) {
+            //the following code is incredibly useful for debugging because it separates the foodDB from the meals DB
+            //the items in the array list only correspond to the foodDB
             /*
             ArrayList<String> array_list = new ArrayList<String>();
             array_list.add("foodname " + res.getString(res.getColumnIndex(mydb.Col_2)));
@@ -212,8 +226,9 @@ public class meal_viewAllMeals extends AppCompatActivity {
                     res.getDouble(res.getColumnIndex(mydb.Col_10)), res.getDouble(res.getColumnIndex(mydb.Col_11)),
                     res.getDouble(res.getColumnIndex(mydb.Col_12))
             );
-
-            System.out.println("total items in table is: " + mydb.getAllmacrosInfo());
+            if (DEBUG) {
+                System.out.println("total items in table is: " + mydb.getAllmacrosInfo());
+            }
             res.moveToNext();
         }
         res.close();
