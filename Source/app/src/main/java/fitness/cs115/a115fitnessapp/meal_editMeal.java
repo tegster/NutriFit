@@ -184,7 +184,7 @@ public class meal_editMeal extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(meal_editMeal.this, meal_overview.class);
+        Intent intent = new Intent(meal_editMeal.this, meal_Onboarding.class);
         startActivity(intent);
         super.onBackPressed();
     }
