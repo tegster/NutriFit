@@ -5,17 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:maxLines="1"
-        android:id="@+id/et_workoutName"
-        android:hint="Workout Name"
-        android:layout_toStartOf="@+id/btn_saveName" />
-
     <android.support.design.widget.FloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -29,19 +18,11 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp" />
 
-    <Button
-        android:text="Save"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:id="@+id/btn_saveName" />
 
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/lv_exerciseList"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/btn_saveName" />
+        android:id="@+id/lv_workExerciseList"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
 </RelativeLayout>

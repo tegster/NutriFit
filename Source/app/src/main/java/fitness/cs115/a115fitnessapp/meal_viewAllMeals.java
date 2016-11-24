@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.RequiresPermission;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -26,7 +27,7 @@ import static android.R.layout.simple_list_item_1;
  * Created by Matthew on 10/24/16.
  * dialog box stuff modified from Henry's code
  */
-
+//view all the meals that the user has created
 public class meal_viewAllMeals extends AppCompatActivity {
     ListView listView;
     ArrayList<String> arrTblNames = new ArrayList<String>();
@@ -127,7 +128,14 @@ public class meal_viewAllMeals extends AppCompatActivity {
                 arrTblNames);
 
         listView.setAdapter(arrayAdapter);
-
+        if(listView.getCount()==0){ //prompt user in case they are confused
+            Toast toast = Toast.makeText(getApplicationContext(),"You need to create meals before they will show up here.", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0, 0); //make toast show up in center of screen
+            toast.show();
+        } else {
+            Toast toast = Toast.makeText(getApplicationContext(), "Click a meal to eat it, or long click to edit.", Toast.LENGTH_SHORT);
+            toast.show();
+        }
         setUpClickListener();
 
     }

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:text="Placeholder Exercise Name"
+        android:textSize="16sp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_toStartOf="@+id/tv_setsText"
+        android:padding="10dp"
+        android:maxLines="1"
+        android:id="@+id/tv_exerciseName"
+        android:textColor="?android:attr/textColorPrimary" />
+
+    <TextView
+        android:text="Sets "
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toStartOf="@+id/tv_setsDone"
+        android:id="@+id/tv_setsText"
+        android:textSize="16sp"
+        android:textColor="?android:attr/textColorPrimary"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:paddingLeft="7dp" />
+
+    <TextView
+        android:text="99"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toStartOf="@+id/tv_divider"
+        android:padding="10dp"
+        android:textSize="16sp"
+        android:id="@+id/tv_setsDone"
+        android:textColor="?android:attr/textColorPrimary" />
+
+    <TextView
+        android:text="/"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_divider"
+        android:layout_alignParentTop="true"
+        android:layout_toStartOf="@+id/tv_targetSets"
+        android:padding="10dp"
+        android:textSize="16sp"
+        android:textColor="?android:attr/textColorPrimary" />
+
+    <TextView
+        android:text="99"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_targetSets"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:padding="10dp"
+        android:textSize="16sp"
+        android:textColor="?android:attr/textColorPrimary" />
+
+    <TextView
+        android:text="Weight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_exerciseName"
+        android:layout_alignParentStart="true"
+        android:id="@+id/tv_weight"
+        android:textColor="?android:attr/textColorPrimary"
+        android:paddingRight="7dp"
+        android:paddingTop="10dp"
+        android:paddingLeft="10dp" />
+
+    <TextView
+        android:text="Not Started"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_setsDone"
+        android:layout_alignParentEnd="true"
+        android:padding="10dp"
+        android:textColor="#ffcc0000"
+        android:id="@+id/tv_status" />
+
+    <TextView
+        android:text="lbs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_weightUnit"
+        android:textColor="?android:attr/textColorPrimary"
+        android:layout_below="@+id/tv_exerciseName"
+        android:layout_toEndOf="@+id/tv_weight"
+        android:paddingTop="10dp" />
+
+</RelativeLayout>

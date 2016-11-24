@@ -18,7 +18,8 @@ import java.util.HashMap;
  * Created by Matthew on 10/13/16.
  * Teg wrote extract integers and helped with other things
  */
-
+//the purpose of this class is to eat the contents of a meal
+    //and save the changes of the meal to the database.
 public class meal_editMeal extends AppCompatActivity {
     private meal_mealDBHelper mydb;
     private meal_foodDBHelper fooddb = new meal_foodDBHelper(this); //fooddb is the fooddatabase accessor
@@ -293,7 +294,7 @@ public class meal_editMeal extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(meal_editMeal.this, meal_overview.class);
+        Intent intent = new Intent(meal_editMeal.this, meal_Onboarding.class);
         startActivity(intent);
         super.onBackPressed();
     }

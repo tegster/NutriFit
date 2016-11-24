@@ -25,37 +25,44 @@
         <activity
             android:name=".meal_addFood"
             android:configChanges="orientation"
-            android:label="@string/app_name"
+            android:label="Add Food"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".meal_SimpleScannerActivity"
             android:configChanges="orientation"
-            android:label="@string/app_name"
+            android:label="Barcode Scanner"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
+            android:name=".meal_Graph_Overview"
+            android:configChanges="orientation"
+            android:label="Graphing Overview"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+
+        <activity
             android:name=".meal_viewAllMeals"
             android:configChanges="orientation"
-            android:label="@string/app_name"
+            android:label="View All Meals"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".meal_createMeal"
             android:configChanges="orientation"
-            android:label="@string/app_name"
+            android:label="Create Meal"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".meal_editMeal"
             android:configChanges="orientation"
-            android:label="@string/app_name"
+            android:label="Edit Meal"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".meal_barCodeWebQuerry"
             android:configChanges="orientation"
-            android:label="@string/app_name"
+            android:label="Bar Code Lookup"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
 
@@ -68,13 +75,15 @@
 
         <activity
             android:name=".work_programList"
+            android:launchMode="singleTop"
             android:configChanges="orientation"
-            android:label="Fitness Log"
+            android:label="My Workout Programs"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
 
         <activity
             android:name=".work_workoutList"
+            android:launchMode="singleTop"
             android:configChanges="orientation"
             android:label="Program Name Placeholder"
             android:screenOrientation="portrait"
@@ -82,6 +91,7 @@
 
         <activity
             android:name=".work_exerciseList"
+            android:launchMode="singleTop"
             android:configChanges="orientation"
             android:label="Program Name Placeholder"
             android:screenOrientation="portrait"
@@ -89,8 +99,10 @@
 
         <activity
             android:name=".work_createWorkout"
+            android:launchMode="singleTop"
+            android:parentActivityName=".work_createProgram"
             android:configChanges="orientation"
-            android:label="New Workout"
+            android:label="Edit Workout"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
@@ -102,13 +114,17 @@
 
         <activity
             android:name=".work_createProgram"
+            android:launchMode="singleTop"
+            android:parentActivityName=".work_programList"
             android:configChanges="orientation"
-            android:label="New Program"
+            android:label="Edit Workout Program"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
 
         <activity
             android:name=".work_tracker"
+            android:launchMode="singleTop"
+            android:parentActivityName=".work_workoutList"
             android:configChanges="orientation"
             android:label="Workout Tracker"
             android:screenOrientation="portrait"
@@ -120,9 +136,22 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".meal_graphs"
-            android:label="Meals Eaten"
+            android:name=".meal_graph_calories"
+            android:label="Calories"
             android:theme="@style/AppTheme" />
+        <activity
+            android:name=".meal_graph_carbs"
+            android:label="Carbs"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".meal_graph_fat"
+            android:label="Fat"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".meal_graph_protein"
+            android:label="Protein"
+            android:theme="@style/AppTheme" />
+
 
         <activity
             android:name=".meal_viewEatenMeal"
@@ -139,10 +168,55 @@
         <activity
             android:name=".meal_createDayLog"
             android:configChanges="orientation"
-            android:label="@string/app_name"
+            android:label="Create Day Log"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
 
+        <activity
+            android:name=".work_newProgramName"
+            android:configChanges="orientation"
+            android:label="Enter New Program Name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+
+        <activity
+            android:name=".work_newWorkoutName"
+            android:configChanges="orientation"
+            android:label="Enter New Workout Name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+
+        <activity
+            android:name=".work_createExercise"
+            android:parentActivityName=".work_createWorkout"
+            android:launchMode="singleTop"
+            android:configChanges="orientation"
+            android:label="Edit Exercise"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+
+        <activity
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
+            android:name=".work_trackerSetList"
+            android:parentActivityName=".work_tracker"
+            android:launchMode="singleTop"
+            android:label="Workout Tracker"
+            android:theme="@style/AppTheme" />
+
+        <activity
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
+            android:name=".work_trackerSetDetail"
+            android:label="Workout Tracker"
+            android:theme="@style/AppTheme" />
+
+        <activity
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
+            android:name=".graph_maxExerciseWeight"
+            android:label="Workout Progress"
+            android:theme="@style/AppTheme" />
 
         <meta-data
             android:name="com.google.android.gms.version"

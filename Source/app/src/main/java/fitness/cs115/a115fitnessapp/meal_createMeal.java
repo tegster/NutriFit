@@ -19,7 +19,8 @@ import com.google.android.gms.common.api.GoogleApiClient;
 /**
  * Created by Matthew on 10/9/16.
  */
-
+//makes a new meal that is added to the meals database
+    //note the program flow commented below
 public class meal_createMeal extends AppCompatActivity {
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -60,6 +61,10 @@ public class meal_createMeal extends AppCompatActivity {
                     return;
                 }
                 if (checkIfTableExists(input)) {
+                    meal_text_view.setError("There is already a meal with this name");
+                    return;
+                }
+                if (checkIfTableExists("["+input+"]")) {
                     meal_text_view.setError("There is already a meal with this name");
                     return;
                 }

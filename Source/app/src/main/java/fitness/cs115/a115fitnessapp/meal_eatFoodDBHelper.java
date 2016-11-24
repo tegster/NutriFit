@@ -19,9 +19,9 @@ import android.database.sqlite.SQLiteDatabase;
 import static android.R.attr.id;
 
 import android.database.sqlite.SQLiteDatabase;
-
+//used to return values that are used for summing the amount of each nutrition consumed
 public class meal_eatFoodDBHelper extends SQLiteOpenHelper {
-    private static final Boolean DEBUG = true;
+    private static final Boolean DEBUG = false;
 
     //initializing the database
     private static final String DATABASE_NAME = "Eatfood.db";

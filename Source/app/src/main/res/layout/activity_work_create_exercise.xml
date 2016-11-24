@@ -1,66 +1,160 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:id="@+id/et_exerciseName"
-        android:hint="Exercise Name" />
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="number"
-        android:ems="10"
-        android:layout_below="@+id/et_exerciseName"
-        android:layout_alignParentStart="true"
-        android:id="@+id/editText3"
-        android:hint="Sets" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="number"
-        android:ems="10"
-        android:layout_below="@+id/editText3"
-        android:layout_alignEnd="@+id/editText3"
-        android:id="@+id/editText4"
-        android:hint="Reps" />
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="number"
-        android:ems="10"
-        android:layout_below="@+id/editText4"
-        android:layout_alignParentStart="true"
-        android:id="@+id/editText5"
-        android:hint="Starting Weight" />
+        <EditText
+            android:id="@+id/et_restTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/et_incrWeight"
+            android:ems="10"
+            android:hint="Rest Time"
+            android:inputType="number"
+            android:layout_alignParentEnd="true"
+            android:layout_alignStart="@+id/et_incrWeight" />
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="number"
-        android:ems="10"
-        android:layout_below="@+id/editText5"
-        android:layout_alignParentStart="true"
-        android:id="@+id/editText6"
-        android:hint="Increment Weight" />
+        <EditText
+            android:id="@+id/et_startWeight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/et_reps"
+            android:ems="10"
+            android:hint="Starting Weight"
+            android:inputType="number"
+            android:layout_alignParentEnd="true"
+            android:layout_alignStart="@+id/et_incrWeight" />
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="number"
-        android:ems="10"
-        android:layout_below="@+id/editText6"
-        android:layout_alignEnd="@+id/editText6"
-        android:id="@+id/editText7"
-        android:hint="Rest Time" />
+        <Button
+            android:id="@+id/confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/et_restTime"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="21dp"
+            android:imeOptions="actionDone"
+            android:text="Confirm" />
 
-</RelativeLayout>
+        <EditText
+            android:id="@+id/et_exerciseName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Exercise Name"
+            android:inputType="textPersonName"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_toEndOf="@+id/textView5"
+            android:layout_alignStart="@+id/et_sets" />
+
+        <EditText
+            android:id="@+id/et_sets"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Sets"
+            android:inputType="number"
+            android:layout_below="@+id/et_exerciseName"
+            android:layout_alignParentEnd="true"
+            android:layout_toEndOf="@+id/textView7" />
+
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sets"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="18sp"
+            android:layout_alignBaseline="@+id/et_sets"
+            android:layout_alignBottom="@+id/et_sets"
+            android:layout_alignEnd="@+id/textView6" />
+
+        <EditText
+            android:id="@+id/et_reps"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Reps per Set"
+            android:inputType="number"
+            android:layout_below="@+id/et_sets"
+            android:layout_alignParentEnd="true"
+            android:layout_alignStart="@+id/et_startWeight" />
+
+        <TextView
+            android:id="@+id/textView11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Reps"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="18sp"
+            android:layout_alignBaseline="@+id/et_reps"
+            android:layout_alignBottom="@+id/et_reps"
+            android:layout_toStartOf="@+id/et_reps" />
+
+        <EditText
+            android:id="@+id/et_incrWeight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Increment Weight"
+            android:inputType="number"
+            android:layout_below="@+id/et_startWeight"
+            android:layout_alignParentEnd="true"
+            android:layout_toEndOf="@+id/textView15" />
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Rest Time"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="18sp"
+            android:layout_alignBaseline="@+id/et_restTime"
+            android:layout_alignBottom="@+id/et_restTime"
+            android:layout_toStartOf="@+id/et_restTime" />
+
+        <TextView
+            android:id="@+id/textView15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Increment Weight"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="18sp"
+            android:textAlignment="viewEnd"
+            android:layout_alignBaseline="@+id/et_incrWeight"
+            android:layout_alignBottom="@+id/et_incrWeight"
+            android:layout_alignParentStart="true"
+            android:paddingLeft="5dp" />
+
+        <TextView
+            android:id="@+id/textView14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Starting Weight"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="18sp"
+            android:textAlignment="viewEnd"
+            android:layout_alignBaseline="@+id/et_startWeight"
+            android:layout_alignBottom="@+id/et_startWeight"
+            android:layout_toStartOf="@+id/et_startWeight" />
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Exercise Name"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="18sp"
+            android:layout_alignBaseline="@+id/et_exerciseName"
+            android:layout_alignBottom="@+id/et_exerciseName"
+            android:layout_toStartOf="@+id/et_sets" />
+
+    </RelativeLayout>
+</ScrollView>

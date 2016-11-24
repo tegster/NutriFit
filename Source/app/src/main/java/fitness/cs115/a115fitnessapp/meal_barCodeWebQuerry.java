@@ -2,6 +2,7 @@ package fitness.cs115.a115fitnessapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -24,9 +25,10 @@ import java.util.Map;
 /**
  * Created by Matthew on 11/8/16.
  */
-
+//this class takes the scanned barcode and sends it to the nutritionix server using our api key
+//the response to this contains all of the macronutrients that we need
 public class meal_barCodeWebQuerry extends AppCompatActivity {
-    private static final boolean DEBUG = true;
+    private static final boolean DEBUG = false;
     private meal_foodDBHelper mydb;
     private String food_name = "";
     private double calories = 0;
@@ -124,45 +126,44 @@ public class meal_barCodeWebQuerry extends AppCompatActivity {
                     TextView text = (TextView) findViewById(R.id.foodName);
                     text.setText(food_name);
                     text = (TextView) findViewById(R.id.calories);
-                    text.setText("calories :" + Double.toString(calories));
+                    text.setText("Calories:" + Double.toString(calories));
                     text = (TextView) findViewById(R.id.saturatedfat);
-                    text.setText("sat_fat :" + Double.toString(sat_fat));
+                    text.setText("Sat Fat:" + Double.toString(sat_fat));
                     text = (TextView) findViewById(R.id.transfat);
-                    text.setText("trans fat :" + Double.toString(tran_fat));
+                    text.setText("Trans Fat:" + Double.toString(tran_fat));
                     text = (TextView) findViewById(R.id.cholestrol);
-                    text.setText("cholesterol :" + Double.toString(cholesterol));
+                    text.setText("Cholesterol:" + Double.toString(cholesterol));
                     text = (TextView) findViewById(R.id.sodium);
-                    text.setText("sodium :" + Double.toString(sodium));
+                    text.setText("Sodium:" + Double.toString(sodium));
                     text = (TextView) findViewById(R.id.carbs);
-                    text.setText("carbohydrate :" + Double.toString(carbohydrate));
+                    text.setText("Carbohydrate:" + Double.toString(carbohydrate));
                     text = (TextView) findViewById(R.id.fiber);
-                    text.setText("fiber :" + Double.toString(fiber));
+                    text.setText("Fiber:" + Double.toString(fiber));
                     text = (TextView) findViewById(R.id.protein);
-                    text.setText("protein :" + Double.toString(protein));
+                    text.setText("Protein:" + Double.toString(protein));
                     text = (TextView) findViewById(R.id.sugar);
-                    text.setText("sugar :" + Double.toString(sugars));
+                    text.setText("Sugar:" + Double.toString(sugars));
                     text = (TextView) findViewById(R.id.totalfat);
-                    text.setText("totalFat :" + Double.toString(totalfat));
+                    text.setText("TotalFat:" + Double.toString(totalfat));
                 } catch (Exception e) {
-                    System.out.println(e);
+                    System.out.println("error in barCodeWebQueery: " + e);
+                    Toast.makeText(getApplicationContext(), "Sorry there was an error with this barcode. Please enter manually", Toast.LENGTH_SHORT).show();
+                    launchNewIntent();
                 }
-                //  textView.setText(jsonObject.toString(2));
-
             }
         }, new Response.ErrorListener() { //Create an error listener to handle errors appropriately.
             @Override
             public void onErrorResponse(VolleyError error) {
                 //This code is executed if there is an error.
-                System.out.println("error: " + error);
+                System.out.println("error in barCodeWebQueery on ErrorResponse(): " + error);
+                Toast.makeText(getApplicationContext(), "Sorry there was an error with this barcode. Please enter manually", Toast.LENGTH_SHORT).show();
+                launchNewIntent();
             }
         }) {
             protected Map<String, String> getParams() {
                 Map<String, String> MyData = new HashMap<String, String>();
                 MyData.put("Field", "Value"); //Add the data you'd like to send to the server.
                 System.out.println("1337 map : " + MyData);
-                //     JSONObject jsonObject = (new JSONObject(MyData)).getJSONObject("");
-                //  textView.setText(jsonObject.toString(2));
-
                 return MyData;
             }
         };
@@ -190,10 +191,27 @@ public class meal_barCodeWebQuerry extends AppCompatActivity {
             }
         });
 
+        //if a network request takes longer then 10 seconds, it is likely there is a network problem, or, more likely, our api is out of scans for the day
+        new CountDownTimer(10000, 1000) { //10 second timer
+
+            public void onTick(long millisUntilFinished) {
+                //do nothing, don't care about updates here
+            }
+
+            public void onFinish() {
+                // mTextField.setText("done!");
+                if (food_name.isEmpty()) { //means lookup hasn't finished
+                    Toast.makeText(getApplicationContext(), "Look up error. Network problems or out of scans for the day", Toast.LENGTH_SHORT).show();
+                    launchNewIntent();
+                    finish();
+                }
+            }
+        }.start();
+
     }
 
     private void launchNewIntent() {
-        Intent intent = new Intent(meal_barCodeWebQuerry.this, meal_overview.class);
+        Intent intent = new Intent(meal_barCodeWebQuerry.this, meal_Onboarding.class);
         startActivity(intent);
     }
 

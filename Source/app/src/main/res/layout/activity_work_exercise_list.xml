@@ -1,13 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <Button
+        android:text="Start Workout Tracker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_trackerStart"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:minHeight="58dip"
+        android:minWidth="150dip" />
+
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
+        android:layout_below="@id/btn_trackerStart"
         android:layout_alignParentStart="true"
         android:id="@+id/lv_exerciseList" />
+
+
+    <!--TODO:this is in wrong activity
+    <android.support.design.widget.FloatingActionButton-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:clickable="true"-->
+        <!--app:srcCompat="@drawable/ic_add_white_24dp"-->
+        <!--android:id="@+id/fab_addExercise"-->
+        <!--app:backgroundTint="?attr/colorPrimary"-->
+        <!--app:fabSize="normal"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_alignParentEnd="true"-->
+        <!--android:layout_marginEnd="16dp"-->
+        <!--android:layout_marginBottom="16dp" />-->
 </RelativeLayout>

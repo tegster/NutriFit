@@ -14,7 +14,7 @@ import static android.R.attr.id;
 /**
  * Created by Teg on 11/18/2016.
  */
-
+//used to help the meal logging
 public class meal_daylogDBHelper extends SQLiteOpenHelper {
     private static final Boolean DEBUG = true;
     //  PRAGMA user_version = 4;

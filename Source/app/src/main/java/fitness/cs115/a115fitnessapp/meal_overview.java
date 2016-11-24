@@ -10,6 +10,8 @@ import android.widget.Button;
  * Created by Matthew on 10/9/16.
  */
 
+//old code, used for displaying all of the nutrition stuff
+    //replaced with meal_Onboarding
 public class meal_overview extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +71,7 @@ public class meal_overview extends AppCompatActivity {
         graph.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(meal_overview.this, meal_graphs.class);
+                Intent intent = new Intent(meal_overview.this, meal_graph_calories.class);
                 startActivity(intent);
             }
         });

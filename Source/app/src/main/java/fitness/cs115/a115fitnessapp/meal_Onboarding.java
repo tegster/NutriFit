@@ -10,7 +10,6 @@ import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -18,6 +17,7 @@ import java.util.ArrayList;
 /**
  * Created by Matthew on 11/22/16.
  */
+//what this code does is display the UI for the nutrition portion of the app
 //I adopted/modified this file from some android work I did over the summer. So there may be some leftover parts of the code that didn't get refactored out
 public class meal_Onboarding extends Activity {
     GridView grid;
@@ -87,7 +87,7 @@ public class meal_Onboarding extends Activity {
                     //  System.out.println(selectedCategories.toString());
                     if (selectedCategories.toString().equals("[   Graphs]")) {
                         //Toast.makeText(getApplicationContext(), "Launching Graph now", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(meal_Onboarding.this, meal_graphs.class);
+                        Intent intent = new Intent(meal_Onboarding.this, meal_Graph_Overview.class);
                         startActivity(intent);
                     } else if (selectedCategories.toString().equals("[   Daily Food Log]")) {
                         //  Toast.makeText(getApplicationContext(), "Launching Daily Food log now", Toast.LENGTH_SHORT).show();
@@ -144,6 +144,13 @@ public class meal_Onboarding extends Activity {
             tv=grid.getChildAt(i);
             tv.setBackgroundColor(Color.TRANSPARENT);
         }
-
     }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(meal_Onboarding.this, MainActivity.class);
+        startActivity(intent);
+        super.onBackPressed();
+    }
+
 }
