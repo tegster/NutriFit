@@ -21,6 +21,8 @@ public class meal_mealDBHelper extends SQLiteOpenHelper {
 
 
     private static final String DATABASE_NAME = "meal.db";
+    private static final int DATABASE_VERSION = 4;
+
     private String TABLE_NAME = "meal";
 
     //declaring variables for the columns of our database
@@ -39,7 +41,7 @@ public class meal_mealDBHelper extends SQLiteOpenHelper {
 
 
     public meal_mealDBHelper(Context context, String table_name) {
-        super(context, DATABASE_NAME, null, 1);
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.TABLE_NAME = table_name;
         if (DEBUG) {
             System.out.println("1337 Constructor called with: " + this.TABLE_NAME);
