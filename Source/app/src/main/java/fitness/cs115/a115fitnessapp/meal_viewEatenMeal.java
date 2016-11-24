@@ -48,27 +48,27 @@ public class meal_viewEatenMeal extends AppCompatActivity {
 
     private void getData() {
         TextView text = (TextView) findViewById(R.id.foodName); //foodName is "Nutrition Information:"
-        text.setText("Nutrition Information for:" + TABLE_NAME);
+        text.setText("Nutrition Information For: " + TABLE_NAME);
         text = (TextView) findViewById(R.id.calories);
-        text.setText("calories :" + Integer.toString(mydb.getTotalCalories()));
+        text.setText("Calories: " + Integer.toString(mydb.getTotalCalories()));
         text = (TextView) findViewById(R.id.saturatedfat);
-        text.setText("sat_fat :" + Integer.toString(mydb.getTotalSatFat()));
+        text.setText("Saturated Fat: " + Integer.toString(mydb.getTotalSatFat()));
         text = (TextView) findViewById(R.id.transfat);
-        text.setText("trans fat :" + Integer.toString(mydb.getTotalTransFat()));
+        text.setText("Trans Fat: " + Integer.toString(mydb.getTotalTransFat()));
         text = (TextView) findViewById(R.id.cholestrol);
-        text.setText("cholesterol :" + Integer.toString(mydb.getTotalCholesterol()));
+        text.setText("Cholesterol: " + Integer.toString(mydb.getTotalCholesterol()));
         text = (TextView) findViewById(R.id.sodium);
-        text.setText("sodium :" + Integer.toString(mydb.getTotalSodium()));
+        text.setText("Sodium: " + Integer.toString(mydb.getTotalSodium()));
         text = (TextView) findViewById(R.id.carbs);
-        text.setText("carbohydrate :" + Integer.toString(mydb.getTotalCarbs()));
+        text.setText("Carbohydrates: " + Integer.toString(mydb.getTotalCarbs()));
         text = (TextView) findViewById(R.id.fiber);
-        text.setText("fiber :" + Integer.toString(mydb.getTotalFiber()));
+        text.setText("Dietary Fiber: " + Integer.toString(mydb.getTotalFiber()));
         text = (TextView) findViewById(R.id.protein);
-        text.setText("protein :" + Integer.toString(mydb.getTotalProtein()));
+        text.setText("Protein: " + Integer.toString(mydb.getTotalProtein()));
         text = (TextView) findViewById(R.id.sugar);
-        text.setText("sugar :" + Integer.toString(mydb.getTotalSugar()));
+        text.setText("Sugars: " + Integer.toString(mydb.getTotalSugar()));
         text = (TextView) findViewById(R.id.totalfat);
-        text.setText("totalFat :" + Integer.toString(mydb.getTotalFat()));
+        text.setText("Total Fat: " + Integer.toString(mydb.getTotalFat()));
         if (DEBUG) {
             System.out.println(mydb.getAllmacrosInfo());
         }
