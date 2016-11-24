@@ -1,160 +1,162 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView  xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
 
-<RelativeLayout
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-
-    <Button
-        android:text="Log"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/btn_log"
-        android:layout_alignParentTop="true"
-        android:minWidth="150dip"
-        android:layout_alignEnd="@+id/textView10"
-        android:layout_alignStart="@+id/textView10" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="number"
-        android:ems="10"
-        android:id="@+id/et_totalWeight"
-        android:maxLength="4"
-        android:layout_alignBaseline="@+id/textView12"
-        android:layout_alignBottom="@+id/textView12"
-        android:layout_alignEnd="@+id/textView10"
-        android:layout_toEndOf="@+id/textView12"
-        android:textAlignment="viewEnd"
-        android:hint="45" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="number"
-        android:ems="10"
-        android:id="@+id/et_barWeight"
-        android:maxLength="2"
-        android:hint="45"
-        android:imeOptions="actionDone"
-        android:layout_alignBaseline="@+id/textView13"
-        android:layout_alignBottom="@+id/textView13"
-        android:layout_alignEnd="@+id/et_totalWeight"
-        android:layout_toEndOf="@+id/textView13"
-        android:textAlignment="viewEnd" />
-
-    <TextView
-        android:text="Put these plates"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tv_platesNeeded"
-        android:layout_below="@+id/tv_oes"
-        android:layout_centerHorizontal="true"/>
-
-    <TextView
-        android:text="On each side"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tv_oes"
-        android:layout_below="@+id/btn_calcPlate"
-        android:layout_centerHorizontal="true" />
-
-    <TextView
-        android:text="Bar Weight"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView13"
-        android:textSize="18sp"
-        android:layout_below="@+id/et_totalWeight"
-        android:layout_alignStart="@+id/textView12"
-        android:layout_marginTop="13dp"
-        android:textColor="?android:attr/textColorPrimary" />
-
-    <Button
-        android:text="Calculate Plates"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/btn_calcPlate"
-        android:layout_below="@+id/et_barWeight"
-        android:layout_centerHorizontal="true" />
-
-    <TextView
-        android:text="Total Weight"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:id="@+id/textView12"
-        android:textSize="18sp"
-        android:layout_below="@+id/textView10"
-        android:layout_alignStart="@+id/textView10"
-        android:textColor="?android:attr/textColorPrimary" />
-
-    <View
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:id="@+id/divider"
-        android:background="@android:color/darker_gray"
-        android:layout_below="@+id/textView"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="17dp"
-        android:layout_marginBottom="17dp"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <TextView
-        android:text="Plate Calculator"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView10"
-        android:textSize="24sp"
-        android:textColor="?android:attr/textColorPrimary"
-        android:layout_below="@+id/divider"
-        android:layout_centerHorizontal="true" />
 
-    <TextView
-        android:text="/"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="18dp"
-        android:id="@+id/textView"
-        android:textSize="85sp"
-        android:padding="3dp"
-        android:textColor="?android:attr/textColorPrimary"
-        android:textAlignment="center"
-        android:layout_below="@+id/btn_log"
-        android:layout_centerHorizontal="true" />
+        <Button
+            android:id="@+id/btn_log"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/textView10"
+            android:layout_alignParentTop="true"
+            android:layout_alignStart="@+id/textView10"
+            android:minWidth="150dip"
+            android:text="Log" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tv_targetReps"
-        android:textSize="85sp"
-        android:text="12"
-        android:padding="3dp"
-        android:textColor="?android:attr/textColorPrimary"
-        android:textAlignment="viewEnd"
-        android:layout_above="@+id/divider"
-        android:layout_toEndOf="@+id/textView" />
+        <TextView
+            android:id="@+id/tv_platesNeeded"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_oes"
+            android:layout_centerHorizontal="true"
+            android:paddingLeft="7dp"
+            android:paddingRight="7dp"
+            android:text="Put these plates" />
 
-    <EditText
-        android:layout_height="wrap_content"
-        android:inputType="number"
-        android:ems="10"
-        android:id="@+id/et_reps"
-        android:textSize="85sp"
-        android:singleLine="true"
-        android:maxLength="2"
-        android:hint="0"
-        android:imeOptions="actionDone"
-        android:textAlignment="viewEnd"
-        android:padding="3dp"
-        android:layout_alignBaseline="@+id/textView"
-        android:layout_alignBottom="@+id/textView"
-        android:layout_toStartOf="@+id/textView"
-        android:layout_width="100dp" />
+        <TextView
+            android:id="@+id/tv_oes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btn_calcPlate"
+            android:layout_centerHorizontal="true"
+            android:text="On each side" />
 
-</RelativeLayout>
+        <Button
+            android:id="@+id/btn_calcPlate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/et_barWeight"
+            android:layout_centerHorizontal="true"
+            android:text="Calculate Plates" />
+
+        <TextView
+            android:id="@+id/textView10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/divider"
+            android:layout_centerHorizontal="true"
+            android:paddingTop="17dp"
+            android:text="Plate Calculator"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btn_log"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="18dp"
+            android:padding="3dp"
+            android:text="/"
+            android:textAlignment="center"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="85sp" />
+
+        <EditText
+            android:id="@+id/et_reps"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/textView"
+            android:layout_alignBottom="@+id/textView"
+            android:layout_toStartOf="@+id/textView"
+            android:ems="10"
+            android:hint="0"
+            android:imeOptions="actionDone"
+            android:inputType="number"
+            android:maxLength="2"
+            android:padding="3dp"
+            android:singleLine="true"
+            android:textAlignment="viewEnd"
+            android:textSize="85sp" />
+
+        <EditText
+            android:id="@+id/et_barWeight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/textView10"
+            android:layout_below="@+id/textView10"
+            android:layout_toEndOf="@+id/textView13"
+            android:ems="10"
+            android:hint="45"
+            android:imeOptions="actionDone"
+            android:inputType="number"
+            android:maxLength="2"
+            android:textAlignment="viewEnd" />
+
+        <TextView
+            android:id="@+id/textView13"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/et_barWeight"
+            android:layout_alignBottom="@+id/et_barWeight"
+            android:layout_alignStart="@+id/textView10"
+            android:text="Bar Weight"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/textView12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/et_totalWeight"
+            android:layout_alignBottom="@+id/et_totalWeight"
+            android:layout_toStartOf="@+id/et_totalWeight"
+            android:text="Total Weight"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/et_totalWeight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/textView10"
+            android:layout_alignStart="@+id/et_barWeight"
+            android:layout_below="@+id/textView"
+            android:ems="10"
+            android:hint="45"
+            android:inputType="number"
+            android:maxLength="4"
+            android:paddingBottom="17dp"
+            android:textAlignment="viewEnd" />
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignBottom="@+id/et_totalWeight"
+            android:layout_alignParentStart="true"
+            android:background="@android:color/darker_gray" />
+
+        <TextView
+            android:id="@+id/tv_targetReps"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/textView"
+            android:layout_alignBottom="@+id/textView"
+            android:layout_toEndOf="@+id/textView"
+            android:padding="3dp"
+            android:text="12"
+            android:textAlignment="viewEnd"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="85sp" />
+
+    </RelativeLayout>
 </ScrollView>
