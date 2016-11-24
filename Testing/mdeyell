@@ -1,4 +1,4 @@
-For my testing writeup I am going to explain the module eaten meal db helper.
+For my testing write up I am going to explain the module eaten meal db helper.
 
 The purpose of this module is to be a helper class for eating meals and retrieving values from these meals.
 The module hides the messy implementation of directly interacting with the sql database that is used to store all of the foods that the user has actually eaten. Specifically, it stores the name of the food, calories, trans fat, total fat, sat fat, cholesterol, sodium, carbs, fiber, sugar, and protein. 
