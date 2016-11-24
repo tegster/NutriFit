@@ -633,8 +633,7 @@ public class work_DBHelper extends SQLiteOpenHelper {
         if (DEBUG) {
             if (new_prog_id > 0) {
                 System.out.println(program_name + " successfully inserted into "
-                        + PROG_INDEX_TABLE_NAME + " with prog_id: " + new_prog_id
-                );
+                        +  PROG_INDEX_TABLE_NAME + " with prog_id: " + new_prog_id);
             } else {
                 System.out.println(program_name + "create_program failed for: "
                         + PROG_INDEX_TABLE_NAME);
@@ -668,15 +667,15 @@ public class work_DBHelper extends SQLiteOpenHelper {
             throw new IllegalArgumentException("Error deleting program: program \"" +
                     program_name + "\" is not found.");
         }
-        new_prog_id = db.insert(PROG_INDEX_TABLE_NAME, null, contentValues);
+        new_prog_id = db.update(PROG_INDEX_TABLE_NAME, contentValues,
+                PROG_INDEX_PROG_NAME + " = ?",new String []{program_name});
 
         if (DEBUG) {
             if (new_prog_id > 0) {
-                System.out.println(program_name + " successfully inserted into "
-                        + PROG_INDEX_TABLE_NAME + " with prog_id: " + new_prog_id
-                );
+                System.out.println(program_name + " successfully disabled program "
+                        + program_name);
             } else {
-                System.out.println(program_name + "create_program failed for: "
+                System.out.println(program_name + "delete_program failed for: "
                         + PROG_INDEX_TABLE_NAME);
             }
         }

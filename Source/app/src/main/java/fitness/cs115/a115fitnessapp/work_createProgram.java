@@ -27,6 +27,7 @@ public class work_createProgram extends AppCompatActivity {
     ListAdapter programWorkoutsAdapter;
     ListView programWorkoutsLV;
     AlertDialog.Builder addWorkoutSelection;
+    String selectedEntry = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +57,7 @@ public class work_createProgram extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialogInterface, int selection_id) {
                 //TODO: Delete the workout from the program's workout list.
-                //delete the program
+                Toast.makeText(work_createProgram.this, selectedEntry  + " cannot be deleted at this time.",Toast.LENGTH_LONG).show();
             }
         });
         workoutOptionDelete.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -74,7 +75,8 @@ public class work_createProgram extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialogInterface, int selection_id) {
                 if (selection_id == 0) {
-                    //TODO: editWorkout();
+                    //TODO: editWorkout(). Allow for name change?
+                    editWorkout(selectedEntry);
                 } else {
                     //delete the program
                     workoutOptionDelete.show();
@@ -91,8 +93,6 @@ public class work_createProgram extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String workoutName = String.valueOf(parent.getItemAtPosition(position));
-                //TODO: Edit workout
-                Toast.makeText(getBaseContext(), workoutName  +" edit pressed",Toast.LENGTH_LONG);
                 editWorkout(workoutName);
                 
             }
@@ -100,6 +100,7 @@ public class work_createProgram extends AppCompatActivity {
         programWorkoutsLV.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                selectedEntry = String.valueOf(parent.getItemAtPosition(position));
                 workoutOptionMenu.show();
                 return true;
             }

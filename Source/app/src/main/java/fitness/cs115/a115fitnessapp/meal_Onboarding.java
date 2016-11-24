@@ -1,9 +1,9 @@
 package fitness.cs115.a115fitnessapp;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -19,7 +19,7 @@ import java.util.ArrayList;
  */
 //what this code does is display the UI for the nutrition portion of the app
 //I adopted/modified this file from some android work I did over the summer. So there may be some leftover parts of the code that didn't get refactored out
-public class meal_Onboarding extends Activity {
+public class meal_Onboarding extends AppCompatActivity {
     GridView grid;
     ArrayList selectedCategories = new ArrayList<>();//used to store strings that contain user selected genre
     ArrayList selectedPositions = new ArrayList<>();//used to store actual positions that things in the grid are in

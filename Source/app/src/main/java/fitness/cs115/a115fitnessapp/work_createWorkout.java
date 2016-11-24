@@ -40,7 +40,6 @@ public class work_createWorkout extends AppCompatActivity{
         workoutName = intent.getExtras().getString("wName");
         setTitle(workoutName);
 
-        //TODO: Replace with database stuff.
         exersInWorkout = workDBH.get_exers_from_work(workoutName);
         //======================================================================================
         //  Dialog Boxes

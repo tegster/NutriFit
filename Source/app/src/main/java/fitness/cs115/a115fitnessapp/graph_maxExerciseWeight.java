@@ -56,7 +56,6 @@ public class graph_maxExerciseWeight extends AppCompatActivity{
         // String inputExerName = exerNameEditText.getText().toString();
         //// TODO: 11/22/2016 connect change exercise button 
 
-        graph = (GraphView) findViewById(R.id.graph);
 
 
 
@@ -82,6 +81,8 @@ public class graph_maxExerciseWeight extends AppCompatActivity{
     }
 
     public void updateGraphExercise(String exerciseName){
+        graph = (GraphView) findViewById(R.id.graph);
+
         exerciseData = work_db.get_weight_logs_for_exer(exerciseName);
         ArrayList<DataPoint> graphPoints = new ArrayList<DataPoint>(exerciseData.size());
 
@@ -97,8 +98,9 @@ public class graph_maxExerciseWeight extends AppCompatActivity{
 
         // set date label formatter
         graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(this));
+        //graph.getGridLabelRenderer().setNumHorizontalLabels(3); // only 4 because of the space
 
-
+        // set manual x bounds to have nice steps
         graph.getViewport().setMinX(exerciseData.firstKey().getTime());
         graph.getViewport().setMaxX(exerciseData.lastKey().getTime());
         graph.getViewport().setXAxisBoundsManual(true);

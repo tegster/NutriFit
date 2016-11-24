@@ -1,1 +1,37 @@
-For my testing writeup I am going to explain the module eaten meal db helper.
+For my testing write up I am going to explain the module eaten meal db helper.
+
+The purpose of this module is to be a helper class for eating meals and retrieving values from these meals.
+The module hides the messy implementation of directly interacting with the sql database that is used to store all of the foods that the user has actually eaten. Specifically, it stores the name of the food, calories, trans fat, total fat, sat fat, cholesterol, sodium, carbs, fiber, sugar, and protein. 
+Each table in the database is a different day that the user has consumed food on. For example, the table named "10/16/2016" will contain all of the food eaten on 10/16/2016.
+
+In order to test this module, the first thing that must be done is creating an instance of it. "meal_eatFoodDBHelper mydb"
+Following this, it must be initialized with a specific table name. The "date" is a String written in the form of "10/17/2016"
+
+"mydb = new meal_eatFoodDBHelper(this, date);" 
+Now it is necessary to try and insert at least 1 food item into this database.
+
+    String foodname ="food";
+    double calories=200;
+    double totalfat=4;//grams
+    double transfat=2.4;
+    double satfat=3.2;
+    double cholestrol=5;
+    double sodium=8;
+    double carbs=67;
+    double fiber=18;
+    double sugar=27;
+    double protein=12;
+"mydb.insertFood(foodname,calories,totalfat,transfar,satfat,cholestrol,sodium,carbs,fiber,sugar,protein)"
+ 
+Next, various retrieval functions should be called and have their values printed to ensure that the values coming out are the same as the value going in. 
+
+
+System.out.println(mydb.getAllFoodsAndCalories());
+System.out.println(mydb.getTransFat()); 
+And so forth, for each nutrient.
+
+Once this is finished, additional testing should take place to ensure that the delete functionality is working properly.
+mydb.deleteFood(foodname);
+Then the above testing can be repeated, and all of the values should come back as 0 since there is no food in the table.
+
+At this point the testing can continue with multiple foods being added to the database and again verifying the proper output of these functions.
