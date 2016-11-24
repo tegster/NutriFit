@@ -10,7 +10,7 @@
         android:inputType="number"
         android:ems="10"
         android:id="@+id/fiber"
-        android:hint="Dietary fiber"
+        android:hint="Dietary Fiber"
         android:layout_alignBaseline="@+id/carbs"
         android:layout_alignBottom="@+id/carbs"
         android:layout_alignParentEnd="true"
@@ -105,10 +105,10 @@
         android:inputType="number"
         android:ems="10"
         android:id="@+id/sugar"
-        android:hint="sugars"
         android:layout_below="@+id/fiber"
         android:layout_alignParentEnd="true"
-        android:layout_toEndOf="@+id/protein" />
+        android:layout_toEndOf="@+id/protein"
+        android:hint="Sugars" />
 
     <TextView
         android:layout_width="wrap_content"

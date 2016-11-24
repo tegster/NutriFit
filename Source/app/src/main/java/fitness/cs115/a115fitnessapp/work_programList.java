@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -27,6 +28,8 @@ public class work_programList extends AppCompatActivity{
     private ListAdapter programListAdapter;
     private ListView programListView;
     private ArrayList<String> programs;
+    String selectedEntry = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,10 +74,12 @@ public class work_programList extends AppCompatActivity{
             @Override
             public void onClick(DialogInterface dialogInterface, int selection_id) {
                 if (selection_id == 0){
+                    Toast.makeText(work_programList.this, selectedEntry + " is ready for editing.", Toast.LENGTH_SHORT).show();
                     //TODO: Edit the user's selected program.
                     //edit program
                 } else {
                     //delete the program
+                    Toast.makeText(work_programList.this, selectedEntry + " is ready for deleting.", Toast.LENGTH_SHORT).show();
                     programOptionDelete.show();
                 }
             }
@@ -130,6 +135,7 @@ public class work_programList extends AppCompatActivity{
         programListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                selectedEntry = String.valueOf(parent.getItemAtPosition(position));
                 programOptionMenu.show();
                 return true;
             }

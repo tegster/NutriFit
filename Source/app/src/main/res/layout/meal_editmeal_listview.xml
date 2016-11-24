@@ -1,105 +1,129 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <TextView
-        android:text="Calories:"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:id="@+id/tv_calstext"
-        android:textSize="14sp"
-        android:textColor="?android:attr/textColorPrimary"
-        android:paddingBottom="10dp"
-        android:paddingLeft="7dp"
-        android:layout_toEndOf="@+id/tv_foodName" />
-
-    <TextView
-        android:text="Fat:"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_foodName"
-        android:layout_alignParentStart="true"
-        android:id="@+id/textView"
-        android:textColor="?android:attr/textColorPrimary"
-        android:paddingRight="7dp"/>
-
-    <TextView
-        android:text="99"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="13sp"
-        android:id="@+id/tv_totalcals"
-        android:textColor="?android:attr/textColorPrimary"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_toEndOf="@+id/tv_calstext" />
-
-    <TextView
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:text="Placeholder Food name"
-        android:textSize="16sp"
-        android:maxLines="1"
         android:id="@+id/tv_foodName"
-        android:textColor="?android:attr/textColorPrimary"
         android:layout_width="450px"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
+        android:layout_toStartOf="@+id/fat"
+        android:ems="10"
+        android:maxLines="1"
+        android:paddingBottom="7dp"
+        android:paddingLeft="7dp"
+        android:paddingRight="7dp"
+        android:paddingTop="18dp"
+        android:text="Placeholder Food Name"
+        android:textAlignment="textStart"
+        android:textColor="?android:attr/textColorPrimary"
+        android:textSize="16sp" />
 
     <TextView
-        android:text="999"
+        android:id="@+id/calories"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/tv_totalfat"
+        android:layout_alignBaseline="@+id/tv_totalcals"
+        android:layout_alignBottom="@+id/tv_totalcals"
+        android:layout_alignParentStart="true"
+        android:paddingBottom="7dp"
+        android:paddingLeft="7dp"
+        android:text="Calories"
+        android:textAlignment="textStart"
         android:textColor="?android:attr/textColorPrimary"
-        android:paddingRight="7dp"
-        android:paddingTop="10dp"
-        android:paddingLeft="10dp"
-        android:layout_alignBaseline="@+id/textView"
-        android:layout_alignBottom="@+id/textView"
-        android:layout_toEndOf="@+id/textView" />
+        android:textSize="16sp" />
 
     <TextView
-        android:text="Protein:"
+        android:id="@+id/tv_totalcals"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/textView4"
+        android:layout_alignBaseline="@+id/fat"
+        android:layout_alignBottom="@+id/fat"
+        android:layout_toEndOf="@+id/calories"
+        android:paddingLeft="7dp"
+
+        android:text="99999.0"
+        android:textAlignment="textEnd"
         android:textColor="?android:attr/textColorPrimary"
-        android:layout_width="150px"
-        android:layout_below="@+id/tv_totalcals"
-        android:layout_toStartOf="@+id/tv_totalprotein" />
+        android:textSize="16sp" />
 
     <TextView
-        android:text="99"
+        android:id="@+id/protein"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toStartOf="@+id/tv_totalprotein"
+        android:paddingTop="7dp"
+        android:text="Protein"
+        android:textAlignment="textStart"
+        android:textColor="?android:attr/textColorPrimary" />
+
+    <TextView
         android:id="@+id/tv_totalprotein"
-        android:textColor="?android:attr/textColorPrimary"
-        android:paddingTop="10dp"
-        android:paddingLeft="10dp"
-        android:layout_width="120px"
-        android:layout_alignBaseline="@+id/textView4"
-        android:layout_alignBottom="@+id/textView4"
-        android:layout_alignParentEnd="true" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:paddingEnd="7dp"
+        android:paddingLeft="7dp"
+        android:paddingTop="7dp"
+        android:text="99999.0"
+        android:textAlignment="textEnd"
+        android:textColor="?android:attr/textColorPrimary" />
 
     <TextView
-        android:text="Carbs:"
+        android:id="@+id/carbs"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/textView3"
+        android:layout_alignStart="@+id/protein"
+        android:layout_below="@+id/protein"
+        android:layout_toStartOf="@+id/tv_totalfat"
+        android:fontFamily="sans-serif"
+        android:paddingTop="7dp"
+        android:text="Carbs"
+        android:textAlignment="textStart"
         android:textColor="?android:attr/textColorPrimary"
-        android:textSize="14sp"
-        android:layout_width="125px"
-        android:layout_toStartOf="@+id/tv_totalcarbs"
-        android:layout_below="@+id/tv_foodName"
-        android:fontFamily="sans-serif" />
+        android:textSize="14sp" />
 
     <TextView
-        android:text="999"
-        android:layout_height="wrap_content"
         android:id="@+id/tv_totalcarbs"
-        android:textColor="?android:attr/textColorPrimary"
-        android:layout_width="110px"
-        android:layout_below="@+id/tv_foodName"
-        android:layout_centerHorizontal="true" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/tv_totalprotein"
+        android:paddingEnd="7dp"
+        android:paddingLeft="7dp"
+        android:paddingTop="7dp"
+        android:text="99999.0"
+        android:textAlignment="textEnd"
+        android:textColor="?android:attr/textColorPrimary" />
+
+    <TextView
+        android:id="@+id/fat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/carbs"
+        android:layout_below="@+id/carbs"
+        android:layout_toStartOf="@+id/tv_totalcarbs"
+        android:paddingRight="7dp"
+        android:paddingTop="7dp"
+        android:text="Fat"
+        android:textAlignment="textStart"
+        android:textColor="?android:attr/textColorPrimary" />
+
+    <TextView
+        android:id="@+id/tv_totalfat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/tv_totalcarbs"
+        android:paddingLeft="7dp"
+        android:paddingRight="7dp"
+        android:paddingTop="7dp"
+        android:text="99999.0"
+        android:textColor="?android:attr/textColorPrimary" />
 
 </RelativeLayout>
