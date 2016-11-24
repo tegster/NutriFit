@@ -52,14 +52,7 @@ public class work_exerciseList extends AppCompatActivity{
         exerciseListAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, exersInWorkout);
         exerciseListView = (ListView) findViewById(R.id.lv_exerciseList);
         exerciseListView.setAdapter(exerciseListAdapter);
-        //TODO: remove the clickability of exercises in the list
-//        setsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id){
-//                String exercise = String.valueOf(parent.getItemAtPosition(position));
-//                startExercise(exercise);
-//            }
-//        });
+
 
         //======================================================================================
         // Exercise Creation / Selection Dialog Box
@@ -104,17 +97,6 @@ public class work_exerciseList extends AppCompatActivity{
             }
         });
 
-        //======================================================================================
-        //  Floating Action Button (TODO:DOESNT BELONG HERE)
-        //======================================================================================
-//        //Adds a new exercise to the exercise List.
-//        FloatingActionButton fabAdd = (FloatingActionButton) findViewById(R.id.fab_addExercise);
-//        fabAdd.setOnClickListener(new View.OnClickListener(){
-//            @Override
-//            public void onClick(View view){
-//                newExerciseSelection.show();
-//            }
-//        });
 
 
     }
