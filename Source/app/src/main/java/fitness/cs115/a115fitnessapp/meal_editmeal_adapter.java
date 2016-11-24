@@ -32,11 +32,9 @@ public class meal_editmeal_adapter extends ArrayAdapter<String> {
                                  HashMap<String ,HashMap<String ,Double>> mainmacrosmap, ArrayList<String> foodkeyset) {
        // ArrayList<String> macrolist = new ArrayList<String>(mainmacrosmap.keySet());
         super(context, R.layout.meal_editmeal_listview, foodkeyset);
-        // ArrayList<String> macrolist = new ArrayList<String>(mainmacrosmap.keySet());
         this.context = context;
         this.macrosmap = mainmacrosmap;
 
-       // this.foodname = foodkeyset;
     }
 
     //
@@ -71,17 +69,6 @@ public class meal_editmeal_adapter extends ArrayAdapter<String> {
 
 
             convertView.setTag(mViewHolder);
-            //  mViewHolder.cb.setTag(data.get(position));
-
-           /* mViewHolder.cb.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean ischecked) {
-
-                    InviteFriends.isChecked[position] = buttonView.isChecked();
-
-                }
-            });
-            */
 
         } else {
 

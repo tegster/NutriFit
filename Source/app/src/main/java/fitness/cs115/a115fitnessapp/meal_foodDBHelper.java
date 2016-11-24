@@ -237,7 +237,7 @@ public class meal_foodDBHelper extends SQLiteOpenHelper {
        // while () {
             while (res.isAfterLast() == false) {
                 Totalfoodmacros = new HashMap<>();
-                Totalfoodmacros.put("Item: ", count );
+              //  Totalfoodmacros.put("Item: ", count );
                 Double calories = res.getDouble(res.getColumnIndex(Col_3));
                 Double totalfat = res.getDouble(res.getColumnIndex(Col_4));
                 Double transfat = res.getDouble(res.getColumnIndex(Col_5));
@@ -259,8 +259,8 @@ public class meal_foodDBHelper extends SQLiteOpenHelper {
                 Totalfoodmacros.put("sugar", sugar);
                 Totalfoodmacros.put("protein", protein);
                 Totalinfo.put(res.getString(res.getColumnIndex(Col_2)), Totalfoodmacros);
-                System.out.println("printing totalfoodmacros.entryset from fooddbhelper");
-                System.out.println(Totalfoodmacros.entrySet());
+              //  System.out.println("printing totalfoodmacros.entryset from fooddbhelper");
+              //  System.out.println(Totalfoodmacros.entrySet());
                 //System.out.println(Totalinfo.entrySet());
 
                 //Totalfoodmacros.clear();
@@ -274,8 +274,8 @@ public class meal_foodDBHelper extends SQLiteOpenHelper {
 
      //   Totalfoodmacros.clear();
         //Totalinfo.put(res.getString(res.getColumnIndex(Col_2)), Totalfoodmacros);
-        System.out.println("Printing whats leeaving getallfoodinfo");
-        System.out.println(Totalinfo.entrySet());
+      //  System.out.println("Printing whats leeaving getallfoodinfo");
+      //  System.out.println(Totalinfo.entrySet());
             res.close();
 
        // }
