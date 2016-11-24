@@ -23,7 +23,7 @@ Now it is necessary to try and insert at least 1 food item into this database.
     double protein=12;
 "mydb.insertFood(foodname,calories,totalfat,transfar,satfat,cholestrol,sodium,carbs,fiber,sugar,protein)"
  
-Next, various retrieval functinons should be called and have their values printed to ensure that the values coming out are the same as the value going in. 
+Next, various retrieval functions should be called and have their values printed to ensure that the values coming out are the same as the value going in. 
 
 
 System.out.println(mydb.getAllFoodsAndCalories());
