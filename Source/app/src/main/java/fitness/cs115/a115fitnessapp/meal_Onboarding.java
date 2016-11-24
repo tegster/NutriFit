@@ -10,7 +10,6 @@ import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -88,7 +87,7 @@ public class meal_Onboarding extends Activity {
                     //  System.out.println(selectedCategories.toString());
                     if (selectedCategories.toString().equals("[   Graphs]")) {
                         //Toast.makeText(getApplicationContext(), "Launching Graph now", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(meal_Onboarding.this, meal_graphs.class);
+                        Intent intent = new Intent(meal_Onboarding.this, meal_Graph_Overview.class);
                         startActivity(intent);
                     } else if (selectedCategories.toString().equals("[   Daily Food Log]")) {
                         //  Toast.makeText(getApplicationContext(), "Launching Daily Food log now", Toast.LENGTH_SHORT).show();

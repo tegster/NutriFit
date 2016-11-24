@@ -4,11 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.jjoe64.graphview.GraphView
+    <ListView
+        android:scrollbars="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/graph"
-        android:layout_below="@+id/changeGraphExerciseBtn"
-        android:layout_centerHorizontal="true" />
-
+        android:id="@+id/macros" />
 </LinearLayout>

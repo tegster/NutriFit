@@ -28,6 +28,7 @@ public class meal_foodDBHelper extends SQLiteOpenHelper {
 
     //intializing the database
     private static final String DATABASE_NAME = "foods.db";
+    private static final int DATABASE_VERSION = 4;
     private static final String TABLE_NAME = "food";
 
     //declaring variables for the columns of our database
@@ -46,7 +47,7 @@ public class meal_foodDBHelper extends SQLiteOpenHelper {
 
 
     public meal_foodDBHelper(Context context) {
-        super(context, DATABASE_NAME, null, 1);
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override
@@ -283,7 +284,38 @@ public class meal_foodDBHelper extends SQLiteOpenHelper {
         return Totalinfo;
     }
 
-    //original getallfoodinfo()
+    //get macros returned in a map
+    //gets food and calories information
+    public HashMap<String,HashMap<String, Double>> getfourfoodmacros() {
+        HashMap<String ,HashMap<String ,Double>> Totalinfo = new HashMap<String, HashMap<String, Double>>();
+        HashMap<String,Double> Totalfoodmacros = new HashMap<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("select * from " + TABLE_NAME, null);
+        res.moveToFirst();
+        Double count = 0.0;
+        while (res.isAfterLast() == false) {
+            Totalfoodmacros = new HashMap<>();
+            Totalfoodmacros.put("Item: ", count );
+            Double calories = res.getDouble(res.getColumnIndex(Col_3));
+            Double totalfat = res.getDouble(res.getColumnIndex(Col_4));
+            Double carbs = res.getDouble(res.getColumnIndex(Col_9));
+            Double protein = res.getDouble(res.getColumnIndex(Col_12));
+            Totalfoodmacros.put("calories", calories);
+            Totalfoodmacros.put("fat", totalfat);
+            Totalfoodmacros.put("carbs", carbs);
+            Totalfoodmacros.put("protein", protein);
+            Totalinfo.put(res.getString(res.getColumnIndex(Col_2)), Totalfoodmacros);
+           // System.out.println("printing totalfoodmacros.entryset from fooddbhelper");
+           // System.out.println(Totalfoodmacros.entrySet());
+
+            res.moveToNext();
+        }
+
+      //  System.out.println("Printing whats leeaving getallfoodinfo");
+       // System.out.println(Totalinfo.entrySet());
+
+        return Totalinfo;
+    }
 
     //gets food and calories information
     public ArrayList<String> getAllFoodInfoList() {

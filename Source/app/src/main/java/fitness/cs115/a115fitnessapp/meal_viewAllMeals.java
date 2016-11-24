@@ -33,7 +33,7 @@ public class meal_viewAllMeals extends AppCompatActivity {
     ArrayList<String> arrTblNames = new ArrayList<String>();
     AlertDialog.Builder programOptionMenu;
     private String selectedTable;
-    private final boolean DEBUG = true;
+    private final boolean DEBUG = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,8 +129,11 @@ public class meal_viewAllMeals extends AppCompatActivity {
 
         listView.setAdapter(arrayAdapter);
         if(listView.getCount()==0){ //prompt user in case they are confused
-            Toast toast = Toast.makeText(getApplicationContext(),"You need to create meals before they will show up here", Toast.LENGTH_SHORT);
+            Toast toast = Toast.makeText(getApplicationContext(),"You need to create meals before they will show up here.", Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.CENTER, 0, 0); //make toast show up in center of screen
+            toast.show();
+        } else {
+            Toast toast = Toast.makeText(getApplicationContext(), "Click a meal to eat it, or long click to edit.", Toast.LENGTH_SHORT);
             toast.show();
         }
         setUpClickListener();

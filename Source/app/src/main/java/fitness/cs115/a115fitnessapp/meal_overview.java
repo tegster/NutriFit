@@ -71,7 +71,7 @@ public class meal_overview extends AppCompatActivity {
         graph.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(meal_overview.this, meal_graphs.class);
+                Intent intent = new Intent(meal_overview.this, meal_graph_calories.class);
                 startActivity(intent);
             }
         });

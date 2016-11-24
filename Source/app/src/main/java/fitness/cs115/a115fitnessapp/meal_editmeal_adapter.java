@@ -1,6 +1,7 @@
 package fitness.cs115.a115fitnessapp;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,31 +9,34 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 
 /**
  * Created by Teghpreet Singh on 10/17/2016.
  */
 
-//used to make the listviews in edit meal look nicer
+
+
 public class meal_editmeal_adapter extends ArrayAdapter<String> {
 
     private final Activity context;
-    private final String[] foodname;
-    private final String[] calories;
-    private final String[] fat;
-    private final String[] carbs;
-    private final String[] protein;
+    private HashMap<String ,HashMap<String ,Double>> macrosmap;
+    //private ArrayList<String> foodname = new ArrayList<>();
+
+    //its a set, make an array list, pass thte set and put it in context
 
     public meal_editmeal_adapter(Activity context,
-                                 String[] foodname, String[] calories, String[] fat, String[] carbs, String[] protein) {
-        super(context, R.layout.meal_editmeal_listview, foodname);
+                                 HashMap<String ,HashMap<String ,Double>> mainmacrosmap, ArrayList<String> foodkeyset) {
+       // ArrayList<String> macrolist = new ArrayList<String>(mainmacrosmap.keySet());
+        super(context, R.layout.meal_editmeal_listview, foodkeyset);
+        // ArrayList<String> macrolist = new ArrayList<String>(mainmacrosmap.keySet());
         this.context = context;
-        this.foodname = foodname;
-        this.calories = calories;
-        this.fat = fat;
-        this.carbs = carbs;
-        this.protein = protein;
+        this.macrosmap = mainmacrosmap;
+
+       // this.foodname = foodkeyset;
     }
 
     //
@@ -55,7 +59,7 @@ public class meal_editmeal_adapter extends ArrayAdapter<String> {
 
             mViewHolder = new ViewHolder();
 
-            LayoutInflater vi = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater vi = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
             convertView = vi.inflate(R.layout.meal_editmeal_listview, parent, false);
 
 
@@ -63,7 +67,7 @@ public class meal_editmeal_adapter extends ArrayAdapter<String> {
             mViewHolder.calories = (TextView) convertView.findViewById(R.id.tv_totalcals); // thumb image
             mViewHolder.fat = (TextView) convertView.findViewById(R.id.tv_totalfat); // title
             mViewHolder.carbs = (TextView) convertView.findViewById(R.id.tv_totalcarbs); // thumb image
-         //   mViewHolder.protein = (TextView) convertView.findViewById(R.id.tv_protein); // title
+            mViewHolder.protein = (TextView) convertView.findViewById(R.id.tv_totalprotein); // title
 
 
             convertView.setTag(mViewHolder);
@@ -85,20 +89,22 @@ public class meal_editmeal_adapter extends ArrayAdapter<String> {
 
         }
 
+        String tempfoodname = macrosmap.keySet().toArray(new String [macrosmap.size()])[position];
+        HashMap<String,Double> innermap = macrosmap.get(tempfoodname);
 
         //Exercise Name
-        mViewHolder.foodname.setText(foodname[position]);
+        mViewHolder.foodname.setText(tempfoodname);
 
         //Current Set
-        mViewHolder.calories.setText(calories[position]);
+        mViewHolder.calories.setText(innermap.get("calories").toString());
 
         //Target Sets
-        mViewHolder.fat.setText(fat[position]);
+        mViewHolder.fat.setText(innermap.get("fat").toString());
 
         //Weight
-        mViewHolder.carbs.setText(carbs[position]);
+        mViewHolder.carbs.setText(innermap.get("carbs").toString());
 
-        mViewHolder.protein.setText(protein[position]);
+        mViewHolder.protein.setText(innermap.get("protein").toString());
 
 
         return convertView;
