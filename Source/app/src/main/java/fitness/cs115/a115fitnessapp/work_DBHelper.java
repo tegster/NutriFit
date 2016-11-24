@@ -624,19 +624,19 @@ public class work_DBHelper extends SQLiteOpenHelper {
         contentValues.put(PROG_INDEX_LAST_USED, "never");
 
         //invariant: program_name doesn't already exist in prog_index
-        if (is_taken_prog_name(program_name)) {
-            throw new IllegalArgumentException("Error creating program: name \"" +
-                    program_name + "\" is already taken.");
+        if (!is_taken_prog_name(program_name)) {
+            throw new IllegalArgumentException("Error deleting program: name \"" +
+                    program_name + "\" is not taken.");
         }
-        new_prog_id = db.insert(PROG_INDEX_TABLE_NAME, null, contentValues);
+        new_prog_id = db.update(PROG_INDEX_TABLE_NAME, contentValues,
+                PROG_INDEX_PROG_NAME + " = ?",new String []{program_name});
 
         if (DEBUG) {
             if (new_prog_id > 0) {
-                System.out.println(program_name + " successfully inserted into "
-                        + PROG_INDEX_TABLE_NAME + " with prog_id: " + new_prog_id
-                );
+                System.out.println(program_name + " successfully disabled program "
+                        + program_name);
             } else {
-                System.out.println(program_name + "create_program failed for: "
+                System.out.println(program_name + "delete_program failed for: "
                         + PROG_INDEX_TABLE_NAME);
             }
         }

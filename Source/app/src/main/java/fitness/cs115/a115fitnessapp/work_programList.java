@@ -37,10 +37,11 @@ public class work_programList extends AppCompatActivity{
 
         work_db = new work_DBHelper(this);
 
-        //check for user programs. If there aren't any, bring up a popup menu prompting users
+        //todo: load pre-included workout programs
         //to choose "Create New" or a pre-included beginner program. Replace with database programs.
-        final CharSequence defaultPrograms[] = new CharSequence[] {"Create New Program", "Starting Strength",
-                "StrongLifts", "Greyskull LP", "PPL for Beginners", "Ice Cream Fitness"};
+        //final CharSequence defaultPrograms[] = new CharSequence[] {"Create New Program", "Starting Strength",
+        //        "StrongLifts", "Greyskull LP", "PPL for Beginners", "Ice Cream Fitness"};
+        final CharSequence defaultPrograms[] = new CharSequence[] {"Create New Program"};
 
         //get program list from database
         programs = work_db.get_user_program_list();
