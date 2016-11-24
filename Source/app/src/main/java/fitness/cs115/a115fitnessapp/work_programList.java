@@ -37,10 +37,10 @@ public class work_programList extends AppCompatActivity{
 
         work_db = new work_DBHelper(this);
 
-        //todo: load pre-included workout programs
+        //TODO: load pre-included workout programs
         //to choose "Create New" or a pre-included beginner program. Replace with database programs.
-        //final CharSequence defaultPrograms[] = new CharSequence[] {"Create New Program", "Starting Strength",
-        //        "StrongLifts", "Greyskull LP", "PPL for Beginners", "Ice Cream Fitness"};
+        //final CharSequence defaultPrograms[] = new CharSequence[] {"Create New Program",
+        //        "StrongLifts", "Golden Six", "Ice Cream Fitness", "PPL for Beginners"};
         final CharSequence defaultPrograms[] = new CharSequence[] {"Create New Program"};
 
         //get program list from database
@@ -56,9 +56,9 @@ public class work_programList extends AppCompatActivity{
         programOptionDelete.setPositiveButton("Delete",new DialogInterface.OnClickListener(){
             @Override
             public void onClick(DialogInterface dialogInterface, int selection_id) {
-                //TODO: Delete the program from the user's program list.
                 work_db.delete_program(selectedEntry);
-                Toast.makeText(work_programList.this, selectedEntry + " is supposed to be deleted.", Toast.LENGTH_SHORT).show();
+                reloadProgramList();
+                Toast.makeText(work_programList.this, selectedEntry + " has been deleted.", Toast.LENGTH_SHORT).show();
             }
         });
         programOptionDelete.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
@@ -76,12 +76,11 @@ public class work_programList extends AppCompatActivity{
             @Override
             public void onClick(DialogInterface dialogInterface, int selection_id) {
                 if (selection_id == 0){
-                    Toast.makeText(work_programList.this, selectedEntry + " is ready for editing.", Toast.LENGTH_SHORT).show();
                     //TODO: Edit the user's selected program.
                     //edit program
+                    Toast.makeText(work_programList.this, selectedEntry + " is ready for editing.", Toast.LENGTH_SHORT).show();
                 } else {
                     //delete the program
-                    Toast.makeText(work_programList.this, selectedEntry + " is ready for deleting.", Toast.LENGTH_SHORT).show();
                     programOptionDelete.show();
                 }
             }
