@@ -57,7 +57,8 @@ public class work_programList extends AppCompatActivity{
             @Override
             public void onClick(DialogInterface dialogInterface, int selection_id) {
                 //TODO: Delete the program from the user's program list.
-                //work_db.delete_program();
+                work_db.delete_program(selectedEntry);
+                Toast.makeText(work_programList.this, selectedEntry + " is supposed to be deleted.", Toast.LENGTH_SHORT).show();
             }
         });
         programOptionDelete.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
@@ -122,7 +123,6 @@ public class work_programList extends AppCompatActivity{
         //  ListView
         //======================================================================================
         //Create the list of user's programs.
-        //TODO: maybe show frequency of the program within the list.
         programListView = (ListView) findViewById(R.id.lv_programList);
         programListView.setLongClickable(true);
         programListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -142,14 +142,6 @@ public class work_programList extends AppCompatActivity{
             }
         });
 
-
-        //TODO: add support for database.
-        //Show dialog for selecting a new program.
-        //if (programs.length == 0){
-        //    newProgramSelection.show();
-        //}
-        //Uncomment to see the dialog box.
-        //newProgramSelection.show();
 
 
 

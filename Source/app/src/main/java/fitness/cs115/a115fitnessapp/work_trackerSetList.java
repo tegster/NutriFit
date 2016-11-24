@@ -1,5 +1,6 @@
 package fitness.cs115.a115fitnessapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -10,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Chronometer;
 import android.widget.Toast;
+import android.os.Vibrator;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,6 +33,7 @@ implements Chronometer.OnChronometerTickListener{
     work_trackerSetList_adapter setListAdapter;
     Chronometer timer;
     boolean isSetLogged;
+    Vibrator vibrator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +78,7 @@ implements Chronometer.OnChronometerTickListener{
         if ("00:00".equals(timer.getText())){
             timer.setText("READY");
         }
+        vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 
         //======================================================================================
         //  Sets ListView
@@ -124,6 +128,8 @@ implements Chronometer.OnChronometerTickListener{
         String restTimeStr = String.format("%02d:%02d", minutes, seconds);
 
         if (restTimeStr.equals(cm.getText())){
+            long[] vibpattern = {0,400,200,400};
+            vibrator.vibrate(vibpattern, -1);
             Toast.makeText(work_trackerSetList.this, "Time's up! Begin the next set!", Toast.LENGTH_LONG).show();
             cm.setText("READY");
             cm.stop();
