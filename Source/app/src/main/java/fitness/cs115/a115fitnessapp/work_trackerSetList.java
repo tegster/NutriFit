@@ -16,8 +16,6 @@ import android.os.Vibrator;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import static fitness.cs115.a115fitnessapp.work_tracker.workData;
-
 /**
  * Created by Henry on 10/23/2016.
  * Edited by James Kennedy on 11/21/2016.
@@ -27,7 +25,7 @@ public class work_trackerSetList extends AppCompatActivity
 implements Chronometer.OnChronometerTickListener{
     String exerciseName = "";
     int sessID;
-    static work_DBHelper.ExerciseData exData;
+    private static work_DBHelper.ExerciseData exData;
     work_DBHelper work_db;
     ListView setListView;
     work_trackerSetList_adapter setListAdapter;
@@ -46,7 +44,8 @@ implements Chronometer.OnChronometerTickListener{
         Intent intent = getIntent();
         isSetLogged = intent.getExtras().getBoolean("isSetLogged");
 
-        if ( !intent.getExtras().isEmpty()) {
+        if (intent.hasExtra("eName") && intent.hasExtra("sessID") ) {
+            //exercise has just begun
             //TODO: add invariants for valid exercise name
             exerciseName = intent.getExtras().getString("eName");
             sessID = intent.getExtras().getInt("sessID");
@@ -68,7 +67,6 @@ implements Chronometer.OnChronometerTickListener{
         setTitle(exData.get_name());
 
         //Rest Timer
-        //Currently will just start and never end.
         //Does not persist if you go back to work_tracker!
         timer = (Chronometer) findViewById(R.id.chronometer);
         timer.setOnChronometerTickListener(this);

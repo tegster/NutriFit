@@ -18,10 +18,11 @@ import java.util.HashMap;
  */
 
 public class work_tracker extends AppCompatActivity{
-    work_DBHelper work_db;
-    private String workoutName;
-    private int sessID;
-    static work_DBHelper.WorkoutData workData;
+    private work_DBHelper work_db;
+    private static work_DBHelper.WorkoutData workData;
+    ListAdapter exerciseListAdapter;
+    ListView exerciseListView;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_work_tracker);
@@ -34,35 +35,28 @@ public class work_tracker extends AppCompatActivity{
         //DEBUG
         Log.d("work_tracker", "onCreate reached with intent wName: " +
                 intent.getExtras().getString("wName", "<none>") );
-
         Log.d("work_tracker", "onCreate reached with intent sessID: " +
                 intent.getExtras().getString("sessID", "<none>") );
 
+        if (intent.hasExtra("wName")){
+            //the workout has just started and does not yet have an associated session
+            //instantiate inner class
+            workData = work_db.new WorkoutData();
+            String workName = intent.getStringExtra("wName");
+            int sessionID = work_db.create_session(workName);
+            workData.load_work_session(workName, sessionID);
+        }
+        else {
+            //the session has already begun
+            workData.reload_session();
+        }
 
-        if ( !intent.getExtras().isEmpty()) {
-             //if anything is passed as extra, workoutName must also be passed in as extra
-
-
-             workoutName = intent.getExtras().getString("wName", "<none>");
-
-             //TODO: find out why work tracker isnt updating data when returning from set list
+         //TODO: find out why work tracker isnt updating data when returning from set list
 
 
 
-             if (intent.hasExtra("sessID")){
-                 sessID = intent.getExtras().getInt("sessID");
+         //recreate the session from the DB data
 
-                 //workData has already been created
-             } else {
-                 //the workout does not yet have an associated session
-                 sessID = work_db.create_session(workoutName);
-                 //instantiate inner class
-                 workData = work_db.new WorkoutData();
-             }
-
-             //recreate the session from the DB data
-             workData.load_work_session(workoutName, sessID);
-         }
 
         Log.d("work_tracker", "workData.session_id: "+workData.get_session_id());
         Log.d("work_tracker", "workData.workout_name: "+workData.get_workout_name());
@@ -74,8 +68,8 @@ public class work_tracker extends AppCompatActivity{
         //======================================================================================
         //Create the list.
         //pass custom adapter the workout data needed to track each exercise.
-        ListAdapter exerciseListAdapter = new work_tracker_adapter(this, workData);
-        ListView exerciseListView = (ListView) findViewById(R.id.lv_exerList);
+        exerciseListAdapter = new work_tracker_adapter(this, workData);
+        exerciseListView = (ListView) findViewById(R.id.lv_exerList);
         exerciseListView.setAdapter(exerciseListAdapter);
         exerciseListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -83,10 +77,22 @@ public class work_tracker extends AppCompatActivity{
                 String exerciseName = String.valueOf(parent.getItemAtPosition(position));
                 Intent setIntent = new Intent(work_tracker.this, work_trackerSetList.class);
                 setIntent.putExtra("eName", exerciseName);
-                setIntent.putExtra("sessID", sessID);
+                setIntent.putExtra("sessID", workData.get_session_id());
                 setIntent.putExtra("isSetLogged", false);
                 startActivity(setIntent);
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        reloadWorkoutData();
+    }
+
+    private void reloadWorkoutData() {
+        workData.reload_session();
+        exerciseListAdapter = new work_tracker_adapter(this, workData);
+        exerciseListView.setAdapter(exerciseListAdapter);
     }
 }

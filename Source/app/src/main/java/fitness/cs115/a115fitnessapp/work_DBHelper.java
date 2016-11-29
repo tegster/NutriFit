@@ -114,7 +114,7 @@ public class work_DBHelper extends SQLiteOpenHelper {
 
             //load logged set data, fill unlogged sets with 0
             HashMap<String, ArrayList<Integer>> logged_data_lists = get_session_logs_for_exer(exercise_name,session_id);
-            ArrayList<Integer> existing_set_nums = logged_data_lists.get(WORK_LOG_SET_NUM);
+            ArrayList<Integer> logged_set_nums = logged_data_lists.get(WORK_LOG_SET_NUM);
             ArrayList<Integer> existing_reps =logged_data_lists.get(WORK_LOG_ACTUAL);
             ArrayList<Integer> existing_weights =logged_data_lists.get(WORK_LOG_WEIGHT);
 
@@ -122,7 +122,7 @@ public class work_DBHelper extends SQLiteOpenHelper {
             //fill unlogged sets with exercise standard values
             num_sets_completed = 0;
             for (int set_ind = 0; set_ind < target_num_sets; ++set_ind){
-                if (existing_set_nums.contains(set_ind)) {
+                if (logged_set_nums.contains(set_ind)) {
                     ++num_sets_completed;
                 } else {
                     //this set has not yet been logged. intialize reps done to 0.
@@ -201,9 +201,7 @@ public class work_DBHelper extends SQLiteOpenHelper {
             exer_count = 0;
         }
 
-        public void load_work_session(String _workout_name, int _session_id){
-            session_id = _session_id;
-            workout_name = _workout_name;
+        public void reload_session (){
             //invariant: session must exist
             if (!is_taken_session_id(session_id)){
                 Log.e("workoutData", "bad session_id: "+session_id);
@@ -219,11 +217,17 @@ public class work_DBHelper extends SQLiteOpenHelper {
             exercises = new HashMap<String, ExerciseData>();
             exer_count = 0;
 
-             for (String exname: exers_in_work){
+            for (String exname: exers_in_work){
                 exercises.put(exname, new ExerciseData(exname,session_id));
-                 ++exer_count;
+                ++exer_count;
             }
 
+        }
+
+        public void load_work_session(String _workout_name, int _session_id){
+            session_id = _session_id;
+            workout_name = _workout_name;
+            reload_session();
         }
 
         public ArrayList<String> get_exer_names(){
@@ -662,6 +666,26 @@ public class work_DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(PROG_INDEX_DISABLED, 1);
+
+        //invariant: program_name doesn't already exist in prog_index
+        if (!is_taken_prog_name(program_name)) {
+            throw new IllegalArgumentException("Error deleting program: name \"" +
+                    program_name + "\" is not taken.");
+        }
+        new_prog_id = db.update(PROG_INDEX_TABLE_NAME, contentValues,
+                PROG_INDEX_PROG_NAME + " = ?", new String[]{program_name});
+
+        if (DEBUG) {
+            if (new_prog_id > 0) {
+                System.out.println(program_name + " successfully deleted.");
+            } else {
+                System.out.println(program_name + " delete_program failed.");
+            }
+        }
+
+
+
+
     //invariant: program_name doesn't already exist in prog_index
         if (!is_taken_prog_name(program_name)) {
             throw new IllegalArgumentException("Error deleting program: program \"" +
@@ -672,10 +696,11 @@ public class work_DBHelper extends SQLiteOpenHelper {
 
         if (DEBUG) {
             if (new_prog_id > 0) {
-                System.out.println(program_name + " successfully disabled program "
-                        + program_name);
+                System.out.println(program_name + " successfully inserted into "
+                        + PROG_INDEX_TABLE_NAME + " with prog_id: " + new_prog_id
+                );
             } else {
-                System.out.println(program_name + "delete_program failed for: "
+                System.out.println(program_name + "create_program failed for: "
                         + PROG_INDEX_TABLE_NAME);
             }
         }

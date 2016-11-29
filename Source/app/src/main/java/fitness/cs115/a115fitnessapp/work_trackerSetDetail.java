@@ -87,7 +87,7 @@ public class work_trackerSetDetail extends AppCompatActivity{
             @Override
             public void onClick(View view) {
 
-                //TODO: catch bug that causes crashe here
+
                 int actualReps = Integer.parseInt(actualRepsInput.getText().toString());
                 int actualWeight = Integer.parseInt(totalWeightInput.getText().toString());
                 work_db.log_set(sessID, exerciseName, setInd, goalReps, actualReps, actualWeight);
