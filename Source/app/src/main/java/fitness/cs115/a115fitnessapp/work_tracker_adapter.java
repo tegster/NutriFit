@@ -67,7 +67,7 @@ public class work_tracker_adapter extends ArrayAdapter<String>{
 
         //Weight
         weightText.setText(String.valueOf(
-                currentEx.get_weights_used().get(currentEx.get_sets_completed())) );
+                currentEx.get_weights_used()) );
 
         //Exercise Completion Status
         //Zero sets = Not Started, (Number <= Target) = In Progress, (Number == Target) = Complete
