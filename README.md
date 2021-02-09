@@ -1,5 +1,5 @@
 # NutriFit
-###Authors: Teghpreet Singh, James Kennedy, Henry Pan, Matthew Deyell, Maaz Siddiqui
+### Authors: Teghpreet Singh, James Kennedy, Henry Pan, Matthew Deyell, Maaz Siddiqui
 
 **Permission Requirement: Internet, Camera, Vibration**
 
